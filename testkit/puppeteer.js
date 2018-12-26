@@ -88,3 +88,9 @@ import { generatedTestComponentDriverFactory } from '../src/GeneratedTestCompone
 export const generatedTestComponentTestkitFactory = puppeteerUniTestkitFactoryCreator(
   generatedTestComponentDriverFactory,
 );
+
+import { calendarPanelFooterDriverFactory } from '../src/CalendarPanelFooter/CalendarPanelFooter.driver';
+
+export const calendarPanelFooterTestkitFactory = puppeteerUniTestkitFactoryCreator(
+  calendarPanelFooterDriverFactory,
+);

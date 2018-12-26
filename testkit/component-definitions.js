@@ -285,6 +285,17 @@ export default {
       onChange: () => {},
     },
   },
+  CalendarPanelFooter: {
+    unidriver,
+    props: {
+      primaryActionLabel: 'Submit',
+      secondaryActionLabel: 'Cancel',
+      primaryActionDisabled: false,
+      primaryActionOnClick: () => null,
+      secondaryActionOnClick: () => null,
+      dateToString: () => 'a string',
+    },
+  },
   DataTable: {
     props: {
       data: [{ a: 'value 1', b: 'value 2' }],

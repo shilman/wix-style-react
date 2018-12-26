@@ -121,6 +121,7 @@ import './Popover/index.story';
 import './CardGalleryItem/CardGalleryItem.story';
 import './Carousel/index.story.js';
 import './Proportion/index.story.js';
+import './CalendarPanelFooter/index.story';
 
 // Styling
 import './Typography/TypographyClassesStory';

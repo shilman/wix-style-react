@@ -108,3 +108,4 @@ export { default as CloseButton } from './CloseButton';
 export { default as CardGalleryItem } from './CardGalleryItem';
 export { default as Carousel } from './Carousel';
 export { default as Proportion } from './Proportion';
+export { default as CalendarPanelFooter } from './CalendarPanelFooter';

@@ -531,3 +531,9 @@ import { generatedTestComponentDriverFactory } from '../src/GeneratedTestCompone
 export const generatedTestComponentTestkitFactory = uniTestkitFactoryCreator(
   generatedTestComponentDriverFactory,
 );
+
+import { calendarPanelFooterDriverFactory } from '../src/CalendarPanelFooter/CalendarPanelFooter.driver';
+
+export const calendarPanelFooterTestkitFactory = uniTestkitFactoryCreator(
+  calendarPanelFooterDriverFactory,
+);

@@ -1,0 +1,12 @@
+@import '../../src/colors';
+
+.root {
+  text-align: center;
+  height: 78px;
+  background-color: $D80;
+}
+
+.button {
+  display: flex;
+  justify-content: space-evenly;
+}
