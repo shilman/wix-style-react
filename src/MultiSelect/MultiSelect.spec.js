@@ -367,60 +367,86 @@ describe('MultiSelect', () => {
       depLogSpy.mockRestore();
     });
 
-    describe('input is empty', () => {
-      it('should not be called when Enter is pressed', () => {
-        const onManuallyInput = jest.fn();
-        const onTagsAdded = jest.fn();
-        const { driver } = createDriver(
-          <MultiSelect
-            options={options}
-            onManuallyInput={onManuallyInput}
-            onTagsAdded={onTagsAdded}
-          />,
-        );
+    describe('type&submit', () => {
+      describe('input is empty', () => {
+        it('should not be called when Enter is pressed', () => {
+          const onManuallyInput = jest.fn();
+          const onTagsAdded = jest.fn();
+          const { driver } = createDriver(
+            <MultiSelect
+              options={options}
+              onManuallyInput={onManuallyInput}
+              onTagsAdded={onTagsAdded}
+            />,
+          );
 
-        driver.focus();
-        driver.pressKey('Enter');
+          driver.focus();
+          driver.pressKey('Enter');
 
-        expect(onManuallyInput).toHaveBeenCalledTimes(0);
-        expect(onTagsAdded).toHaveBeenCalledTimes(0);
+          expect(onManuallyInput).toHaveBeenCalledTimes(0);
+          expect(onTagsAdded).toHaveBeenCalledTimes(0);
+        });
+      });
+
+      describe('input is not empty', () => {
+        function testCase({ props, keyPressed }) {
+          const onManuallyInput = jest.fn();
+          const onSelect = jest.fn();
+          const onTagsAdded = jest.fn();
+          const { driver, inputDriver } = createDriver(
+            <MultiSelect
+              onManuallyInput={onManuallyInput}
+              onTagsAdded={onTagsAdded}
+              onSelect={onSelect}
+              {...props}
+            />,
+          );
+
+          driver.focus();
+          inputDriver.enterText('custom value');
+          driver.pressKey(keyPressed);
+
+          expect(onManuallyInput).toHaveBeenCalledTimes(0);
+          expect(onSelect).toHaveBeenCalledTimes(0);
+          expect(onTagsAdded).toHaveBeenCalledTimes(1);
+          expect(onTagsAdded).toBeCalledWith(['custom value']);
+        }
+
+        it('should be called when Enter is pressed', () => {
+          testCase({ props: { options }, keyPressed: 'Enter' });
+        });
+
+        it('should be called when delimiter is pressed', () => {
+          testCase({ props: { options }, keyPressed: ',' });
+        });
+
+        it('should be called when delimiter is pressed given no options', () => {
+          testCase({ props: {}, keyPressed: ',' });
+        });
       });
     });
 
-    describe('input is not empty', () => {
-      function testCase({ props, keyPressed }) {
+    describe('Paste', () => {
+      it('should support pasting single custom value', () => {
         const onManuallyInput = jest.fn();
         const onSelect = jest.fn();
         const onTagsAdded = jest.fn();
         const { driver, inputDriver } = createDriver(
           <MultiSelect
-            onManuallyInput={onManuallyInput}
-            onTagsAdded={onTagsAdded}
+            options={options}
             onSelect={onSelect}
-            {...props}
+            onTagsAdded={onTagsAdded}
+            onManuallyInput={onManuallyInput}
           />,
         );
-
         driver.focus();
+        inputDriver.trigger('paste');
         inputDriver.enterText('custom value');
-        driver.pressKey(keyPressed);
 
         expect(onManuallyInput).toHaveBeenCalledTimes(0);
         expect(onSelect).toHaveBeenCalledTimes(0);
         expect(onTagsAdded).toHaveBeenCalledTimes(1);
         expect(onTagsAdded).toBeCalledWith(['custom value']);
-      }
-
-      it('should be called when Enter is pressed', () => {
-        testCase({ props: { options }, keyPressed: 'Enter' });
-      });
-
-      it('should be called when delimiter is pressed', () => {
-        testCase({ props: { options }, keyPressed: ',' });
-      });
-
-      it('should be called when delimiter is pressed given no options', () => {
-        testCase({ props: {}, keyPressed: ',' });
       });
     });
   });
