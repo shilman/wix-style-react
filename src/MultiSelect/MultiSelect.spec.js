@@ -6,6 +6,7 @@ import { multiSelectTestkitFactory } from '../../testkit';
 import { multiSelectTestkitFactory as enzymeMultiSelectTestkitFactory } from '../../testkit/enzyme';
 import { mount } from 'enzyme';
 import { createRendererWithDriver, cleanup } from '../../test/utils/unit';
+import { depLogger } from '../utils/deprecationLog';
 
 describe('MultiSelect', () => {
   const render = createRendererWithDriver(multiSelectDriverFactory);
@@ -347,6 +348,80 @@ describe('MultiSelect', () => {
 
       expect(onManuallyInput.mock.calls).toHaveLength(1);
       expect(onManuallyInput.mock.calls[0][0]).toBe('custom value');
+    });
+  });
+
+  describe('onTagsAdded', () => {
+    it('should have deprecationLog when onManuallyInput is also passed', () => {
+      const depLogSpy = jest.spyOn(depLogger, 'log');
+      render(
+        <MultiSelect
+          options={options}
+          onManuallyInput={() => {}}
+          onTagsAdded={() => {}}
+        />,
+      );
+      expect(depLogSpy).toBeCalledWith(
+        `When 'onTagsAdded' is passed then 'isManuallyInput' will not be called. Please remove the 'isManuallyInput' prop.`,
+      );
+      depLogSpy.mockRestore();
+    });
+
+    describe('input is empty', () => {
+      it('should not be called when Enter is pressed', () => {
+        const onManuallyInput = jest.fn();
+        const onTagsAdded = jest.fn();
+        const { driver } = createDriver(
+          <MultiSelect
+            options={options}
+            onManuallyInput={onManuallyInput}
+            onTagsAdded={onTagsAdded}
+          />,
+        );
+
+        driver.focus();
+        driver.pressKey('Enter');
+
+        expect(onManuallyInput).toHaveBeenCalledTimes(0);
+        expect(onTagsAdded).toHaveBeenCalledTimes(0);
+      });
+    });
+
+    describe('input is not empty', () => {
+      function testCase({ props, keyPressed }) {
+        const onManuallyInput = jest.fn();
+        const onSelect = jest.fn();
+        const onTagsAdded = jest.fn();
+        const { driver, inputDriver } = createDriver(
+          <MultiSelect
+            onManuallyInput={onManuallyInput}
+            onTagsAdded={onTagsAdded}
+            onSelect={onSelect}
+            {...props}
+          />,
+        );
+
+        driver.focus();
+        inputDriver.enterText('custom value');
+        driver.pressKey(keyPressed);
+
+        expect(onManuallyInput).toHaveBeenCalledTimes(0);
+        expect(onSelect).toHaveBeenCalledTimes(0);
+        expect(onTagsAdded).toHaveBeenCalledTimes(1);
+        expect(onTagsAdded).toBeCalledWith(['custom value']);
+      }
+
+      it('should be called when Enter is pressed', () => {
+        testCase({ props: { options }, keyPressed: 'Enter' });
+      });
+
+      it('should be called when delimiter is pressed', () => {
+        testCase({ props: { options }, keyPressed: ',' });
+      });
+
+      it('should be called when delimiter is pressed given no options', () => {
+        testCase({ props: {}, keyPressed: ',' });
+      });
     });
   });
 

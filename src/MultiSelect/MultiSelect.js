@@ -5,6 +5,8 @@ import InputWithTags from './InputWithTags';
 import last from 'lodash/last';
 import difference from 'difference';
 import uniqueId from 'lodash/uniqueId';
+import { validatorWithSideEffect } from '../utils/propTypes';
+import deprecationLog from '../utils/deprecationLog';
 
 class MultiSelect extends InputWithOptions {
   constructor(props) {
@@ -180,8 +182,11 @@ class MultiSelect extends InputWithOptions {
       return;
     }
 
-    if (this.props.onManuallyInput) {
-      this.props.onManuallyInput(
+    const { onManuallyInput, onTagsAdded } = this.props;
+    if (onTagsAdded) {
+      onTagsAdded([inputValue]);
+    } else if (onManuallyInput) {
+      onManuallyInput(
         inputValue,
         this.optionToTag({ id: uniqueId('customOption_'), value: inputValue }),
       );
@@ -208,6 +213,16 @@ MultiSelect.propTypes = {
   error: PropTypes.bool,
   errorMessage: PropTypes.string,
   onReorder: PropTypes.func,
+  /** A callback which is called when the user performs a Submit action.
+   * Submit action triggers are: "Enter", "Tab", [typing any defined delimiters], Paste action.
+   * The callback receives one argument which is an array of strings, which are the result of splitting the input value by the given delimiters */
+  onTagsAdded: validatorWithSideEffect(PropTypes.func, (props, propName) => {
+    if (props[propName] && props['onManuallyInput']) {
+      deprecationLog(
+        `When 'onTagsAdded' is passed then 'isManuallyInput' will not be called. Please remove the 'isManuallyInput' prop.`,
+      );
+    }
+  }),
 };
 
 MultiSelect.defaultProps = {
