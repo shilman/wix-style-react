@@ -131,7 +131,7 @@ class MultiSelect extends InputWithOptions {
         this.hideOptions();
       }
 
-      this.onManuallyInput(inputValue);
+      this.submitValue(inputValue);
     }
     this.clearInput();
   }
@@ -176,7 +176,7 @@ class MultiSelect extends InputWithOptions {
     this.input.focus();
   }
 
-  onManuallyInput(inputValue) {
+  submitValue(inputValue) {
     if (!inputValue) {
       this.input.blur();
       return;
