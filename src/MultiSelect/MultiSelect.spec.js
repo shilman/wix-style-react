@@ -427,7 +427,7 @@ describe('MultiSelect', () => {
     });
 
     describe('Paste', () => {
-      it('should support pasting single custom value', () => {
+      function testCase({ props, pasteValue, expectedOnTagsAddedArg }) {
         const onManuallyInput = jest.fn();
         const onSelect = jest.fn();
         const onTagsAdded = jest.fn();
@@ -437,16 +437,46 @@ describe('MultiSelect', () => {
             onSelect={onSelect}
             onTagsAdded={onTagsAdded}
             onManuallyInput={onManuallyInput}
+            {...props}
           />,
         );
         driver.focus();
         inputDriver.trigger('paste');
-        inputDriver.enterText('custom value');
+        inputDriver.enterText(pasteValue);
 
         expect(onManuallyInput).toHaveBeenCalledTimes(0);
         expect(onSelect).toHaveBeenCalledTimes(0);
         expect(onTagsAdded).toHaveBeenCalledTimes(1);
-        expect(onTagsAdded).toBeCalledWith(['custom value']);
+        expect(onTagsAdded).toBeCalledWith(expectedOnTagsAddedArg);
+      }
+
+      it('should be called with single value when pasting a single custom value', () => {
+        testCase({
+          pasteValue: 'custom value',
+          expectedOnTagsAddedArg: ['custom value'],
+        });
+      });
+
+      it('should be called with multiple values with pasting comma-delimited value (default delimiter)', () => {
+        testCase({
+          pasteValue: 'value1,value2',
+          expectedOnTagsAddedArg: ['value1', 'value2'],
+        });
+      });
+
+      it('should be called with multiple values with pasting colun-delimited value (custom delimiter)', () => {
+        testCase({
+          props: { delimiters: [':'] },
+          pasteValue: 'value1:value2',
+          expectedOnTagsAddedArg: ['value1', 'value2'],
+        });
+      });
+
+      it('should be called with trimmed values', () => {
+        testCase({
+          pasteValue: ' value1 , value2 ',
+          expectedOnTagsAddedArg: ['value1', 'value2'],
+        });
       });
     });
   });

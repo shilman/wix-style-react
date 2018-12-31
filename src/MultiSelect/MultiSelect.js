@@ -199,7 +199,7 @@ class MultiSelect extends InputWithOptions {
 
     const { onManuallyInput, onTagsAdded } = this.props;
     if (this._isNewCallbackApi()) {
-      onTagsAdded && onTagsAdded([inputValue]);
+      onTagsAdded && onTagsAdded(this._splitValues(inputValue));
     } else if (onManuallyInput) {
       onManuallyInput(
         inputValue,
