@@ -352,6 +352,21 @@ describe('MultiSelect', () => {
   });
 
   describe('onTagsAdded', () => {
+    class ControlledMultiSelect extends React.Component {
+      state = { inputValue: '' };
+
+      render() {
+        return (
+          <MultiSelect
+            {...this.props}
+            onChange={e => {
+              this.setState({ inputValue: e.target.value });
+            }}
+            value={this.state.inputValue}
+          />
+        );
+      }
+    }
     it('should have deprecationLog when onManuallyInput is also passed', () => {
       const depLogSpy = jest.spyOn(depLogger, 'log');
       render(
@@ -373,7 +388,7 @@ describe('MultiSelect', () => {
           const onManuallyInput = jest.fn();
           const onTagsAdded = jest.fn();
           const { driver } = createDriver(
-            <MultiSelect
+            <ControlledMultiSelect
               options={options}
               onManuallyInput={onManuallyInput}
               onTagsAdded={onTagsAdded}
@@ -389,12 +404,18 @@ describe('MultiSelect', () => {
       });
 
       describe('input is not empty', () => {
-        function testCase({ props, keyPressed }) {
+        function testCase({
+          props,
+          keyPressed,
+          enteredText = 'custom value',
+          Component = MultiSelect,
+          expectOnTagsAddedToBeCalled = true,
+        }) {
           const onManuallyInput = jest.fn();
           const onSelect = jest.fn();
           const onTagsAdded = jest.fn();
           const { driver, inputDriver } = createDriver(
-            <MultiSelect
+            <Component
               onManuallyInput={onManuallyInput}
               onTagsAdded={onTagsAdded}
               onSelect={onSelect}
@@ -403,17 +424,28 @@ describe('MultiSelect', () => {
           );
 
           driver.focus();
-          inputDriver.enterText('custom value');
+          inputDriver.enterText(enteredText);
           driver.pressKey(keyPressed);
 
           expect(onManuallyInput).toHaveBeenCalledTimes(0);
           expect(onSelect).toHaveBeenCalledTimes(0);
-          expect(onTagsAdded).toHaveBeenCalledTimes(1);
-          expect(onTagsAdded).toBeCalledWith(['custom value']);
+          expect(onTagsAdded).toHaveBeenCalledTimes(
+            expectOnTagsAddedToBeCalled ? 1 : 0,
+          );
+          expectOnTagsAddedToBeCalled &&
+            expect(onTagsAdded).toBeCalledWith([enteredText]);
         }
 
         it('should be called when Enter is pressed', () => {
           testCase({ props: { options }, keyPressed: 'Enter' });
+        });
+
+        it('should be called when Enter is pressed given ControlledMultiSelect', () => {
+          testCase({
+            props: { options },
+            keyPressed: 'Enter',
+            Component: ControlledMultiSelect,
+          });
         });
 
         it('should be called when delimiter is pressed', () => {
@@ -422,6 +454,24 @@ describe('MultiSelect', () => {
 
         it('should be called when delimiter is pressed given no options', () => {
           testCase({ props: {}, keyPressed: ',' });
+        });
+
+        it('should NOT be called when Enter pressed given enteredText is spaces only', () => {
+          testCase({
+            props: { options },
+            enteredText: '   ',
+            keyPressed: 'Enter',
+            expectOnTagsAddedToBeCalled: false,
+          });
+        });
+
+        it('should NOT be called when Enter pressed given enteredText is delimited spaces only', () => {
+          testCase({
+            props: { options },
+            enteredText: ' ,  ',
+            keyPressed: 'Enter',
+            expectOnTagsAddedToBeCalled: false,
+          });
         });
       });
     });

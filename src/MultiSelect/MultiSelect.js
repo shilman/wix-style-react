@@ -124,8 +124,12 @@ class MultiSelect extends InputWithOptions {
   }
 
   _onManuallyInput(inputValue) {
-    const { value, options } = this.props;
+    if (this._isNewCallbackApi()) {
+      this._onManuallyInputNewApi(inputValue);
+      return;
+    }
 
+    const { value, options } = this.props;
     if (value && value.trim()) {
       if (options.length) {
         const unselectedOptions = this.getUnselectedOptions();
@@ -149,6 +153,17 @@ class MultiSelect extends InputWithOptions {
       this.submitValue(inputValue);
     }
     this.clearInput();
+  }
+
+  _onManuallyInputNewApi(inputValue) {
+    const { value } = this.props;
+    const _value = (value && value.trim()) || (inputValue && inputValue.trim());
+
+    this.submitValue(_value);
+
+    if (this.closeOnSelect()) {
+      this.hideOptions();
+    }
   }
 
   getManualSubmitKeys() {
@@ -199,7 +214,8 @@ class MultiSelect extends InputWithOptions {
 
     const { onManuallyInput, onTagsAdded } = this.props;
     if (this._isNewCallbackApi()) {
-      onTagsAdded && onTagsAdded(this._splitValues(inputValue));
+      const values = this._splitValues(inputValue);
+      onTagsAdded && values.length && onTagsAdded(values);
     } else if (onManuallyInput) {
       onManuallyInput(
         inputValue,
