@@ -197,12 +197,23 @@ class MultiSelect extends InputWithOptions {
     return tag ? { id, ...tag } : { id, label: value, theme };
   }
 
-  onSelect(options) {
+  onSelect(_options) {
     this.clearInput();
 
-    if (this.props.onSelect) {
-      options = options.map(this.optionToTag);
-      this.props.onSelect(options);
+    const { onSelect } = this.props;
+
+    if (onSelect) {
+      if (this._isNewCallbackApi()) {
+        onSelect(
+          _options.map(op => {
+            const { value: _ignore, ...rest } = op;
+            return rest;
+          }),
+        );
+      } else {
+        const tags = _options.map(this.optionToTag);
+        onSelect(tags);
+      }
     }
 
     this.input.focus();

@@ -538,6 +538,8 @@ describe('MultiSelect', () => {
     describe('onSelect', () => {
       it('should be called when option clicked', () => {
         const onSelect = jest.fn();
+        const onManuallyInput = jest.fn();
+        const onTagsAdded = jest.fn();
 
         const { driver, dropdownLayoutDriver } = createDriver(
           <MultiSelect
@@ -549,8 +551,30 @@ describe('MultiSelect', () => {
         driver.pressKey('ArrowDown');
         dropdownLayoutDriver.clickAtOption(0);
 
+        expect(onManuallyInput).toHaveBeenCalledTimes(0);
+        expect(onTagsAdded).toHaveBeenCalledTimes(0);
         expect(onSelect).toHaveBeenCalledTimes(1);
-        // TODO: add expect(onSelect).toBeCalledWith(...)
+      });
+
+      it('should be called with proper argument', () => {
+        const onSelect = jest.fn();
+
+        const { driver, dropdownLayoutDriver } = createDriver(
+          <MultiSelect
+            options={[
+              { id: '1', value: 'alabama', arbitraryPropName: { code: 'ALB' } },
+            ]}
+            onSelect={onSelect}
+            onTagsAdded={noop}
+          />,
+        );
+        driver.pressKey('ArrowDown');
+        dropdownLayoutDriver.clickAtOption(0);
+
+        expect(onSelect).toHaveBeenCalledTimes(1);
+        expect(onSelect).toBeCalledWith([
+          { id: '1', arbitraryPropName: { code: 'ALB' } },
+        ]);
       });
 
       it('should be called when option is selected by keyboard', () => {
