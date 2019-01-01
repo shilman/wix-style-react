@@ -23,26 +23,21 @@ describe('Popover', () => {
     expect(driver.exists()).toBeTruthy();
   });
 
-  it('should allow string as children for compound components', () => {
+  it("should inherit core's driver methods", () => {
+    const onClickFn = jest.fn();
+
     const driver = createDriver(
-      <Popover>
+      <Popover shown onClick={onClickFn}>
         <Popover.Element>I am the trigger!</Popover.Element>
         <Popover.Content>I am the content!</Popover.Content>
       </Popover>,
     );
 
-    expect(driver.exists()).toBeTruthy();
-  });
+    expect(driver.isTargetElementExists()).toBe(true);
+    expect(driver.isContentElementExists()).toBe(true);
 
-  it('should support the onClickOutside prop', () => {
-    const driver = createDriver(
-      <Popover>
-        <Popover.Element>I am the trigger!</Popover.Element>
-        <Popover.Content>I am the content!</Popover.Content>
-      </Popover>,
-    );
-
-    expect(driver.exists()).toBeTruthy();
+    driver.click();
+    expect(onClickFn).toHaveBeenCalledTimes(1);
   });
 
   describe('propTypes validation', () => {

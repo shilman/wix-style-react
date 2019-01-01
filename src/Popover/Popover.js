@@ -64,7 +64,7 @@ class Popover extends React.Component {
   };
 
   render() {
-    const { animate, theme, ...rest } = this.props;
+    const { dataHook, animate, theme, ...rest } = this.props;
 
     const timeout = animate
       ? { enter: ANIMATION_DURATION, exit: 0 }
@@ -72,6 +72,7 @@ class Popover extends React.Component {
 
     return (
       <CorePopover
+        data-hook={dataHook}
         timeout={timeout}
         {...rest}
         {...style(
