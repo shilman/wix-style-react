@@ -8,6 +8,8 @@ import { mount } from 'enzyme';
 import { createRendererWithDriver, cleanup } from '../../test/utils/unit';
 import { depLogger } from '../utils/deprecationLog';
 
+const noop = () => {};
+
 describe('MultiSelect', () => {
   const render = createRendererWithDriver(multiSelectDriverFactory);
   const createDriver = jsx => render(jsx).driver;
@@ -351,7 +353,7 @@ describe('MultiSelect', () => {
     });
   });
 
-  describe('onTagsAdded', () => {
+  describe('new API', () => {
     class ControlledMultiSelect extends React.Component {
       state = { inputValue: '' };
 
@@ -367,166 +369,217 @@ describe('MultiSelect', () => {
         );
       }
     }
-    it('should have deprecationLog when onManuallyInput is also passed', () => {
-      const depLogSpy = jest.spyOn(depLogger, 'log');
-      render(
-        <MultiSelect
-          options={options}
-          onManuallyInput={() => {}}
-          onTagsAdded={() => {}}
-        />,
-      );
-      expect(depLogSpy).toBeCalledWith(
-        `When 'onTagsAdded' is passed then 'isManuallyInput' will not be called. Please remove the 'isManuallyInput' prop.`,
-      );
-      depLogSpy.mockRestore();
-    });
 
-    describe('type&submit', () => {
-      describe('input is empty', () => {
-        it('should not be called when Enter is pressed', () => {
-          const onManuallyInput = jest.fn();
-          const onTagsAdded = jest.fn();
-          const { driver } = createDriver(
-            <ControlledMultiSelect
-              options={options}
-              onManuallyInput={onManuallyInput}
-              onTagsAdded={onTagsAdded}
-            />,
-          );
+    describe('onTagsAdded', () => {
+      it('should have deprecationLog when onManuallyInput is also passed', () => {
+        const depLogSpy = jest.spyOn(depLogger, 'log');
+        render(
+          <MultiSelect
+            options={options}
+            onManuallyInput={() => {}}
+            onTagsAdded={() => {}}
+          />,
+        );
+        expect(depLogSpy).toBeCalledWith(
+          `When 'onTagsAdded' is passed then 'isManuallyInput' will not be called. Please remove the 'isManuallyInput' prop.`,
+        );
+        depLogSpy.mockRestore();
+      });
 
-          driver.focus();
-          driver.pressKey('Enter');
+      describe('type&submit', () => {
+        describe('input is empty', () => {
+          it('should not be called when Enter is pressed', () => {
+            const onManuallyInput = jest.fn();
+            const onTagsAdded = jest.fn();
+            const { driver } = createDriver(
+              <ControlledMultiSelect
+                options={options}
+                onManuallyInput={onManuallyInput}
+                onTagsAdded={onTagsAdded}
+              />,
+            );
 
-          expect(onManuallyInput).toHaveBeenCalledTimes(0);
-          expect(onTagsAdded).toHaveBeenCalledTimes(0);
+            driver.focus();
+            driver.pressKey('Enter');
+
+            expect(onManuallyInput).toHaveBeenCalledTimes(0);
+            expect(onTagsAdded).toHaveBeenCalledTimes(0);
+          });
+        });
+
+        describe('input is not empty', () => {
+          function testCase({
+            props,
+            keyPressed,
+            enteredText = 'custom value',
+            Component = MultiSelect,
+            expectOnTagsAddedToBeCalled = true,
+          }) {
+            const onManuallyInput = jest.fn();
+            const onSelect = jest.fn();
+            const onTagsAdded = jest.fn();
+            const { driver, inputDriver } = createDriver(
+              <Component
+                onManuallyInput={onManuallyInput}
+                onTagsAdded={onTagsAdded}
+                onSelect={onSelect}
+                {...props}
+              />,
+            );
+
+            driver.focus();
+            inputDriver.enterText(enteredText);
+            driver.pressKey(keyPressed);
+
+            expect(onManuallyInput).toHaveBeenCalledTimes(0);
+            expect(onSelect).toHaveBeenCalledTimes(0);
+            expect(onTagsAdded).toHaveBeenCalledTimes(
+              expectOnTagsAddedToBeCalled ? 1 : 0,
+            );
+            expectOnTagsAddedToBeCalled &&
+              expect(onTagsAdded).toBeCalledWith([enteredText]);
+          }
+
+          it('should be called when Enter is pressed', () => {
+            testCase({ props: { options }, keyPressed: 'Enter' });
+          });
+
+          it('should be called when Enter is pressed given ControlledMultiSelect', () => {
+            testCase({
+              props: { options },
+              keyPressed: 'Enter',
+              Component: ControlledMultiSelect,
+            });
+          });
+
+          it('should be called when delimiter is pressed', () => {
+            testCase({ props: { options }, keyPressed: ',' });
+          });
+
+          it('should be called when delimiter is pressed given no options', () => {
+            testCase({ props: {}, keyPressed: ',' });
+          });
+
+          it('should NOT be called when Enter pressed given enteredText is spaces only', () => {
+            testCase({
+              props: { options },
+              enteredText: '   ',
+              keyPressed: 'Enter',
+              expectOnTagsAddedToBeCalled: false,
+            });
+          });
+
+          it('should NOT be called when Enter pressed given enteredText is delimited spaces only', () => {
+            testCase({
+              props: { options },
+              enteredText: ' ,  ',
+              keyPressed: 'Enter',
+              expectOnTagsAddedToBeCalled: false,
+            });
+          });
         });
       });
 
-      describe('input is not empty', () => {
-        function testCase({
-          props,
-          keyPressed,
-          enteredText = 'custom value',
-          Component = MultiSelect,
-          expectOnTagsAddedToBeCalled = true,
-        }) {
+      describe('Paste', () => {
+        function testCase({ props, pasteValue, expectedOnTagsAddedArg }) {
           const onManuallyInput = jest.fn();
           const onSelect = jest.fn();
           const onTagsAdded = jest.fn();
           const { driver, inputDriver } = createDriver(
-            <Component
-              onManuallyInput={onManuallyInput}
-              onTagsAdded={onTagsAdded}
+            <MultiSelect
+              options={options}
               onSelect={onSelect}
+              onTagsAdded={onTagsAdded}
+              onManuallyInput={onManuallyInput}
               {...props}
             />,
           );
-
           driver.focus();
-          inputDriver.enterText(enteredText);
-          driver.pressKey(keyPressed);
+          inputDriver.trigger('paste');
+          inputDriver.enterText(pasteValue);
 
           expect(onManuallyInput).toHaveBeenCalledTimes(0);
           expect(onSelect).toHaveBeenCalledTimes(0);
-          expect(onTagsAdded).toHaveBeenCalledTimes(
-            expectOnTagsAddedToBeCalled ? 1 : 0,
-          );
-          expectOnTagsAddedToBeCalled &&
-            expect(onTagsAdded).toBeCalledWith([enteredText]);
+          expect(onTagsAdded).toHaveBeenCalledTimes(1);
+          expect(onTagsAdded).toBeCalledWith(expectedOnTagsAddedArg);
         }
 
-        it('should be called when Enter is pressed', () => {
-          testCase({ props: { options }, keyPressed: 'Enter' });
-        });
-
-        it('should be called when Enter is pressed given ControlledMultiSelect', () => {
+        it('should be called with single value when pasting a single custom value', () => {
           testCase({
-            props: { options },
-            keyPressed: 'Enter',
-            Component: ControlledMultiSelect,
+            pasteValue: 'custom value',
+            expectedOnTagsAddedArg: ['custom value'],
           });
         });
 
-        it('should be called when delimiter is pressed', () => {
-          testCase({ props: { options }, keyPressed: ',' });
-        });
-
-        it('should be called when delimiter is pressed given no options', () => {
-          testCase({ props: {}, keyPressed: ',' });
-        });
-
-        it('should NOT be called when Enter pressed given enteredText is spaces only', () => {
+        it('should be called with multiple values with pasting comma-delimited value (default delimiter)', () => {
           testCase({
-            props: { options },
-            enteredText: '   ',
-            keyPressed: 'Enter',
-            expectOnTagsAddedToBeCalled: false,
+            pasteValue: 'value1,value2',
+            expectedOnTagsAddedArg: ['value1', 'value2'],
           });
         });
 
-        it('should NOT be called when Enter pressed given enteredText is delimited spaces only', () => {
+        it('should be called with multiple values with pasting colun-delimited value (custom delimiter)', () => {
           testCase({
-            props: { options },
-            enteredText: ' ,  ',
-            keyPressed: 'Enter',
-            expectOnTagsAddedToBeCalled: false,
+            props: { delimiters: [':'] },
+            pasteValue: 'value1:value2',
+            expectedOnTagsAddedArg: ['value1', 'value2'],
+          });
+        });
+
+        it('should be called with trimmed values', () => {
+          testCase({
+            pasteValue: ' value1 , value2 ',
+            expectedOnTagsAddedArg: ['value1', 'value2'],
           });
         });
       });
     });
 
-    describe('Paste', () => {
-      function testCase({ props, pasteValue, expectedOnTagsAddedArg }) {
-        const onManuallyInput = jest.fn();
+    describe('onSelect', () => {
+      it('should be called when option clicked', () => {
         const onSelect = jest.fn();
-        const onTagsAdded = jest.fn();
-        const { driver, inputDriver } = createDriver(
+
+        const { driver, dropdownLayoutDriver } = createDriver(
           <MultiSelect
             options={options}
             onSelect={onSelect}
-            onTagsAdded={onTagsAdded}
-            onManuallyInput={onManuallyInput}
-            {...props}
+            onTagsAdded={noop}
           />,
         );
-        driver.focus();
-        inputDriver.trigger('paste');
-        inputDriver.enterText(pasteValue);
+        driver.pressKey('ArrowDown');
+        dropdownLayoutDriver.clickAtOption(0);
 
-        expect(onManuallyInput).toHaveBeenCalledTimes(0);
+        expect(onSelect).toHaveBeenCalledTimes(1);
+        // TODO: add expect(onSelect).toBeCalledWith(...)
+      });
+
+      it('should be called when option is selected by keyboard', () => {
+        const onSelect = jest.fn();
+
+        const { driver } = createDriver(
+          <MultiSelect
+            options={options}
+            onSelect={onSelect}
+            onTagsAdded={noop}
+          />,
+        );
+        driver.pressKey('ArrowDown');
+        driver.pressKey('ArrowDown');
+        driver.pressKey('Enter');
+
+        expect(onSelect).toHaveBeenCalledTimes(1);
+        // TODO: add expect(onSelect).toBeCalledWith(...)
+      });
+
+      it('should NOT be called when clicked-out-side', () => {
+        const onSelect = jest.fn();
+
+        const { driver, inputDriver } = createDriver(
+          <ControlledMultiSelect onSelect={onSelect} onTagsAdded={noop} />,
+        );
+        inputDriver.enterText('foo');
+        driver.outsideClick();
         expect(onSelect).toHaveBeenCalledTimes(0);
-        expect(onTagsAdded).toHaveBeenCalledTimes(1);
-        expect(onTagsAdded).toBeCalledWith(expectedOnTagsAddedArg);
-      }
-
-      it('should be called with single value when pasting a single custom value', () => {
-        testCase({
-          pasteValue: 'custom value',
-          expectedOnTagsAddedArg: ['custom value'],
-        });
-      });
-
-      it('should be called with multiple values with pasting comma-delimited value (default delimiter)', () => {
-        testCase({
-          pasteValue: 'value1,value2',
-          expectedOnTagsAddedArg: ['value1', 'value2'],
-        });
-      });
-
-      it('should be called with multiple values with pasting colun-delimited value (custom delimiter)', () => {
-        testCase({
-          props: { delimiters: [':'] },
-          pasteValue: 'value1:value2',
-          expectedOnTagsAddedArg: ['value1', 'value2'],
-        });
-      });
-
-      it('should be called with trimmed values', () => {
-        testCase({
-          pasteValue: ' value1 , value2 ',
-          expectedOnTagsAddedArg: ['value1', 'value2'],
-        });
       });
     });
   });

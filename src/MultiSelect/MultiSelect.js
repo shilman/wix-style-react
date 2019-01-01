@@ -27,8 +27,10 @@ class MultiSelect extends InputWithOptions {
 
   onClickOutside() {
     const { value, options, onSelect } = this.props;
-    if (!options.length && value) {
-      onSelect([{ id: value.trim(), label: value.trim() }]);
+    if (!this._isNewCallbackApi()) {
+      if (!options.length && value) {
+        onSelect([{ id: value.trim(), label: value.trim() }]);
+      }
     }
     if (this.state.showOptions) {
       this.hideOptions();
