@@ -20,9 +20,11 @@ const createButtonWithOptionSnippet = ({
   withSuffix = false,
   component = 'Button',
   children = 'Click on me',
+  dataHook = '',
 } = {}) => `
 <div style={{ textAlign: 'center' }}>
   <DropdownPopover
+    dataHook="${dataHook}"
     ${createPropsArray(dropdownPopoverProps).join('\n    ')}
     onSelect={selectedOption => console.log('Selected option:', selectedOption)}
     options={[
@@ -65,7 +67,7 @@ storiesOf('4. Selection', module).add('4.1 + ButtonWithOptions', () => (
         source={`
 # 4.1 + ButtonWithOptions
 
-The \`<ButtonWithOptions/>\` component had been deprecated. You can use the newer
+The \`<ButtonWithOptions/>\` component has been deprecated. You can use the newer
 \`<DropdownPopover/>\` component (which handles positioning in a better way) in order to achieve a
 similar result.
 
@@ -103,7 +105,9 @@ similar result.
             <LiveCodeExample
               compact
               title="Basic snippet"
-              initialCode={createButtonWithOptionSnippet()}
+              initialCode={createButtonWithOptionSnippet({
+                dataHook: 'story-example-basic',
+              })}
             />
           </Cell>
 
@@ -112,6 +116,7 @@ similar result.
               compact
               title="Show selected option"
               initialCode={createButtonWithOptionSnippet({
+                dataHook: 'story-example-show-selected',
                 showSelectedOption: true,
               })}
             />
@@ -122,6 +127,7 @@ similar result.
               compact
               title="Disabled"
               initialCode={createButtonWithOptionSnippet({
+                dataHook: 'story-example-disabled',
                 buttonProps: { disabled: true },
               })}
             />
@@ -132,6 +138,7 @@ similar result.
               compact
               title="With arrow"
               initialCode={createButtonWithOptionSnippet({
+                dataHook: 'story-example-arrow',
                 dropdownPopoverProps: { showArrow: true },
               })}
             />
@@ -142,6 +149,7 @@ similar result.
               compact
               title="Prefix and suffix icons"
               initialCode={createButtonWithOptionSnippet({
+                dataHook: 'story-example-icons',
                 showSelectedOption: true,
                 withPrefix: true,
                 withSuffix: true,
@@ -154,6 +162,7 @@ similar result.
               compact
               title="With different theme"
               initialCode={createButtonWithOptionSnippet({
+                dataHook: 'story-example-theme',
                 buttonProps: { skin: 'light' },
               })}
             />
@@ -164,6 +173,7 @@ similar result.
               compact
               title="With a different size"
               initialCode={createButtonWithOptionSnippet({
+                dataHook: 'story-example-size',
                 buttonProps: { size: 'small' },
               })}
             />
@@ -174,6 +184,7 @@ similar result.
               compact
               title="With different placement"
               initialCode={createButtonWithOptionSnippet({
+                dataHook: 'story-example-placement',
                 dropdownPopoverProps: { placement: 'bottom-start' },
                 children: 'Click!',
               })}
@@ -185,6 +196,7 @@ similar result.
               compact
               title="With IconButton"
               initialCode={createButtonWithOptionSnippet({
+                dataHook: 'story-example-icon-button',
                 dropdownPopoverProps: { showArrow: true },
                 component: 'IconButton',
                 children: '<More />',

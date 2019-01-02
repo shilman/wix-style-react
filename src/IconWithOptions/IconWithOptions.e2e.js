@@ -4,7 +4,7 @@ import { waitForVisibilityOf } from 'wix-ui-test-utils/protractor';
 import { getStoryUrl } from '../../test/utils/storybook-helpers';
 
 describe('IconWithOptions', () => {
-  const storyUrl = getStoryUrl('4. Selection', '4.1 + IconWithOptions');
+  const storyUrl = getStoryUrl('Deprecated', 'IconWithOptions');
   const dataHook = 'story-iconWithOptions';
 
   eyes.it(

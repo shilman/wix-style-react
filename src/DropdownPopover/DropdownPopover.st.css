@@ -23,5 +23,5 @@
 
 /* Add padding when an arrow is used */
 .root:withArrow::popoverContent {
-  padding: 12px 0;
+  padding: 10px 0;
 }
