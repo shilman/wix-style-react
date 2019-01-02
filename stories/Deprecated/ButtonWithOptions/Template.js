@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import reactElementToJSXString from 'react-element-to-jsx-string';
 import Close from 'wix-style-react/new-icons/X';
-import { ButtonWithOptions } from '../../src/index';
+import { ButtonWithOptions } from '../../../src/index';
 
 export class Form extends Component {
   componentDidUpdate(props) {

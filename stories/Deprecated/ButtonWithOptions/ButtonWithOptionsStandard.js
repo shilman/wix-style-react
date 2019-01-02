@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Template from './Template';
-import RadioGroup from '../../src/RadioGroup';
-import Label from '../../src/Label';
-import Input from '../../src/Input';
-import ToggleSwitch from '../../src/ToggleSwitch';
+import RadioGroup from '../../../src/RadioGroup';
+import Label from '../../../src/Label';
+import Input from '../../../src/Input';
+import ToggleSwitch from '../../../src/ToggleSwitch';
 import * as Icons from 'wix-style-react/new-icons';
-import IconChooser from '../Deprecated/Button/IconChooser';
+import IconChooser from '../Button/IconChooser';
 
 import styles from './ExampleButton.scss';
 

@@ -22,11 +22,15 @@ import * as iconsScope from 'wix-ui-icons-common';
  *  //  />`
  */
 export const createPropsArray = props =>
-  Object.entries(props).map(([key, value]) =>
-    typeof value === 'string'
-      ? `${key}="${value}"`
-      : `${key}={${JSON.stringify(value)}}`,
-  );
+  Object.entries(props).map(([key, value]) => {
+    if (value === true) {
+      return key;
+    } else if (typeof value === 'string') {
+      return `${key}="${value}"`;
+    }
+
+    return `${key}={${JSON.stringify(value)}}`;
+  });
 
 /*
  * The following object defines the globals that'll be available in the live

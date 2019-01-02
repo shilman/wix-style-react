@@ -48,7 +48,7 @@ import './Dropdown/DropdownStory.js'; // 4.1 Dropdown
 import './AutoComplete'; // 4.1 + AutoComplete
 import './AutoCompleteComposite'; // 4.1 + AutoCompleteComposite
 import './InputWithOptions'; // 4.1 + InputWithOptions
-import './IconWithOptions'; // 4.1 + IconWithOptions
+// import './IconWithOptions'; // 4.1 + IconWithOptions
 import './ButtonWithOptions'; // 4.1 + ButtonWithOptions
 import './MultiSelectCheckbox/index.story.js'; // 4.1 + MultiSelectCheckbox
 import './Checkbox.story.js'; // 4.2 Checkbox
@@ -154,5 +154,7 @@ import './GeneratedTestComponent/index.story';
 
 // Deprecated
 import './Deprecated/Button/standard.story.js';
+import './Deprecated/IconWithOptions'; // IconWithOptions
+import './Deprecated/ButtonWithOptions'; // ButtonWithOptions
 import './ButtonLayout.story.js'; // 5.0 ButtonLayout
 import './TextLink/index.story.js'; // 5.8 Text Link

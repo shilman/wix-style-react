@@ -7,6 +7,8 @@ describe('LiveCodeExample', () => {
         createPropsArray({
           stringProp: 'I am a string',
           numberProp: 5,
+          someBoolean: true,
+          anotherBoolean: false,
           arrayProp: [1, 'two'],
           objectProp: {
             prop1: 'string',
@@ -17,6 +19,8 @@ describe('LiveCodeExample', () => {
         expect.arrayContaining([
           'stringProp="I am a string"',
           'numberProp={5}',
+          'someBoolean',
+          'anotherBoolean={false}',
           'arrayProp={[1,"two"]}',
           'objectProp={{"prop1":"string","prop2":2}}',
         ]),

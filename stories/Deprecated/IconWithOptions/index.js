@@ -4,13 +4,13 @@ import TabbedView from 'wix-storybook-utils/TabbedView';
 import Markdown from 'wix-storybook-utils/Markdown';
 import CodeExample from 'wix-storybook-utils/CodeExample';
 
-import Readme from '../../src/IconWithOptions/README.md';
-import ReadmeTestkit from '../../src/IconWithOptions/README.TESTKIT.md';
+import Readme from '../../../src/IconWithOptions/README.md';
+import ReadmeTestkit from '../../../src/IconWithOptions/README.TESTKIT.md';
 
 import Example from './Example';
 import ExampleRaw from '!raw-loader!./Example';
 
-storiesOf('4. Selection', module).add('4.1 + IconWithOptions', () => (
+storiesOf('Deprecated', module).add('IconWithOptions', () => (
   <TabbedView tabs={['API', 'Testkit']}>
     <div>
       <Markdown source={Readme} />
