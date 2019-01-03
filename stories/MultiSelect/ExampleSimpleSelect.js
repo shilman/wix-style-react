@@ -2,31 +2,33 @@ import React from 'react';
 import MultiSelect from 'wix-style-react/MultiSelect';
 import styles from './ExampleStandard.scss';
 
-export const options = [
-  { value: 'Alabama', id: 'Alabama', tag: { label: 'Alabama' } },
-  { value: 'Alaska', id: 'Alaska' },
-  {
-    value: (
-      <div className={styles.option}>
-        <div>Arizona</div>
-        <div className={styles.thumb} />
-      </div>
-    ),
-    id: 'Arizona',
-    tag: { label: 'Arizona', thumb: <div className={styles.thumb} /> },
-  },
-  { value: 'Arkansas', id: 'Arkansas' },
-  { value: 'California', id: 'California' },
-  { value: 'California2', id: 'California2' },
-  { value: 'California3', id: 'California3' },
-  { value: 'California4', id: 'California4' },
-  { value: 'California5', id: 'California5' },
-  { value: 'California6', id: 'California6' },
-  { value: 'California7', id: 'California7' },
-  { value: 'Two words', id: 'Two words' },
+const ARBITRARY_FUNCTION_TO_ENABLE_NEW_API = () => {};
+
+const countries = [
+  { name: 'Alabama', code: 'AL' },
+  { name: 'Alaska', code: 'AK' },
+  { name: 'Arizona', code: 'AZ' },
+  { name: 'Arkansas', code: 'AR' },
+  { name: 'California', code: 'CA' },
+  { name: 'North Carolina', code: 'NC' },
+  { name: 'Colorado', code: 'CO' },
+  { name: 'Connecticut', code: 'CT' },
+  { name: 'Delaware', code: 'DL' },
+  { name: 'Florida', code: 'FL' },
+  { name: 'Georgia', code: 'GA' },
+  { name: 'Hawaii', code: 'HI' },
+  { name: 'Idaho', code: 'IL' },
+  { name: 'Illinois', code: 'IN' },
+  { name: 'Indiana', code: 'IA' },
 ];
 
-class ExampleReadOnly extends React.Component {
+export const options = countries.map(country => ({
+  ...country,
+  value: country.name, // This can be any ReactNode
+  id: country.code,
+}));
+
+class ExampleSimpleSelect extends React.Component {
   constructor(props) {
     super(props);
 
@@ -55,10 +57,11 @@ class ExampleReadOnly extends React.Component {
           onSelect={this.handleOnSelect}
           onRemoveTag={this.handleOnRemoveTag}
           options={this.state.options}
+          onTagsAdded={ARBITRARY_FUNCTION_TO_ENABLE_NEW_API}
         />
       </div>
     );
   }
 }
 
-export default ExampleReadOnly;
+export default ExampleSimpleSelect;

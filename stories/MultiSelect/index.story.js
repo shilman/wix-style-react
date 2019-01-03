@@ -100,13 +100,19 @@ export default {
         </div>
       </CodeExample>
 
-      <CodeExample title="Allow New Tags" code={ExampleStandardRaw}>
+      <CodeExample
+        title="Select + Autocomplete + Allow New Tags"
+        code={ExampleStandardRaw}
+      >
         <div style={{ maxWidth: 720 }}>
           <ExampleStandard />
         </div>
       </CodeExample>
 
-      <CodeExample title="Without options" code={ExampleWithoutOptionsRaw}>
+      <CodeExample
+        title="New Tags Only (No options)"
+        code={ExampleWithoutOptionsRaw}
+      >
         <div style={{ maxWidth: 720 }}>
           <ExampleWithoutOptions />
         </div>
