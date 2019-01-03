@@ -12,6 +12,15 @@ const countries = [
   { name: 'Arkansas', code: 'AR' },
   { name: 'California', code: 'CA' },
   { name: 'North Carolina', code: 'NC' },
+  { name: 'Colorado', code: 'CO' },
+  { name: 'Connecticut', code: 'CT' },
+  { name: 'Delaware', code: 'DL' },
+  { name: 'Florida', code: 'FL' },
+  { name: 'Georgia', code: 'GA' },
+  { name: 'Hawaii', code: 'HI' },
+  { name: 'Idaho', code: 'IL' },
+  { name: 'Illinois', code: 'IN' },
+  { name: 'Indiana', code: 'IA' },
 ];
 
 export const options = countries.map(country => ({
@@ -20,7 +29,7 @@ export const options = countries.map(country => ({
   id: country.code,
 }));
 
-class ExampleSelectOnly extends React.Component {
+class ExampleSelectAutocomplete extends React.Component {
   nextId = 0;
 
   constructor(props) {
@@ -87,4 +96,4 @@ class ExampleSelectOnly extends React.Component {
   }
 }
 
-export default ExampleSelectOnly;
+export default ExampleSelectAutocomplete;

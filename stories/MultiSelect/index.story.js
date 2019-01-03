@@ -4,14 +4,14 @@ import MultiSelect from '../../src/MultiSelect';
 
 import ExampleStandard from './ExampleStandard';
 import ExampleStandardRaw from '!raw-loader!./ExampleStandard';
-import ExampleSelectOnly from './ExampleSelectOnly';
-import ExampleSelectOnlyRaw from '!raw-loader!./ExampleSelectOnly';
+import ExampleSelectAutocomplete from './ExampleSelectAutocomplete';
+import ExampleSelectAutocompleteRaw from '!raw-loader!./ExampleSelectAutocomplete';
 import ExampleWithLimitedNumRows from './ExampleWithLimitedNumRows';
 import ExampleWithLimitedNumRowsRaw from '!raw-loader!./ExampleWithLimitedNumRows';
 import ExampleWithoutOptions from './ExampleWithoutOptions';
 import ExampleWithoutOptionsRaw from '!raw-loader!./ExampleWithoutOptions';
-import ExampleReadOnly from './ExampleReadOnly';
-import ExampleReadOnlyRaw from '!raw-loader!./ExampleReadOnly';
+import ExampleSimpleSelect from './ExampleSimpleSelect';
+import ExampleSimpleSelectRaw from '!raw-loader!./ExampleSimpleSelect';
 import ExampleWithError from './ExampleWithError';
 import ExampleWithErrorRaw from '!raw-loader!./ExampleWithError';
 import ExampleReorderable from './ExampleReorderable';
@@ -85,27 +85,24 @@ export default {
     <div>
       <h1>Examples</h1>
 
+      <CodeExample title="Simple Select" code={ExampleSimpleSelectRaw}>
+        <div style={{ maxWidth: 720 }}>
+          <ExampleSimpleSelect />
+        </div>
+      </CodeExample>
+
       <CodeExample
-        title="Select Only (No Duplicates)"
-        code={ExampleSelectOnlyRaw}
+        title="Select + Autocomplete"
+        code={ExampleSelectAutocompleteRaw}
       >
         <div style={{ maxWidth: 720 }}>
-          <ExampleSelectOnly />
+          <ExampleSelectAutocomplete />
         </div>
       </CodeExample>
 
       <CodeExample title="Allow New Tags" code={ExampleStandardRaw}>
         <div style={{ maxWidth: 720 }}>
           <ExampleStandard />
-        </div>
-      </CodeExample>
-
-      <CodeExample
-        title="No Autocomplete (Read Only - with Arrow)"
-        code={ExampleReadOnlyRaw}
-      >
-        <div style={{ maxWidth: 720 }}>
-          <ExampleReadOnly />
         </div>
       </CodeExample>
 
