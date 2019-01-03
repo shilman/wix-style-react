@@ -48,8 +48,6 @@ import './Dropdown/DropdownStory.js'; // 4.1 Dropdown
 import './AutoComplete'; // 4.1 + AutoComplete
 import './AutoCompleteComposite'; // 4.1 + AutoCompleteComposite
 import './InputWithOptions'; // 4.1 + InputWithOptions
-import './IconWithOptions'; // 4.1 + IconWithOptions
-import './ButtonWithOptions'; // 4.1 + ButtonWithOptions
 import './MultiSelectCheckbox/index.story.js'; // 4.1 + MultiSelectCheckbox
 import './Checkbox.story.js'; // 4.2 Checkbox
 import './RadioGroup.story.js'; // 4.3 RadioGroup
