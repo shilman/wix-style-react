@@ -1,34 +1,15 @@
+/* eslint-disable no-console */
 import React from 'react';
 import MultiSelect from 'wix-style-react/MultiSelect';
 import styles from './ExampleStandard.scss';
 
-export const options = [
-  { value: 'Alabama', id: 'Alabama', tag: { label: 'Alabama' } },
-  { value: 'Alaska', id: 'Alaska' },
-  {
-    value: (
-      <div className={styles.option}>
-        <div>Arizona</div>
-        <div className={styles.thumb} />
-      </div>
-    ),
-    id: 'Arizona',
-    tag: { label: 'Arizona', thumb: <div className={styles.thumb} /> },
-  },
-  { value: 'Arkansas', id: 'Arkansas' },
-  { value: 'California', id: 'California' },
-  { value: 'California2', id: 'California2' },
-  { value: 'California3', id: 'California3' },
-  { value: 'California4', id: 'California4' },
-  { value: 'California5', id: 'California5' },
-  { value: 'California6', id: 'California6' },
-  { value: 'California7', id: 'California7' },
-  { id: 'Divider', value: '-' },
-  { value: 'Two words', id: 'Two words' },
-];
+const ARBITRARY_FUNCTION_TO_ENABLE_NEW_API = () => {};
 
-export const valueParser = option =>
-  option.tag ? option.tag.label : option.value;
+export const options = [
+  { id: '1', name: 'One', value: 'One' },
+  { id: '2', name: 'Two', value: 'Two' },
+  { id: '3', name: 'Three', value: 'Three' },
+];
 
 class ExampleReorderable extends React.Component {
   constructor(props) {
@@ -41,15 +22,14 @@ class ExampleReorderable extends React.Component {
     };
   }
 
-  getValue = option =>
-    typeof option.value === 'string'
-      ? option.value
-      : option.value.props.children[0].props.children;
-
-  handleOnSelect = tags =>
-    Array.isArray(tags)
-      ? this.setState({ tags: [...this.state.tags, ...tags] })
-      : this.setState({ tags: [...this.state.tags, tags] });
+  handleOnSelect = selectedOptions => {
+    console.log('onSelect(selectedOptions): selectedOptions=', selectedOptions);
+    const tags = selectedOptions.map(option => ({
+      id: option.id,
+      label: <span>{option.name}</span>,
+    }));
+    this.setState({ tags: [...this.state.tags, ...tags] });
+  };
 
   handleOnRemoveTag = tagId =>
     this.setState({
@@ -57,11 +37,6 @@ class ExampleReorderable extends React.Component {
     });
 
   handleOnChange = event => this.setState({ inputValue: event.target.value });
-
-  predicate = option =>
-    this.getValue(option)
-      .toLowerCase()
-      .includes(this.state.inputValue.toLowerCase());
 
   render() {
     const { tags } = this.state;
@@ -84,12 +59,11 @@ class ExampleReorderable extends React.Component {
                 tags: nextTags,
               });
             }}
-            onChange={this.handleOnChange}
-            onManuallyInput={() => {}}
-            options={this.state.options}
             value={this.state.inputValue}
-            predicate={this.predicate}
-            valueParser={valueParser}
+            onChange={this.handleOnChange}
+            options={options}
+            mode="select"
+            onTagsAdded={ARBITRARY_FUNCTION_TO_ENABLE_NEW_API}
           />
         </div>
       </div>

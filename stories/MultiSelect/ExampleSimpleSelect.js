@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import MultiSelect from 'wix-style-react/MultiSelect';
 import styles from './ExampleStandard.scss';
@@ -38,10 +39,23 @@ class ExampleSimpleSelect extends React.Component {
     };
   }
 
-  handleOnSelect = tags =>
-    Array.isArray(tags)
-      ? this.setState({ tags: [...this.state.tags, ...tags] })
-      : this.setState({ tags: [...this.state.tags, tags] });
+  createTag({ countryName, countryCode }) {
+    return {
+      id: countryCode, // When tag ids correspond to option ids, then MultiSelect will show only unselected options.
+      label: `${countryName} (${countryCode || '?'})`,
+    };
+  }
+
+  handleOnSelect = selectedOptions => {
+    console.log('onSelect(selectedOptions): selectedOptions=', selectedOptions);
+    const tags = selectedOptions.map(option =>
+      this.createTag({
+        countryName: option.name,
+        countryCode: option.code,
+      }),
+    );
+    this.setState({ tags: [...this.state.tags, ...tags] });
+  };
 
   handleOnRemoveTag = tagId =>
     this.setState({
