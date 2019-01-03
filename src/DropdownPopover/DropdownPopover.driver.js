@@ -35,14 +35,14 @@ export const dropdownPopoverDriverFactory = base => {
     /** Perform a mouseEnter on the component */
     mouseEnter: async () => {
       if (base.type === 'react') {
-        Simulate.mouseEnter((await base.getNative()).childNodes[0]);
+        Simulate.mouseEnter(await base.getNative());
       }
     },
 
     /** Perform a mouseLeave on the component */
     mouseLeave: async () => {
       if (base.type === 'react') {
-        Simulate.mouseLeave((await base.getNative()).childNodes[0]);
+        Simulate.mouseLeave(await base.getNative());
       }
     },
   };
