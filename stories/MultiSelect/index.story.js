@@ -4,6 +4,8 @@ import MultiSelect from '../../src/MultiSelect';
 
 import ExampleStandard from './ExampleStandard';
 import ExampleStandardRaw from '!raw-loader!./ExampleStandard';
+import ExampleSelectOnly from './ExampleSelectOnly';
+import ExampleSelectOnlyRaw from '!raw-loader!./ExampleSelectOnly';
 import ExampleWithLimitedNumRows from './ExampleWithLimitedNumRows';
 import ExampleWithLimitedNumRowsRaw from '!raw-loader!./ExampleWithLimitedNumRows';
 import ExampleWithoutOptions from './ExampleWithoutOptions';
@@ -83,7 +85,13 @@ export default {
     <div>
       <h1>Examples</h1>
 
-      <CodeExample title="Standard" code={ExampleStandardRaw}>
+      <CodeExample title="Select Only" code={ExampleSelectOnlyRaw}>
+        <div style={{ maxWidth: 720 }}>
+          <ExampleSelectOnly />
+        </div>
+      </CodeExample>
+
+      <CodeExample title="Allow New Tags" code={ExampleStandardRaw}>
         <div style={{ maxWidth: 720 }}>
           <ExampleStandard />
         </div>
