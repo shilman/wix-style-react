@@ -221,7 +221,6 @@ class MultiSelect extends InputWithOptions {
 
   submitValue(inputValue) {
     if (!inputValue) {
-      this.input.blur();
       return;
     }
 
