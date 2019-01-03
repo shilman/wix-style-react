@@ -26,7 +26,7 @@ export const options = [
   { value: 'Two words', id: 'Two words' },
 ];
 
-class ExampleReadOnly extends React.Component {
+class ExampleWithError extends React.Component {
   constructor(props) {
     super(props);
 
@@ -63,4 +63,4 @@ class ExampleReadOnly extends React.Component {
   }
 }
 
-export default ExampleReadOnly;
+export default ExampleWithError;

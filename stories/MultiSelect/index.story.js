@@ -12,8 +12,8 @@ import ExampleWithoutOptions from './ExampleWithoutOptions';
 import ExampleWithoutOptionsRaw from '!raw-loader!./ExampleWithoutOptions';
 import ExampleReadOnly from './ExampleReadOnly';
 import ExampleReadOnlyRaw from '!raw-loader!./ExampleReadOnly';
-import ExampleReadOnlyWithError from './ExampleReadOnlyWithError';
-import ExampleReadOnlyWithErrorRaw from '!raw-loader!./ExampleReadOnlyWithError';
+import ExampleWithError from './ExampleWithError';
+import ExampleWithErrorRaw from '!raw-loader!./ExampleWithError';
 import ExampleReorderable from './ExampleReorderable';
 import ExampleReorderableRaw from '!raw-loader!./ExampleReorderable';
 
@@ -85,7 +85,10 @@ export default {
     <div>
       <h1>Examples</h1>
 
-      <CodeExample title="Select Only" code={ExampleSelectOnlyRaw}>
+      <CodeExample
+        title="Select Only (No Duplicates)"
+        code={ExampleSelectOnlyRaw}
+      >
         <div style={{ maxWidth: 720 }}>
           <ExampleSelectOnly />
         </div>
@@ -94,6 +97,21 @@ export default {
       <CodeExample title="Allow New Tags" code={ExampleStandardRaw}>
         <div style={{ maxWidth: 720 }}>
           <ExampleStandard />
+        </div>
+      </CodeExample>
+
+      <CodeExample
+        title="No Autocomplete (Read Only - with Arrow)"
+        code={ExampleReadOnlyRaw}
+      >
+        <div style={{ maxWidth: 720 }}>
+          <ExampleReadOnly />
+        </div>
+      </CodeExample>
+
+      <CodeExample title="Without options" code={ExampleWithoutOptionsRaw}>
+        <div style={{ maxWidth: 720 }}>
+          <ExampleWithoutOptions />
         </div>
       </CodeExample>
 
@@ -109,27 +127,9 @@ export default {
         </div>
       </CodeExample>
 
-      <CodeExample title="Read Only with Arrow" code={ExampleReadOnlyRaw}>
+      <CodeExample title="With Error message" code={ExampleWithErrorRaw}>
         <div style={{ maxWidth: 720 }}>
-          <ExampleReadOnly />
-        </div>
-      </CodeExample>
-
-      <CodeExample
-        title="Read Only with Error message"
-        code={ExampleReadOnlyWithErrorRaw}
-      >
-        <div style={{ maxWidth: 720 }}>
-          <ExampleReadOnlyWithError />
-        </div>
-      </CodeExample>
-
-      <CodeExample
-        title="Without options & with Error"
-        code={ExampleWithoutOptionsRaw}
-      >
-        <div style={{ maxWidth: 720 }}>
-          <ExampleWithoutOptions />
+          <ExampleWithError />
         </div>
       </CodeExample>
     </div>

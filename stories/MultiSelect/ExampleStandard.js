@@ -2,16 +2,28 @@
 import React from 'react';
 import MultiSelect from 'wix-style-react/MultiSelect';
 import styles from './ExampleStandard.scss';
+import Text from 'wix-style-react/Text';
 
-export const options = [
-  { id: 'Alabama', value: 'Alabama' },
-  { id: 'Alaska', value: 'Alaska' },
-  { id: 'Arizona', value: 'Arizona' },
-  { id: 'Arkansas', value: 'Arkansas' },
-  { id: 'divider1', value: '-' },
-  { id: 'California', value: 'California' },
-  { id: 'Two Words', value: 'Two Words' },
+const contacts = [
+  { name: 'David Fincher', email: 'davidf@wix.com' },
+  { name: 'John Doe', email: 'johnd@wix.com' },
+  { name: 'Jane Martin', email: 'janem@wix.com' },
+  { name: 'David ', email: 'davidf@gmail.com' },
+  { name: 'John Doe', email: 'johnd@gmail.com' },
+  { name: 'Jane Martin', email: 'janem@gmail.com' },
 ];
+
+export const options = contacts.map(contact => ({
+  ...contact,
+  value: (
+    <Text>
+      {contact.name + '  '}
+      <br />
+      <Text secondary>{contact.email}</Text>
+    </Text>
+  ),
+  id: contact.email,
+}));
 
 class ExampleStandard extends React.Component {
   nextId = 0;
@@ -25,12 +37,21 @@ class ExampleStandard extends React.Component {
     };
   }
 
+  createTag({ name, email }) {
+    return {
+      id: String(this.nextId++),
+      label: name ? `${email} (${name})` : email,
+    };
+  }
+
   handleOnSelect = selectedOptions => {
     console.log('onSelect(selectedOptions): selectedOptions=', selectedOptions);
-    const tags = selectedOptions.map(option => {
-      const tag = { id: option.id, label: option.id };
-      return tag;
-    });
+    const tags = selectedOptions.map(option =>
+      this.createTag({
+        name: option.name,
+        email: option.email,
+      }),
+    );
     this.setState({ tags: [...this.state.tags, ...tags] });
   };
 
@@ -48,16 +69,14 @@ class ExampleStandard extends React.Component {
 
   handleOnTagsAdded = values => {
     console.log(`onTagsAdded(values): values=${values}`);
-    const tags = values.map(value => {
-      const tag = { id: String(this.nextId++), label: value };
-      return tag;
-    });
+    const tags = values.map(value => this.createTag({ email: value }));
     this.setState({ tags: [...this.state.tags, ...tags] });
   };
 
   predicate = option =>
-    option.id &&
-    option.id.toLowerCase().includes(this.state.inputValue.toLowerCase());
+    `${option.name} + ${option.emial}`
+      .toLowerCase()
+      .includes(this.state.inputValue.toLowerCase());
 
   render() {
     return (

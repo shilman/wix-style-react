@@ -3,17 +3,24 @@ import React from 'react';
 import MultiSelect from 'wix-style-react/MultiSelect';
 import styles from './ExampleStandard.scss';
 
-export const options = [
-  { id: 'Alabama', value: 'Alabama' },
-  { id: 'Alaska', value: 'Alaska' },
-  { id: 'Arizona', value: 'Arizona' },
-  { id: 'Arkansas', value: 'Arkansas' },
-  { id: 'divider1', value: '-' },
-  { id: 'California', value: 'California' },
-  { id: 'Two Words', value: 'Two Words' },
+const ARBITRARY_FUNCTION_TO_ENABLE_NEW_API = () => {};
+
+const countries = [
+  { name: 'Alabama', code: 'AL' },
+  { name: 'Alaska', code: 'AK' },
+  { name: 'Arizona', code: 'AZ' },
+  { name: 'Arkansas', code: 'AR' },
+  { name: 'California', code: 'CA' },
+  { name: 'North Carolina', code: 'NC' },
 ];
 
-class ExampleStandard extends React.Component {
+export const options = countries.map(country => ({
+  ...country,
+  value: country.name, // This can be any ReactNode
+  id: country.code,
+}));
+
+class ExampleSelectOnly extends React.Component {
   nextId = 0;
 
   constructor(props) {
@@ -25,12 +32,21 @@ class ExampleStandard extends React.Component {
     };
   }
 
+  createTag({ countryName, countryCode }) {
+    return {
+      id: countryCode, // When tag ids correspond to option ids, then MultiSelect will show only unselected options.
+      label: `${countryName} (${countryCode || '?'})`,
+    };
+  }
+
   handleOnSelect = selectedOptions => {
     console.log('onSelect(selectedOptions): selectedOptions=', selectedOptions);
-    const tags = selectedOptions.map(option => {
-      const tag = { id: option.id, label: option.id };
-      return tag;
-    });
+    const tags = selectedOptions.map(option =>
+      this.createTag({
+        countryName: option.name,
+        countryCode: option.code,
+      }),
+    );
     this.setState({ tags: [...this.state.tags, ...tags] });
   };
 
@@ -47,8 +63,8 @@ class ExampleStandard extends React.Component {
   };
 
   predicate = option =>
-    option.id &&
-    option.id.toLowerCase().includes(this.state.inputValue.toLowerCase());
+    option.name &&
+    option.name.toLowerCase().includes(this.state.inputValue.toLowerCase());
 
   render() {
     return (
@@ -63,6 +79,7 @@ class ExampleStandard extends React.Component {
             onSelect={this.handleOnSelect}
             onRemoveTag={this.handleOnRemoveTag}
             predicate={this.predicate}
+            onTagsAdded={ARBITRARY_FUNCTION_TO_ENABLE_NEW_API}
           />
         </div>
       </div>
@@ -70,4 +87,4 @@ class ExampleStandard extends React.Component {
   }
 }
 
-export default ExampleStandard;
+export default ExampleSelectOnly;
