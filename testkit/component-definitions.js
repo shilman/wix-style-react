@@ -94,7 +94,7 @@ export default {
   },
   ColorPicker: {
     skipSanityTest,
-    enzymeTestkitFactory: require('../src/ColorPicker/color-picker.driver')
+    enzymeTestkitFactory: require('../src/ColorPicker/ColorPicker.driver')
       .default,
   },
   ButtonWithOptions: {
@@ -192,6 +192,7 @@ export default {
     props: {
       content: <FloatingHelper.Content title="title" body="body" />,
       target: <div>target</div>,
+      placement: 'left',
     },
   },
   FullTextView: { skipSanityTest, noTestkit },
@@ -335,8 +336,7 @@ export default {
   },
   Modal: {
     props: {
-      isOpen: false,
-      contentLabel: 'modal_12345678',
+      isOpen: false
     },
   },
   ContactItemBuilder: { skipSanityTest },
@@ -389,6 +389,7 @@ export default {
   },
   Proportion: { skipSanityTest, unidriver, drivers: ['enzyme'] },
   GeneratedTestComponent: { skipSanityTest, unidriver, drivers: ['enzyme'] },
+  DropdownPopover: { skipSanityTest, unidriver },
 
   TpaLink: {
     enzymeTestkitFactory: require('../src/TPA/Label/Label.driver').default,

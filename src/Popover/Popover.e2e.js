@@ -10,8 +10,8 @@ import { createTestStoryUrl } from '../../test/utils/storybook-helpers';
 import {
   storySettings,
   testStories,
-  placements,
 } from '../../stories/Popover/storySettings';
+import { placements } from './Popover';
 
 describe('Popover', () => {
   const eyes = eyesItInstance({

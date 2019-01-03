@@ -16,6 +16,7 @@
 | getRowsCount | - | number | get the max number of rows (define the height of the element) |
 | getMaxLength | - | number | get max number of characters |
 | getResizable | - | boolean | true if the element is resizable (only height) |
+| getDisabled | - | boolean | true if the element and its wrapper are disabled |
 | getHasCounter | - | boolean | true if the element has a counter (works with maxLength) |
 | getCounterValue | - | string | return counter value |
 | hasExclamation | - | boolean | true if exclamation is present |

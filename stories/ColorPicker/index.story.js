@@ -1,14 +1,16 @@
-import ColorPicker from 'wix-style-react/ColorPicker';
+import ColorPicker from '../../src/ColorPicker';
+import { storySettings } from './storySettings';
 
 export default {
-  category: '11. Pickers and Selectors',
-  storyName: '11.5 ColorPicker',
+  category: storySettings.category,
+  storyName: storySettings.storyName,
   component: ColorPicker,
-  componentPath: '../src/ColorPicker',
+  componentPath: '../../src/ColorPicker',
 
   componentProps: setProps => ({
     value: '#3899eb',
     onChange: value => setProps({ value: value.hex() }),
+    dataHook: storySettings.dataHook,
   }),
 
   exampleProps: {

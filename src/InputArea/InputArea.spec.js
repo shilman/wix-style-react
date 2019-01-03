@@ -109,6 +109,28 @@ describe('InputArea', () => {
     });
   });
 
+  describe('disabled attribute', () => {
+    it('should pass down to the wrapped input', () => {
+      const driver = createDriver(<InputAreaForTesting disabled />);
+      expect(driver.getDisabled()).toBeTruthy();
+    });
+
+    it('should pass down to the wrapped input with default false value', () => {
+      const driver = createDriver(<InputAreaForTesting />);
+      expect(driver.getDisabled()).toBeFalsy();
+    });
+
+    it('should not display an error icon even if the error is true', () => {
+      const driver = createDriver(<InputAreaForTesting disabled error />);
+      expect(driver.hasExclamation()).toBeFalsy();
+    });
+
+    it('should not be resizable', () => {
+      const driver = createDriver(<InputAreaForTesting disabled />);
+      expect(driver.getResizable()).toBeFalsy();
+    });
+  });
+
   describe('rows attribute', () => {
     it('should pass down to the wrapped input', () => {
       const rows = 5;

@@ -159,7 +159,7 @@ describe('SortableList', () => {
 
     const wrapper = ReactTestUtils.renderIntoDocument(
       <DragDropContextProvider backend={TestBackend}>
-        <Modal isOpen contentLabel="">
+        <Modal isOpen>
           <SortableList
             contentClassName="cl"
             dataHook={dataHook}
@@ -273,7 +273,7 @@ describe('SortableList', () => {
     const renderItem = ({ item }) => <div>{item.text}</div>; // eslint-disable-line react/prop-types
 
     const wrapper = ReactTestUtils.renderIntoDocument(
-      <Modal isOpen contentLabel="">
+      <Modal isOpen>
         <DragDropContextProvider backend={TestBackend}>
           <SortableList
             contentClassName="cl"

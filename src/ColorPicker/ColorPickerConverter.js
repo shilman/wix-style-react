@@ -3,9 +3,9 @@ import { object, bool, func } from 'prop-types';
 
 import WixComponent from '../BaseComponents/WixComponent';
 import Tabs from '../Tabs';
-import ColorPickerConverterHex from './color-picker-converter-hex';
-import ColorPickerConverterRgb from './color-picker-converter-rgb';
-import ColorPickerConverterHsb from './color-picker-converter-hsb';
+import ColorPickerConverterHex from './ColorPickerConverterHex';
+import ColorPickerConverterRGB from './ColorPickerConverterRGB';
+import ColorPickerConverterHsb from './ColorPickerConverterHsb';
 
 const HEX = 'HEX';
 const RGB = 'RGB';
@@ -23,6 +23,7 @@ export default class ColorPickerConverter extends WixComponent {
     showConverter: bool.isRequired,
     showInput: bool.isRequired,
     onChange: func.isRequired,
+    onEnter: func.isRequired,
   };
 
   state = {
@@ -36,6 +37,11 @@ export default class ColorPickerConverter extends WixComponent {
 
   render() {
     const { current, showConverter, showInput } = this.props;
+    const dataHooks = {
+      hex: 'color-picker-hex-input',
+      rgb: 'color-picker-rgb-inputs',
+      hsb: 'color-picker-hsb-inputs',
+    };
 
     if (!showConverter && !showInput) {
       return null;
@@ -44,8 +50,10 @@ export default class ColorPickerConverter extends WixComponent {
     if (!showConverter) {
       return (
         <ColorPickerConverterHex
+          dataHook={dataHooks.hex}
           current={current}
           onChange={this.props.onChange}
+          onEnter={this.props.onEnter}
         />
       );
     }
@@ -63,18 +71,22 @@ export default class ColorPickerConverter extends WixComponent {
         />
         {activeTab === HEX && (
           <ColorPickerConverterHex
+            dataHook={dataHooks.hex}
             current={current}
             onChange={this.props.onChange}
+            onEnter={this.props.onEnter}
           />
         )}
         {activeTab === RGB && (
-          <ColorPickerConverterRgb
+          <ColorPickerConverterRGB
+            dataHook={dataHooks.rgb}
             current={current}
             onChange={this.props.onChange}
           />
         )}
         {activeTab === HSB && (
           <ColorPickerConverterHsb
+            dataHook={dataHooks.hsb}
             current={current}
             onChange={this.props.onChange}
           />

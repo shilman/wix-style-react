@@ -120,6 +120,7 @@ describe('Input', () => {
       };
       const driver = createDriver(<Input {...props} />);
       driver.enterText('some text');
+      expect(onChange).toHaveBeenCalledTimes(1);
       const eventTarget = onChange.mock.calls[0][0].target;
       expect(eventTarget).toEqual({
         name: 'gal',
@@ -558,43 +559,8 @@ describe('Input', () => {
       expect(driver.hasClearButton()).toBe(true);
     });
 
-    // TODO
-    it.skip('should be displayed when using uncontrolled component with defaultValue', () => {
-      const driver = createDriver(
-        <Input defaultValue="some value" clearButton />,
-      );
-      expect(driver.hasClearButton()).toBe(true);
-    });
-
     it('should not be displayed when input text is empty', () => {
       const driver = createDriver(<Input value="" clearButton />);
-      expect(driver.hasClearButton()).toBe(false);
-    });
-
-    // TODO
-    it.skip('should be displayed after entering text into empty uncontrolled input', () => {
-      const driver = createDriver(<Input clearButton />);
-      driver.enterText('some value');
-      expect(driver.hasClearButton()).toBe(true);
-    });
-
-    // TODO
-    it.skip('should clear input when using uncontrolled component', () => {
-      const driver = createDriver(<Input clearButton />);
-      driver.enterText('some value');
-      driver.clickClear();
-      expect(driver.getValue()).toBe('');
-      expect(driver.isFocus()).toBe(true);
-    });
-
-    // TODO
-    it.skip('should be hidden after default value was overridden with some input', () => {
-      const driver = createDriver(
-        <Input defaultValue="some default value" clearButton />,
-      );
-      expect(driver.hasClearButton()).toBe(true);
-      driver.clearText();
-      driver.enterText('new value');
       expect(driver.hasClearButton()).toBe(false);
     });
 
@@ -613,8 +579,45 @@ describe('Input', () => {
         <Input onChange={onChange} value="some value" clearButton />,
       );
       driver.clickClear();
-      expect(onChange).toBeCalled();
+      expect(onChange).toHaveBeenCalledTimes(1);
       expect(onChange.mock.calls[0][0].target.value).toBe('');
+    });
+
+    describe.skip('Uncontrolled', () => {
+      // TODO
+      it('should be displayed when using uncontrolled component with defaultValue', () => {
+        const driver = createDriver(
+          <Input defaultValue="some value" clearButton />,
+        );
+        expect(driver.hasClearButton()).toBe(true);
+      });
+
+      // TODO
+      it('should be displayed after entering text into empty uncontrolled input', () => {
+        const driver = createDriver(<Input clearButton />);
+        driver.enterText('some value');
+        expect(driver.hasClearButton()).toBe(true);
+      });
+
+      // TODO
+      it('should clear input when using uncontrolled component', () => {
+        const driver = createDriver(<Input clearButton />);
+        driver.enterText('some value');
+        driver.clickClear();
+        expect(driver.getValue()).toBe('');
+        expect(driver.isFocus()).toBe(true);
+      });
+
+      // TODO
+      it('should be hidden after default value was overridden with some input', () => {
+        const driver = createDriver(
+          <Input defaultValue="some default value" clearButton />,
+        );
+        expect(driver.hasClearButton()).toBe(true);
+        driver.clearText();
+        driver.enterText('new value');
+        expect(driver.hasClearButton()).toBe(false);
+      });
     });
   });
 
@@ -634,6 +637,47 @@ describe('Input', () => {
       expect(driver.hasClearButton()).toBe(true);
       driver.clickClear();
       expect(onClear.calledOnce).toBe(true);
+    });
+  });
+
+  describe('clear method', () => {
+    it('should fire onChange one time when onChange implementation fires clear', () => {
+      class ControlledInputWithRef extends React.Component {
+        state = {
+          value: '',
+        };
+        constructor(props) {
+          super(props);
+          this.handleChange = this.handleChange.bind(this);
+        }
+
+        handleChange(e) {
+          this.setState({ value: e.target.value });
+          this.input.clear();
+        }
+
+        render() {
+          return (
+            <Input
+              ref={comp => (this.input = comp)}
+              value={this.state.value}
+              onChange={this.handleChange}
+              dataHook="my-input"
+            />
+          );
+        }
+      }
+
+      const handleChangeSpy = jest.spyOn(
+        ControlledInputWithRef.prototype,
+        'handleChange',
+      );
+      const { driver } = render(<ControlledInputWithRef />, 'my-input');
+
+      driver.enterText('foo');
+      expect(handleChangeSpy).toHaveBeenCalledTimes(2);
+      expect(handleChangeSpy.mock.calls[0][0].target.value).toBe('foo');
+      expect(handleChangeSpy.mock.calls[1][0].target.value).toBe('');
     });
   });
 

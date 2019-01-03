@@ -6,7 +6,7 @@ import clamp from 'lodash/clamp';
 import WixComponent from '../BaseComponents/WixComponent';
 import { getBoundingRect } from './utils';
 
-import css from './color-picker-hsb.scss';
+import css from './ColorPickerHsb.scss';
 
 export default class ColorPickerHsb extends WixComponent {
   static propTypes = {

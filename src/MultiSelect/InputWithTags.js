@@ -30,17 +30,13 @@ class InputWithTags extends React.Component {
   }
 
   handleInputFocus(e) {
-    !this.state.inputHasFocus &&
-      this.setState({ inputHasFocus: true }, () => {
-        this.props.onFocus && this.props.onFocus(e);
-      });
+    !this.state.inputHasFocus && this.setState({ inputHasFocus: true });
+    this.props.onFocus && this.props.onFocus(e);
   }
 
   handleInputBlur(e) {
-    this.state.inputHasFocus &&
-      this.setState({ inputHasFocus: false }, () => {
-        this.props.onBlur && this.props.onBlur(e);
-      });
+    this.state.inputHasFocus && this.setState({ inputHasFocus: false });
+    this.props.onBlur && this.props.onBlur(e);
   }
 
   render() {
@@ -144,8 +140,8 @@ class InputWithTags extends React.Component {
           <Input
             width={this.props.width}
             ref={input => (this.input = input)}
-            onFocus={() => this.handleInputFocus()}
-            onBlur={() => this.handleInputBlur()}
+            onFocus={e => this.handleInputFocus(e)}
+            onBlur={e => this.handleInputBlur(e)}
             placeholder={tags.length === 0 ? placeholder : ''}
             {...desiredProps}
             dataHook="inputWithTags-input"
@@ -221,9 +217,7 @@ class InputWithTags extends React.Component {
   }
 
   clear() {
-    this.setState({
-      inputValue: '',
-    });
+    this.input.clear();
   }
 }
 

@@ -410,6 +410,12 @@ export const closeButtonTestkitFactory = protractorUniTestkitFactoryCreator(
   closeButtonDriverFactory,
 );
 
+import colorPickerDriverFactory from '../src/ColorPicker/ColorPicker.protractor.driver';
+
+export const colorPickerTestkitFactory = protractorTestkitFactoryCreator(
+  colorPickerDriverFactory,
+);
+
 /*
  * Component generator test component
  */
@@ -417,4 +423,10 @@ import { generatedTestComponentDriverFactory } from '../src/GeneratedTestCompone
 
 export const generatedTestComponentTestkitFactory = protractorUniTestkitFactoryCreator(
   generatedTestComponentDriverFactory,
+);
+
+import { dropdownPopoverDriverFactory } from '../src/DropdownPopover/DropdownPopover.driver';
+
+export const dropdownPopoverTestkitFactory = protractorUniTestkitFactoryCreator(
+  dropdownPopoverDriverFactory,
 );

@@ -1,9 +1,9 @@
 import React from 'react';
 import CodeExample from 'wix-storybook-utils/CodeExample';
 import Markdown from 'wix-storybook-utils/Markdown';
-import { storySettings, placements } from './storySettings';
+import { storySettings } from './storySettings';
 
-import Popover from '../../src/Popover';
+import Popover, { placements } from '../../src/Popover';
 import Button from '../../src/Button';
 import Dropdown from '../../src/Dropdown';
 import FormField from '../../src/FormField';

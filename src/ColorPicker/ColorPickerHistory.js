@@ -1,7 +1,7 @@
 import React from 'react';
 import { bool, func, object } from 'prop-types';
 
-import css from './color-picker-history.scss';
+import css from './ColorPickerHistory.scss';
 
 const ColorPickerHistory = ({ show, current, previous, onClick }) => {
   if (show) {

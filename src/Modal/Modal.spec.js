@@ -32,7 +32,6 @@ describe('Modal', () => {
   beforeEach(() => {
     props = {};
     props.isOpen = true;
-    props.contentLabel = 'modal_' + Math.random();
     props.closeTimeoutMS = MODAL_CLOSE_TIMEOUT;
   });
 
@@ -58,6 +57,17 @@ describe('Modal', () => {
       expect(
         driver.getChildBySelector('[data-hook="inner-div"]'),
       ).not.toBeNull();
+    });
+
+    it(`should pass contentLabel property for a11y support`, () => {
+      props.isOpen = true;
+      props.contentLabel = 'test content label';
+      const { driver } = render(
+        <Modal {...props}>
+          <div data-hook="inner-div">Dummy Content</div>
+        </Modal>,
+      );
+      expect(driver.getContentLabel()).toEqual(props.contentLabel);
     });
 
     describe('maxHeight', () => {

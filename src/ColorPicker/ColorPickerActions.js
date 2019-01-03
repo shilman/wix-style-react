@@ -5,7 +5,7 @@ import Button from '../Button';
 import X from '../new-icons/X';
 import Check from '../new-icons/Check';
 
-import css from './color-picker-actions.scss';
+import css from './ColorPickerActions.scss';
 
 const ColorPickerActions = ({ onCancel, onConfirm }) => (
   <div className={css.root}>

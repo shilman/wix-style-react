@@ -12,7 +12,7 @@ const CHILDREN_WRAPPER_DIV_ID = 'modal-children-container';
 class Modal extends WixComponent {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
-    contentLabel: PropTypes.string.isRequired,
+    contentLabel: PropTypes.string,
     theme: PropTypes.oneOf(Object.keys(colors)),
     children: PropTypes.any,
     zIndex: PropTypes.number,

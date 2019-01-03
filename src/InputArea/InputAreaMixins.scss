@@ -11,7 +11,7 @@
 }
 
 @mixin ThemeHover($backgroundColor) {
-    &:hover:not(.hasFocus)    { background-color: $backgroundColor; }
+    &:hover:not(.hasFocus, .disabled) { background-color: $backgroundColor; }
     &.hasHover { background-color: $backgroundColor; }
 }
 
@@ -43,6 +43,12 @@
 @mixin Selection($color) {
     &::selection      { background: $color; }
     &::-moz-selection { background: $color; }
+}
+
+@mixin ThemeDisabled($borderColor, $backgroundColor, $color) {
+  &.disabled {
+    @include ThemeDefault($borderColor, $backgroundColor, $color);
+  }
 }
 
 @mixin Placeholder($color) {

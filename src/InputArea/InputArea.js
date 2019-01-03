@@ -43,6 +43,7 @@ class InputArea extends WixComponent {
     const {
       autoFocus,
       defaultValue,
+      disabled,
       error,
       forceFocus,
       forceHover,
@@ -89,7 +90,8 @@ class InputArea extends WixComponent {
       [styles.hasHover]: forceHover,
       [styles.hasFocus]: forceFocus || this.state.focus,
       [styles.resizable]: !!resizable,
-      [styles.nonResizable]: !resizable,
+      [styles.nonResizable]: !resizable || !!disabled,
+      [styles.disabled]: !!disabled,
     });
 
     const ariaAttribute = {};
@@ -114,6 +116,7 @@ class InputArea extends WixComponent {
             name={name}
             style={inlineStyle}
             defaultValue={defaultValue}
+            disabled={disabled}
             value={value}
             onFocus={this._onFocus}
             onBlur={this._onBlur}
@@ -136,7 +139,7 @@ class InputArea extends WixComponent {
           )}
         </div>
         <div className={styles.error}>
-          {error && (
+          {(error && !disabled) && (
             <Exclamation
               errorMessage={errorMessage}
               tooltipPlacement={tooltipPlacement}
@@ -272,6 +275,9 @@ InputArea.propTypes = {
 
   /** Default value for those who wants to use this component un-controlled */
   defaultValue: PropTypes.string,
+
+  /** Disables the input */
+  disabled: PropTypes.bool,
 
   /** Sets UI to erroneous */
   error: PropTypes.bool,

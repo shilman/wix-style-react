@@ -5,7 +5,7 @@ import { object, func } from 'prop-types';
 import WixComponent from '../BaseComponents/WixComponent';
 import Input from '../Input';
 
-import css from './color-picker-converter.scss';
+import css from './ColorPickerConverter.scss';
 
 export default class ColorPickerConverterHex extends WixComponent {
   static propTypes = {
@@ -31,6 +31,7 @@ export default class ColorPickerConverterHex extends WixComponent {
           onChange={this.change}
           onFocus={this.handleOnFocus}
           onBlur={this.handleOnBlur}
+          onKeyDown={this.handleKeyDown}
         />
       </div>
     );
@@ -64,6 +65,14 @@ export default class ColorPickerConverterHex extends WixComponent {
       inFocus: false,
       hex: this.props.current.hex(),
     });
+  };
+
+  handleKeyDown = event => {
+    const { key } = event;
+
+    if (key === 'Enter') {
+      this.props.onEnter();
+    }
   };
 }
 

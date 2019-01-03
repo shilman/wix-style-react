@@ -3,13 +3,13 @@ import color from 'color';
 import { object, string, func, bool, oneOfType, node } from 'prop-types';
 
 import WixComponent from '../BaseComponents/WixComponent';
-import ColorPickerHsb from './color-picker-hsb';
-import ColorPickerHue from './color-picker-hue';
-import ColorPickerHistory from './color-picker-history';
-import ColorPickerConverter from './color-picker-converter';
-import ColorPickerActions from './color-picker-actions';
+import ColorPickerHsb from './ColorPickerHsb';
+import ColorPickerHue from './ColorPickerHue';
+import ColorPickerHistory from './ColorPickerHistory';
+import ColorPickerConverter from './ColorPickerConverter';
+import ColorPickerActions from './ColorPickerActions';
 
-import css from './color-picker.scss';
+import css from './ColorPicker.scss';
 
 const FALLBACK_COLOR = color('#86c6e5');
 
@@ -66,8 +66,14 @@ export default class ColorPicker extends WixComponent {
   }
 
   render() {
-    const { showHistory, showInput, showConverter, children } = this.props;
+    const {
+      showHistory,
+      showInput,
+      showConverter,
+      children,
+    } = this.props;
     const { current, previous } = this.state;
+
     return (
       <div className={css.root}>
         <ColorPickerHsb current={current} onChange={this.change} />
@@ -79,10 +85,12 @@ export default class ColorPicker extends WixComponent {
           onClick={this.change}
         />
         <ColorPickerConverter
+          dataHook="color-picker-converter"
           showConverter={showConverter}
           showInput={showInput}
           current={current}
           onChange={this.change}
+          onEnter={this.confirm}
         />
         {children && <div className={css.children}>{children}</div>}
         <ColorPickerActions onConfirm={this.confirm} onCancel={this.cancel} />

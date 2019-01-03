@@ -120,6 +120,7 @@ $gap: 6px;
     @include ThemeHover($backgroundColor: $B50);
     @include ThemeFocus;
     @include ThemeError($borderColor: $paletteR1);
+    @include ThemeDisabled($D60, $D80, $D55);
   }
   &-paneltitle {
     @include ThemeDefault($color: white, $borderColor: $B30, $backgroundColor: rgba(22,45,61,0.6));

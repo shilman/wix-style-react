@@ -285,7 +285,10 @@ describe('MultiSelect', () => {
     driver.focus();
     inputDriver.trigger('paste');
     inputDriver.enterText(`${options[0].value}, Arkansa`);
-    expect(onChange).toBeCalledWith({ target: { value: '' } });
+    expect(onChange).toHaveBeenCalledTimes(3); // FIXME: should be 1
+    expect(onChange.mock.calls[0][0].target.value).toBe('');
+
+    expect(onSelect).toHaveBeenCalledTimes(1);
     const onSelectCallArgs = onSelect.mock.calls[0][0];
     expect(onSelectCallArgs[0]).toEqual({
       id: options[0].id,

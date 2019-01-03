@@ -9,7 +9,7 @@
 | borderRadius | number | 0 | - | Border radius of modal |
 | theme | blue, red, green | blue | - | |
 | isOpen | bool | - | + | Is the modal open or not |
-| contentLabel | string | - | + |  |
+| contentLabel | string | - | - | a11y: The value of contentLabel is set as an aria-label on the modal element. This helps assistive technology, like screen readers, to add a label to an element that would otherwise be anonymous |
 | maxHeight | string | - | - | maxHeight of modal(when it has scrollableContent) |
 | onCancel | func | - | - | Called when user presses the X on the top bar, or the cancel button on the footer |
 | zIndex | number | - | - |  |

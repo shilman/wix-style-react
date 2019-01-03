@@ -189,7 +189,7 @@ class Input extends Component {
               onIconClicked={onIconClicked}
               magnifyingGlass={magnifyingGlass}
               isClearButtonVisible={isClearButtonVisible}
-              onClear={this._onClear}
+              onClear={this.handleSuffixOnClear}
               menuArrow={menuArrow}
               unit={unit}
               focused={this.state.focus}
@@ -202,6 +202,11 @@ class Input extends Component {
       </div>
     );
   }
+
+  handleSuffixOnClear = e => {
+    this.focus();
+    this.clear(e);
+  };
 
   focus = (options = {}) => {
     this._onFocus();
@@ -282,17 +287,43 @@ class Input extends Component {
     }
   };
 
-  _onClear = e => {
+  /**
+   * Clears the input.
+   *
+   * Fires onChange ONLY if the input value was not empty.
+   * Then fires onClear.
+   *
+   * @param [Event] event and event to delegate to the onChange call. If no event is provided, a pseudo event object is created with only target.value
+   */
+  clear = event => {
     const { onClear } = this.props;
 
+    const prevValue = this.input.value;
     this.input.value = '';
 
-    e.target = {
-      ...e.target,
-      value: '',
-    };
-    this._onChange(e);
-    this.focus();
+    if (prevValue) {
+      if (!event) {
+        /* We cannot dispatch a proper new event,
+         * using this.input.dispatchEvent(new Event('change'))),
+         * because react listens only to SyntheticEvents.
+         * There is this react-trigger-changes library which is a hack for testing only (https://github.com/vitalyq/react-trigger-change).
+         * The solution of creating a new pseudo event object, works for passing along tha target.value, but e.preventDefault() and e.stopPropagation() won't work.
+         */
+        event = {
+          target: this.input,
+        };
+      }
+      /* FIXME: The event (e) could be any event type, and even it's target may not be the input.
+       * So it would be better to do e.target = this.input.
+       * We don't use `clear` in WSR except in InputWithTags which does not pass an event, so it's ok.
+       * But if some consumer is using <Input/> directly, then this might be a breaking change.
+       */
+      event.target = {
+        ...event.target,
+        value: '',
+      };
+      this._onChange(event);
+    }
 
     onClear && onClear();
   };

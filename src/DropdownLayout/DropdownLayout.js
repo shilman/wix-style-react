@@ -412,7 +412,7 @@ DropdownLayout.propTypes = {
   /** Callback function called whenever the user selects a different option in the list */
   onSelect: PropTypes.func,
   visible: PropTypes.bool,
-  /** Array of objects. Objects must have an Id and can can include value and node. If value is '-', a divider will be rendered instead  (dividers do not require and id). */
+  /** Array of objects. Objects must have an Id and can can include value and node. If value is '-', a divider will be rendered instead (dividers do not require and id). */
   options: PropTypes.arrayOf(
     PropTypes.oneOfType([
       PropTypes.shape({

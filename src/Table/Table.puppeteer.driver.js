@@ -3,6 +3,7 @@ const tableDriverFactory = async (component, page) => {
 
   return {
     element: () => component,
+    exists: async () => !!(await component),
     getCellTextValue: async (row = 0, column = 0) => {
       const cell = await tableContent.$(
         `[data-table-row]:nth-child(${row + 1}) td:nth-child(${column + 1})`,

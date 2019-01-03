@@ -1,9 +1,9 @@
 import React from 'react';
 import color from 'color';
 import { createDriverFactory } from 'wix-ui-test-utils/driver-factory';
-import colorPickerDriverFactory from './color-picker.driver';
+import colorPickerDriverFactory from './ColorPicker.driver.private';
 
-import ColorPicker from './color-picker';
+import ColorPicker from './ColorPicker';
 
 describe('ColorPicker', () => {
   const createDriver = createDriverFactory(colorPickerDriverFactory);
@@ -20,6 +20,25 @@ describe('ColorPicker', () => {
     createComponent({ value: '#000000', onChange, onCancel, onConfirm });
     expect(driver.exists()).toBeTruthy();
     expect(driver.historyPanelExists()).toBeFalsy();
+  });
+
+  it('should update the color after clicking Enter', () => {
+    const onChange = jest.fn();
+    const onCancel = jest.fn();
+    const onConfirm = jest.fn();
+    const sampleColor = '#000000';
+    const expectedColor = { color: [0, 0, 0], model: 'rgb', valpha: 1 };
+
+    createComponent({
+      value: '',
+      onChange,
+      onCancel,
+      onConfirm,
+    });
+    driver.typeValueOnHexInput(sampleColor);
+    driver.keyDownOnHexInput('Enter');
+
+    expect(onConfirm).toHaveBeenCalledWith(expectedColor);
   });
 
   describe('History', () => {

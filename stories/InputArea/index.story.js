@@ -9,9 +9,6 @@ import ExampleStandardRaw from '!raw-loader!./ExampleStandard';
 import ExampleError from './ExampleError';
 import ExampleErrorRaw from '!raw-loader!./ExampleError';
 
-import ExamplePaneltitleStyle from './ExamplePaneltitleStyle';
-import ExamplePaneltitleStyleRaw from '!raw-loader!./ExamplePaneltitleStyle';
-
 import ExampleControlled from './ExampleControlled';
 import ExampleControlledRaw from '!raw-loader!./ExampleControlled';
 
@@ -37,6 +34,7 @@ export default {
     theme: 'normal',
     hasCounter: false,
     resizable: false,
+    disabled: false,
   },
 
   examples: (
@@ -47,10 +45,6 @@ export default {
 
       <CodeExample title="Error" code={ExampleErrorRaw}>
         <ExampleError />
-      </CodeExample>
-
-      <CodeExample title="PaneltitleStyle" code={ExamplePaneltitleStyleRaw}>
-        <ExamplePaneltitleStyle />
       </CodeExample>
 
       <CodeExample title="Controlled input" code={ExampleControlledRaw}>

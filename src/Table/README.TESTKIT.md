@@ -51,6 +51,7 @@
 |--------|-----------|----------------|-------------|
 | element | - | element | returns the element |
 | getCellTextValue | number, number | string | get value of the cell |
+| exists | - | boolean | returns true if component exists |
 
 ## Usage Example
 

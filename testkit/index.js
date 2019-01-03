@@ -529,6 +529,12 @@ export const proportionTestkitFactory = uniTestkitFactoryCreator(
   proportionDriverFactory,
 );
 
+import { dropdownPopoverDriverFactory } from '../src/DropdownPopover/DropdownPopover.driver';
+
+export const dropdownPopoverTestkitFactory = uniTestkitFactoryCreator(
+  dropdownPopoverDriverFactory,
+);
+
 /*
  * Component generator test component
  */

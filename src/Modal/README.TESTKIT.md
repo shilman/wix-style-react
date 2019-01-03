@@ -13,7 +13,8 @@
 | isScrollable | - | boolean | true if the modal is scrollable |
 | clickOnOverlay | - | - | click on the modal overlay (helpful for testing if the modal is dismissed) |
 | exists | - | boolean | true if the modal is on the DOM |
-| setProps | json | element | returns a clone of this element with the new props from the json | 
+| setProps | json | element | returns a clone of this element with the new props from the json |
+| getContentLabel | - | string | returns the modal aria-label value as given in contentLabel property
 
 ## Usage
 

@@ -30,5 +30,10 @@ export default () => (
       <br />
       <InputArea placeholder="duyg" resizable />
     </div>
+    <div style={style}>
+      Disabled
+      <br />
+      <InputArea disabled value="Text which is disabled" />
+    </div>
   </div>
 );

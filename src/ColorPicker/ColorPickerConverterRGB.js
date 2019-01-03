@@ -6,9 +6,9 @@ import mapValues from '../utils/operators/mapValues';
 import WixComponent from '../BaseComponents/WixComponent';
 import Input from '../Input';
 
-import css from './color-picker-converter.scss';
+import css from './ColorPickerConverter.scss';
 
-export default class ColorPickerConverterRgb extends WixComponent {
+export default class ColorPickerConverterRGB extends WixComponent {
   static propTypes = {
     current: object.isRequired,
     onChange: func.isRequired,

@@ -11,7 +11,7 @@ class MultiSelect extends InputWithOptions {
     super(props);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onPaste = this.onPaste.bind(this);
-    this.state = { pasteDetected: false };
+    this.state = { ...this.state, pasteDetected: false };
   }
 
   hideOptions() {
@@ -81,9 +81,6 @@ class MultiSelect extends InputWithOptions {
         .map(str => str.trim())
         .filter(str => str);
 
-      this.clearInput();
-      this.setState({ pasteDetected: false });
-
       const suggestedOptions = tags.map(tag => {
         const tagObj = this.getUnselectedOptions().find(
           element =>
@@ -94,7 +91,14 @@ class MultiSelect extends InputWithOptions {
           : { id: uniqueId('customOption_'), value: tag, theme: 'error' };
       });
 
-      this.onSelect(suggestedOptions);
+      this.setState({ pasteDetected: false }, () => {
+        this.onSelect(suggestedOptions);
+        this.clearInput();
+      });
+    }
+    // If the input value is not empty, should show the options
+    if (event.target.value.trim()) {
+      this.showOptions();
     }
   }
 

@@ -24,6 +24,7 @@ const modalDriverFactory = ({ element }) => {
       ReactTestUtils.Simulate.click(button);
     },
     getContentStyle: () => getContent().style,
+    getContentLabel: () => getContent().getAttribute('aria-label'),
   };
 };
 
