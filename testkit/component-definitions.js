@@ -467,11 +467,6 @@ export default {
     skipTestkitSanity,
   },
 
-  TpaTextLink: {
-    enzymeTestkitPath: '../src/TPA/TextLink/TextLink.driver',
-    skipTestkitSanity,
-  },
-
   RadioButton: {
     enzymeTestkitPath: '../src/RadioGroup/RadioButton/RadioButton.driver',
     skipTestkitSanity,
