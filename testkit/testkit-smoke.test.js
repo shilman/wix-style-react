@@ -133,7 +133,7 @@ Object.keys({
     component: AllComponents[name],
   };
 
-  if (!definition.skipSanityTest) {
+  if (!definition.skipTestkitSanity) {
     const sanityAsserts = definition.unidriver
       ? UNIDRIVER_ASSERTS
       : DRIVER_ASSERTS;
