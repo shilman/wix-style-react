@@ -1,27 +1,29 @@
 /* eslint-disable no-console */
 import React from 'react';
 import MultiSelect from 'wix-style-react/MultiSelect';
-import Text from 'wix-style-react/Text';
 
-const contacts = [
-  { name: 'David Fincher', email: 'davidf@wix.com' },
-  { name: 'John Doe', email: 'johnd@wix.com' },
-  { name: 'Jane Martin', email: 'janem@wix.com' },
-  { name: 'David ', email: 'davidf@gmail.com' },
-  { name: 'John Doe', email: 'johnd@gmail.com' },
-  { name: 'Jane Martin', email: 'janem@gmail.com' },
+const countries = [
+  { name: 'Alabama', code: 'AL' },
+  { name: 'Alaska', code: 'AK' },
+  { name: 'Arizona', code: 'AZ' },
+  { name: 'Arkansas', code: 'AR' },
+  { name: 'California', code: 'CA' },
+  { name: 'North Carolina', code: 'NC' },
+  { name: 'Colorado', code: 'CO' },
+  { name: 'Connecticut', code: 'CT' },
+  { name: 'Delaware', code: 'DL' },
+  { name: 'Florida', code: 'FL' },
+  { name: 'Georgia', code: 'GA' },
+  { name: 'Hawaii', code: 'HI' },
+  { name: 'Idaho', code: 'IL' },
+  { name: 'Illinois', code: 'IN' },
+  { name: 'Indiana', code: 'IA' },
 ];
 
-export const options = contacts.map(contact => ({
-  ...contact,
-  value: (
-    <Text>
-      {contact.name + '  '}
-      <br />
-      <Text secondary>{contact.email}</Text>
-    </Text>
-  ),
-  id: contact.email,
+export const options = countries.map(country => ({
+  ...country,
+  value: country.name, // This can be any ReactNode
+  id: country.code,
 }));
 
 class ExampleSelectInput extends React.Component {
@@ -36,10 +38,10 @@ class ExampleSelectInput extends React.Component {
     };
   }
 
-  createTag({ name, email }) {
+  createTag({ countryName, countryCode }) {
     return {
-      id: String(this.nextId++),
-      label: name ? `${email} (${name})` : email,
+      id: countryCode, // When tag ids correspond to option ids, then MultiSelect will show only unselected options.
+      label: `${countryName} (${countryCode || '?'})`,
     };
   }
 
@@ -47,8 +49,8 @@ class ExampleSelectInput extends React.Component {
     console.log('onSelect(selectedOptions): selectedOptions=', selectedOptions);
     const tags = selectedOptions.map(option =>
       this.createTag({
-        name: option.name,
-        email: option.email,
+        countryName: option.name,
+        countryCode: option.code,
       }),
     );
     this.setState({ tags: [...this.state.tags, ...tags] });
@@ -68,7 +70,11 @@ class ExampleSelectInput extends React.Component {
 
   handleOnTagsAdded = values => {
     console.log(`onTagsAdded(values): values=${values}`);
-    const tags = values.map(value => this.createTag({ email: value }));
+    const tags = values.map(value =>
+      this.createTag({
+        countryName: value,
+      }),
+    );
     this.setState({ tags: [...this.state.tags, ...tags] });
   };
 
@@ -80,7 +86,7 @@ class ExampleSelectInput extends React.Component {
   render() {
     return (
       <MultiSelect
-        dataHook="multi-select-standard"
+        dataHook="multi-select-input"
         value={this.state.inputValue}
         onChange={this.handleOnChange}
         options={options}
