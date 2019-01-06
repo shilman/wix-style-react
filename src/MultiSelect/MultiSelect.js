@@ -17,7 +17,7 @@ class MultiSelect extends InputWithOptions {
   }
 
   _isNewCallbackApi() {
-    return this.props.onTagsAdded;
+    return this.props.upgrade;
   }
 
   hideOptions() {
@@ -259,12 +259,29 @@ MultiSelect.propTypes = {
    * Submit action triggers are: "Enter", "Tab", [typing any defined delimiters], Paste action.
    * The callback receives one argument which is an array of strings, which are the result of splitting the input value by the given delimiters */
   onTagsAdded: validatorWithSideEffect(PropTypes.func, (props, propName) => {
-    if (props[propName] && props['onManuallyInput']) {
+    if (props[propName] && !props['upgrade']) {
       deprecationLog(
-        `When 'onTagsAdded' is passed then 'isManuallyInput' will not be called. Please remove the 'isManuallyInput' prop.`,
+        `'onTagsAdded' is called only in new API. You should pass the 'upgrade' prop.`,
       );
     }
   }),
+  /** A callback which is called when the user selects an option from the list.
+   * The callback receives one argument which is an array of the newly selected option objects (Usually one).
+   * Each object is the original options object excluding the 'value' property.
+   * */
+  onSelect: PropTypes.func,
+  onManuallyInput: validatorWithSideEffect(
+    PropTypes.func,
+    (props, propName) => {
+      if (props[propName] && props['upgrade']) {
+        deprecationLog(
+          `When 'upgrade' is passed then 'onManuallyInput' will not be called. Please remove the 'onManuallyInput' prop.`,
+        );
+      }
+    },
+  ),
+  /** When true, then a new Callback API will be used. See latest documentation */
+  upgrade: PropTypes.bool,
 };
 
 MultiSelect.defaultProps = {

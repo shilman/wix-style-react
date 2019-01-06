@@ -8,8 +8,6 @@ import { mount } from 'enzyme';
 import { createRendererWithDriver, cleanup } from '../../test/utils/unit';
 import { depLogger } from '../utils/deprecationLog';
 
-const noop = () => {};
-
 describe('MultiSelect', () => {
   const render = createRendererWithDriver(multiSelectDriverFactory);
   const createDriver = jsx => render(jsx).driver;
@@ -354,12 +352,14 @@ describe('MultiSelect', () => {
   });
 
   describe('new API', () => {
+    const NewMultiSelect = props => <MultiSelect {...props} upgrade />;
+
     class ControlledMultiSelect extends React.Component {
       state = { inputValue: '' };
 
       render() {
         return (
-          <MultiSelect
+          <NewMultiSelect
             {...this.props}
             onChange={e => {
               this.setState({ inputValue: e.target.value });
@@ -373,15 +373,9 @@ describe('MultiSelect', () => {
     describe('onTagsAdded', () => {
       it('should have deprecationLog when onManuallyInput is also passed', () => {
         const depLogSpy = jest.spyOn(depLogger, 'log');
-        render(
-          <MultiSelect
-            options={options}
-            onManuallyInput={() => {}}
-            onTagsAdded={() => {}}
-          />,
-        );
+        render(<NewMultiSelect options={options} onManuallyInput={() => {}} />);
         expect(depLogSpy).toBeCalledWith(
-          `When 'onTagsAdded' is passed then 'isManuallyInput' will not be called. Please remove the 'isManuallyInput' prop.`,
+          `When 'upgrade' is passed then 'onManuallyInput' will not be called. Please remove the 'onManuallyInput' prop.`,
         );
         depLogSpy.mockRestore();
       });
@@ -412,7 +406,7 @@ describe('MultiSelect', () => {
             props,
             keyPressed,
             enteredText = 'custom value',
-            Component = MultiSelect,
+            Component = NewMultiSelect,
             expectOnTagsAddedToBeCalled = true,
           }) {
             const onManuallyInput = jest.fn();
@@ -486,7 +480,7 @@ describe('MultiSelect', () => {
           const onSelect = jest.fn();
           const onTagsAdded = jest.fn();
           const { driver, inputDriver } = createDriver(
-            <MultiSelect
+            <NewMultiSelect
               options={options}
               onSelect={onSelect}
               onTagsAdded={onTagsAdded}
@@ -547,20 +541,14 @@ describe('MultiSelect', () => {
       it('should be called when option clicked', () => {
         const onSelect = jest.fn();
         const onManuallyInput = jest.fn();
-        const onTagsAdded = jest.fn();
 
         const { driver, dropdownLayoutDriver } = createDriver(
-          <MultiSelect
-            options={options}
-            onSelect={onSelect}
-            onTagsAdded={noop}
-          />,
+          <NewMultiSelect options={options} onSelect={onSelect} />,
         );
         driver.pressKey('ArrowDown');
         dropdownLayoutDriver.clickAtOption(0);
 
         expect(onManuallyInput).toHaveBeenCalledTimes(0);
-        expect(onTagsAdded).toHaveBeenCalledTimes(0);
         expect(onSelect).toHaveBeenCalledTimes(1);
       });
 
@@ -568,12 +556,11 @@ describe('MultiSelect', () => {
         const onSelect = jest.fn();
 
         const { driver, dropdownLayoutDriver } = createDriver(
-          <MultiSelect
+          <NewMultiSelect
             options={[
               { id: '1', value: 'alabama', arbitraryPropName: { code: 'ALB' } },
             ]}
             onSelect={onSelect}
-            onTagsAdded={noop}
           />,
         );
         driver.pressKey('ArrowDown');
@@ -589,11 +576,7 @@ describe('MultiSelect', () => {
         const onSelect = jest.fn();
 
         const { driver } = createDriver(
-          <MultiSelect
-            options={options}
-            onSelect={onSelect}
-            onTagsAdded={noop}
-          />,
+          <NewMultiSelect options={options} onSelect={onSelect} />,
         );
         driver.pressKey('ArrowDown');
         driver.pressKey('ArrowDown');
@@ -607,7 +590,7 @@ describe('MultiSelect', () => {
         const onSelect = jest.fn();
 
         const { driver, inputDriver } = createDriver(
-          <ControlledMultiSelect onSelect={onSelect} onTagsAdded={noop} />,
+          <ControlledMultiSelect onSelect={onSelect} />,
         );
         inputDriver.enterText('foo');
         driver.outsideClick();
