@@ -10,6 +10,8 @@ import FormField from '../../src/FormField';
 
 import ExampleAppendTo from './examples/ExampleAppendTo';
 import ExampleInteractive from './examples/ExampleInteractive';
+import ExampleFlip from './examples/ExampleFlip';
+import ExampleFixed from './examples/ExampleFixed';
 
 import ExamplePositioning from './examples/ExamplePositioning';
 import ExamplePositioningRaw from '!raw-loader!./examples/ExamplePositioning';
@@ -89,6 +91,7 @@ export default {
     showArrow: true,
     animate: true,
     shown: false,
+    flip: true,
     placement: 'top',
     appendTo: 'window',
 
@@ -124,6 +127,14 @@ export default {
 
       <Example title="Interactive">
         <ExampleInteractive />
+      </Example>
+
+      <Example title="Flip behaviour">
+        <ExampleFlip />
+      </Example>
+
+      <Example title="Fixed behaviour">
+        <ExampleFixed />
       </Example>
     </div>
   ),

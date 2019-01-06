@@ -72,6 +72,30 @@ describe('Popover', () => {
         eyes.checkWindow(`${placements} position`);
       }
     });
+
+    eyes.it('Flip behaviour example', async () => {
+      await createDriver('story-popover-flip-behaviour');
+    });
+
+    eyes.it('Fixed behaviour example', async () => {
+      const dataHooks = [
+        'story-popover-fixed-enabled',
+        'story-popover-fixed-disabled',
+        'story-popover-fixed-disabled-flip-disabled',
+      ];
+
+      for (const dataHook of dataHooks) {
+        // Just to scroll to the element
+        await createDriver(dataHook);
+
+        // Scroll to the bottom of the container
+        await browser.executeScript(
+          `document.querySelector('[data-hook="${dataHook}"]').scrollTop = 50`,
+        );
+
+        eyes.checkWindow(`${dataHook} scrolled down`);
+      }
+    });
   });
 
   describe('test stories', () => {
