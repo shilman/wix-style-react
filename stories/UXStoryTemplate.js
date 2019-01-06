@@ -5,6 +5,8 @@ import Markdown from 'wix-storybook-utils/Markdown';
 import TextLink from 'wix-style-react/TextLink';
 import ChevronRight from 'wix-style-react/new-icons/ChevronRight';
 
+import { description } from 'wix-storybook-utils/Sections';
+
 export const Title = props => <Markdown source={`# ${props.children}`} />;
 Title.propTypes = {
   children: string,
@@ -80,3 +82,7 @@ export const ExamplesSection = ({ children }) => (
 ExamplesSection.propTypes = {
   children: any,
 };
+
+export function renderSection(children) {
+  return description({ text: children });
+}

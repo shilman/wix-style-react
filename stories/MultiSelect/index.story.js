@@ -10,6 +10,8 @@ import {
   testkit,
 } from 'wix-storybook-utils/Sections';
 
+import { renderSection, IncludedComponents } from '../UXStoryTemplate';
+
 import readmeApi from '../../src/MultiSelect/README.API.md';
 import playgroundStoryConfig from '../components/MultiSelect/MultiSelectPlaygroundConfig';
 
@@ -106,13 +108,14 @@ export default {
             'A component for selecting/creating multiple values, and displaying them as tags.',
         }),
 
+        renderSection(
+          <IncludedComponents componentNames={['MultiSelect', 'Tag']} />,
+        ),
         importExample({
           source: "import MultiSelect from 'wix-style-react/MultiSelect';",
         }),
 
-        description({
-          text: examples,
-        }),
+        renderSection(examples),
       ],
     }),
 
@@ -124,7 +127,7 @@ export default {
     tab({
       title: 'API',
       // Not using built-in api because we can not override props' description of InputWithOptions
-      sections: [description({ text: readmeApi })],
+      sections: [renderSection(readmeApi)],
     }),
 
     tab({
