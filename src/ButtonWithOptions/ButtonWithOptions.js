@@ -9,6 +9,12 @@ import ChevronDown from '../new-icons/ChevronDown';
 
 import styles from './ButtonWithOptions.scss';
 
+import deprecationLog from '../utils/deprecationLog';
+
+deprecationLog(
+  `Using "<ButtonWithOptions/>" is deprecated. Instead, we advise you to use the newer "<DropdownPopover/>" component. Please refer to it's documentation.`,
+);
+
 /**
  * A simple dropdown with button trigger
  *

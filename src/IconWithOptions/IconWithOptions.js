@@ -5,6 +5,12 @@ import DropdownLayout from '../DropdownLayout/DropdownLayout';
 import styles from './IconWithOptions.scss';
 import classNames from 'classnames';
 
+import deprecationLog from '../utils/deprecationLog';
+
+deprecationLog(
+  `Using "<IconWithOptions/>" is deprecated. Instead, we advise you to use the newer "<DropdownPopover/>" component. Please refer to it's documentation.`,
+);
+
 class IconWithOptions extends WixComponent {
   constructor(props) {
     super(props);

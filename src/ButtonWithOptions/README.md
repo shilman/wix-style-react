@@ -2,6 +2,10 @@
 
 > options component for Button. (Click to see in action)
 
+**The `<ButtonWithOptions/>` component is deprecated in will be removed in a later version if the
+library. Instead, we advise you to use the newer `<DropdownPopover/>` component which has a better
+positioning mechanism and supports keyboard navigation.**
+
 ## Properties
 
 | propName | propType | defaultValue | isRequired | description |
