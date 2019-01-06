@@ -2,48 +2,53 @@ import React from 'react';
 import CodeExample from 'wix-storybook-utils/CodeExample';
 import MultiSelect from '../../src/MultiSelect';
 
-import ExampleStandard from './ExampleStandard';
-import ExampleStandardRaw from '!raw-loader!./ExampleStandard';
+import ExampleSelectSimple from './ExampleSelectSimple';
+import ExampleSelectSimpleRaw from '!raw-loader!./ExampleSelectSimple';
 import ExampleSelectAutocomplete from './ExampleSelectAutocomplete';
 import ExampleSelectAutocompleteRaw from '!raw-loader!./ExampleSelectAutocomplete';
-import ExampleWithLimitedNumRows from './ExampleWithLimitedNumRows';
-import ExampleWithLimitedNumRowsRaw from '!raw-loader!./ExampleWithLimitedNumRows';
-import ExampleWithoutOptions from './ExampleWithoutOptions';
-import ExampleWithoutOptionsRaw from '!raw-loader!./ExampleWithoutOptions';
-import ExampleSimpleSelect from './ExampleSimpleSelect';
-import ExampleSimpleSelectRaw from '!raw-loader!./ExampleSimpleSelect';
-import ExampleWithError from './ExampleWithError';
-import ExampleWithErrorRaw from '!raw-loader!./ExampleWithError';
+import ExampleSelectInput from './ExampleSelectInput';
+import ExampleSelectInputRaw from '!raw-loader!./ExampleSelectInput';
+
+import ExampleSuggestions from './ExampleSuggestions';
+import ExampleSuggestionsRaw from '!raw-loader!./ExampleSuggestions';
+
+import ExampleTagsInput from './ExampleTagsInput';
+import ExampleTagsInputRaw from '!raw-loader!./ExampleTagsInput';
+
 import ExampleReorderable from './ExampleReorderable';
 import ExampleReorderableRaw from '!raw-loader!./ExampleReorderable';
 
-import styles from './story.scss';
+import ExampleWithError from './ExampleWithError';
+import ExampleWithErrorRaw from '!raw-loader!./ExampleWithError';
+
 import { storySettings } from './storySettings';
 import { AutoExampleWrapper } from '../AutoExampleWrapper';
 
-const options = [
-  { value: 'Alabama', id: 'Alabama' },
-  { value: 'Alaska', id: 'Alaska' },
-  {
-    value: (
-      <div className={styles.option}>
-        <div>Arizona</div>
-        <div className={styles.thumb} />
-      </div>
-    ),
-    id: 'Arizona',
-    tag: { label: 'Arizona', thumb: <div className={styles.thumb} /> },
-  },
-  { value: 'Arkansas', id: 'Arkansas', tag: { label: 'Ark.' } },
-  { value: 'California', id: 'California' },
-  { value: 'California2', id: 'California2' },
-  { value: 'California3', id: 'California3' },
-  { value: 'California4', id: 'California4' },
-  { value: 'California5', id: 'California5' },
-  { value: 'California6', id: 'California6' },
-  { value: 'California7', id: 'California7' },
-  { value: 'Two words', id: 'Two words' },
+import styles from './styles.scss';
+
+const countries = [
+  { name: 'Alabama', code: 'AL' },
+  { name: 'Alaska', code: 'AK' },
+  { name: 'Arizona', code: 'AZ' },
+  { name: 'Arkansas', code: 'AR' },
+  { name: 'California', code: 'CA' },
+  { name: 'North Carolina', code: 'NC' },
+  { name: 'Colorado', code: 'CO' },
+  { name: 'Connecticut', code: 'CT' },
+  { name: 'Delaware', code: 'DL' },
+  { name: 'Florida', code: 'FL' },
+  { name: 'Georgia', code: 'GA' },
+  { name: 'Hawaii', code: 'HI' },
+  { name: 'Idaho', code: 'IL' },
+  { name: 'Illinois', code: 'IN' },
+  { name: 'Indiana', code: 'IA' },
 ];
+
+export const options = countries.map(country => ({
+  ...country,
+  value: country.name, // This can be any ReactNode
+  id: country.code,
+}));
 
 const valueParser = option => (option.tag ? option.tag.label : option.value);
 
@@ -85,9 +90,9 @@ export default {
     <div>
       <h1>Examples</h1>
 
-      <CodeExample title="Simple Select" code={ExampleSimpleSelectRaw}>
-        <div style={{ maxWidth: 720 }}>
-          <ExampleSimpleSelect />
+      <CodeExample title="Select (Simple)" code={ExampleSelectSimpleRaw}>
+        <div className={styles.exampleContainer}>
+          <ExampleSelectSimple />
         </div>
       </CodeExample>
 
@@ -95,43 +100,43 @@ export default {
         title="Select + Autocomplete"
         code={ExampleSelectAutocompleteRaw}
       >
-        <div style={{ maxWidth: 720 }}>
+        <div className={styles.exampleContainer}>
           <ExampleSelectAutocomplete />
         </div>
       </CodeExample>
 
       <CodeExample
-        title="Select + Autocomplete + Allow New Tags"
-        code={ExampleStandardRaw}
+        title="Select Input (Autocomplete + Allow New Tags)"
+        code={ExampleSelectInputRaw}
       >
-        <div style={{ maxWidth: 720 }}>
-          <ExampleStandard />
+        <div className={styles.exampleContainer}>
+          <ExampleSelectInput />
         </div>
       </CodeExample>
 
       <CodeExample
-        title="New Tags Only (No options)"
-        code={ExampleWithoutOptionsRaw}
+        title="Suggest + Allow New Tags"
+        code={ExampleSuggestionsRaw}
       >
-        <div style={{ maxWidth: 720 }}>
-          <ExampleWithoutOptions />
+        <div className={styles.exampleContainer}>
+          <ExampleSuggestions />
+        </div>
+      </CodeExample>
+
+      <CodeExample title="Tags Input (No options)" code={ExampleTagsInputRaw}>
+        <div className={styles.exampleContainer}>
+          <ExampleTagsInput />
         </div>
       </CodeExample>
 
       <CodeExample title="Reorderable" code={ExampleReorderableRaw}>
-        <div style={{ maxWidth: 720 }}>
+        <div className={styles.exampleContainer}>
           <ExampleReorderable />
         </div>
       </CodeExample>
-
-      <CodeExample title="Limited num rows" code={ExampleWithLimitedNumRowsRaw}>
-        <div style={{ maxWidth: 720 }}>
-          <ExampleWithLimitedNumRows />
-        </div>
-      </CodeExample>
-
+      <h2>Presentation</h2>
       <CodeExample title="With Error message" code={ExampleWithErrorRaw}>
-        <div style={{ maxWidth: 720 }}>
+        <div className={styles.exampleContainer}>
           <ExampleWithError />
         </div>
       </CodeExample>

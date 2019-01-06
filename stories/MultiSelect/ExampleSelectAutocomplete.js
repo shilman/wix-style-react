@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import React from 'react';
 import MultiSelect from 'wix-style-react/MultiSelect';
-import styles from './ExampleStandard.scss';
 
 const ARBITRARY_FUNCTION_TO_ENABLE_NEW_API = () => {};
 
@@ -77,21 +76,17 @@ class ExampleSelectAutocomplete extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className={styles.main}>
-          <MultiSelect
-            dataHook="multi-select-only"
-            value={this.state.inputValue}
-            onChange={this.handleOnChange}
-            options={options}
-            tags={this.state.tags}
-            onSelect={this.handleOnSelect}
-            onRemoveTag={this.handleOnRemoveTag}
-            predicate={this.predicate}
-            onTagsAdded={ARBITRARY_FUNCTION_TO_ENABLE_NEW_API}
-          />
-        </div>
-      </div>
+      <MultiSelect
+        dataHook="multi-select-only"
+        value={this.state.inputValue}
+        onChange={this.handleOnChange}
+        options={options}
+        tags={this.state.tags}
+        onSelect={this.handleOnSelect}
+        onRemoveTag={this.handleOnRemoveTag}
+        predicate={this.predicate}
+        onTagsAdded={ARBITRARY_FUNCTION_TO_ENABLE_NEW_API}
+      />
     );
   }
 }

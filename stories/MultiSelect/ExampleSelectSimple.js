@@ -1,6 +1,6 @@
+/* eslint-disable no-console */
 import React from 'react';
 import MultiSelect from 'wix-style-react/MultiSelect';
-import styles from './ExampleStandard.scss';
 
 const ARBITRARY_FUNCTION_TO_ENABLE_NEW_API = () => {};
 
@@ -28,7 +28,7 @@ export const options = countries.map(country => ({
   id: country.code,
 }));
 
-class ExampleSimpleSelect extends React.Component {
+class ExampleSelectSimple extends React.Component {
   constructor(props) {
     super(props);
 
@@ -46,6 +46,7 @@ class ExampleSimpleSelect extends React.Component {
   }
 
   handleOnSelect = selectedOptions => {
+    console.log('onSelect(selectedOptions): selectedOptions=', selectedOptions);
     const tags = selectedOptions.map(option =>
       this.createTag({
         countryName: option.name,
@@ -62,19 +63,16 @@ class ExampleSimpleSelect extends React.Component {
 
   render() {
     return (
-      <div className={styles.main}>
-        <MultiSelect
-          mode="select"
-          tags={this.state.tags}
-          onSelect={this.handleOnSelect}
-          onRemoveTag={this.handleOnRemoveTag}
-          options={this.state.options}
-          onTagsAdded={ARBITRARY_FUNCTION_TO_ENABLE_NEW_API}
-          maxNumRows={2}
-        />
-      </div>
+      <MultiSelect
+        mode="select"
+        tags={this.state.tags}
+        onSelect={this.handleOnSelect}
+        onRemoveTag={this.handleOnRemoveTag}
+        options={this.state.options}
+        onTagsAdded={ARBITRARY_FUNCTION_TO_ENABLE_NEW_API}
+      />
     );
   }
 }
 
-export default ExampleSimpleSelect;
+export default ExampleSelectSimple;

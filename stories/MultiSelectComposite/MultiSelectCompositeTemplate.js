@@ -5,7 +5,23 @@ import reactElementToJSXString from 'react-element-to-jsx-string';
 import MultiSelectComposite from '../../src/MultiSelectComposite';
 import MultiSelect from '../../src/MultiSelect';
 import Label from '../../src/Label';
-import { options, valueParser } from '../MultiSelect/ExampleStandard';
+
+const options = [
+  { value: 'Alabama', id: 'Alabama' },
+  { value: 'Alaska', id: 'Alaska' },
+  { value: 'Arizona', id: 'Arizona' },
+  { value: 'Arkansas', id: 'Arkansas', tag: { label: 'Ark.' } },
+  { value: 'California', id: 'California' },
+  { value: 'California2', id: 'California2' },
+  { value: 'California3', id: 'California3' },
+  { value: 'California4', id: 'California4' },
+  { value: 'California5', id: 'California5' },
+  { value: 'California6', id: 'California6' },
+  { value: 'California7', id: 'California7' },
+  { value: 'Two words', id: 'Two words' },
+];
+
+const valueParser = option => (option.tag ? option.tag.label : option.value);
 
 export default class Form extends Component {
   static propTypes = {

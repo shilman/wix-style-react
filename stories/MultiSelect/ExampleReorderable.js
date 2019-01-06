@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import React from 'react';
 import MultiSelect from 'wix-style-react/MultiSelect';
-import styles from './ExampleStandard.scss';
 
 const ARBITRARY_FUNCTION_TO_ENABLE_NEW_API = () => {};
 
@@ -41,32 +40,24 @@ class ExampleReorderable extends React.Component {
   render() {
     const { tags } = this.state;
     return (
-      <div>
-        <div className={styles.main}>
-          <MultiSelect
-            dataHook="multi-select-reorderable"
-            tags={this.state.tags}
-            onSelect={this.handleOnSelect}
-            onRemoveTag={this.handleOnRemoveTag}
-            onReorder={({ addedIndex, removedIndex }) => {
-              const nextTags = tags.slice();
-              nextTags.splice(
-                addedIndex,
-                0,
-                ...nextTags.splice(removedIndex, 1),
-              );
-              this.setState({
-                tags: nextTags,
-              });
-            }}
-            value={this.state.inputValue}
-            onChange={this.handleOnChange}
-            options={options}
-            mode="select"
-            onTagsAdded={ARBITRARY_FUNCTION_TO_ENABLE_NEW_API}
-          />
-        </div>
-      </div>
+      <MultiSelect
+        dataHook="multi-select-reorderable"
+        tags={this.state.tags}
+        onSelect={this.handleOnSelect}
+        onRemoveTag={this.handleOnRemoveTag}
+        onReorder={({ addedIndex, removedIndex }) => {
+          const nextTags = tags.slice();
+          nextTags.splice(addedIndex, 0, ...nextTags.splice(removedIndex, 1));
+          this.setState({
+            tags: nextTags,
+          });
+        }}
+        value={this.state.inputValue}
+        onChange={this.handleOnChange}
+        options={options}
+        mode="select"
+        onTagsAdded={ARBITRARY_FUNCTION_TO_ENABLE_NEW_API}
+      />
     );
   }
 }

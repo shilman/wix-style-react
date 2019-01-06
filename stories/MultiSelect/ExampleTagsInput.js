@@ -1,9 +1,8 @@
 /* eslint-disable no-console */
 import React from 'react';
 import MultiSelect from 'wix-style-react/MultiSelect';
-import styles from './ExampleStandard.scss';
 
-class ExampleStandard extends React.Component {
+class ExampleTagsInput extends React.Component {
   nextId = 0;
 
   constructor(props) {
@@ -38,20 +37,16 @@ class ExampleStandard extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className={styles.main}>
-          <MultiSelect
-            dataHook="multi-select-standard"
-            value={this.state.inputValue}
-            onChange={this.handleOnChange}
-            tags={this.state.tags}
-            onTagsAdded={this.handleOnTagsAdded}
-            onRemoveTag={this.handleOnRemoveTag}
-          />
-        </div>
-      </div>
+      <MultiSelect
+        dataHook="multi-select-standard"
+        value={this.state.inputValue}
+        onChange={this.handleOnChange}
+        tags={this.state.tags}
+        onTagsAdded={this.handleOnTagsAdded}
+        onRemoveTag={this.handleOnRemoveTag}
+      />
     );
   }
 }
 
-export default ExampleStandard;
+export default ExampleTagsInput;

@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import React from 'react';
 import MultiSelect from 'wix-style-react/MultiSelect';
-import styles from './ExampleStandard.scss';
 import Text from 'wix-style-react/Text';
 
 const contacts = [
@@ -25,7 +24,7 @@ export const options = contacts.map(contact => ({
   id: contact.email,
 }));
 
-class ExampleStandard extends React.Component {
+class ExampleSelectInput extends React.Component {
   nextId = 0;
 
   constructor(props) {
@@ -80,23 +79,19 @@ class ExampleStandard extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className={styles.main}>
-          <MultiSelect
-            dataHook="multi-select-standard"
-            value={this.state.inputValue}
-            onChange={this.handleOnChange}
-            options={options}
-            tags={this.state.tags}
-            onTagsAdded={this.handleOnTagsAdded}
-            onSelect={this.handleOnSelect}
-            onRemoveTag={this.handleOnRemoveTag}
-            predicate={this.predicate}
-          />
-        </div>
-      </div>
+      <MultiSelect
+        dataHook="multi-select-standard"
+        value={this.state.inputValue}
+        onChange={this.handleOnChange}
+        options={options}
+        tags={this.state.tags}
+        onTagsAdded={this.handleOnTagsAdded}
+        onSelect={this.handleOnSelect}
+        onRemoveTag={this.handleOnRemoveTag}
+        predicate={this.predicate}
+      />
     );
   }
 }
 
-export default ExampleStandard;
+export default ExampleSelectInput;
