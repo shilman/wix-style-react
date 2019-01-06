@@ -106,7 +106,12 @@ import './Avatar/Avatar.story'; // 12.6 Avatar
 import './Highlighter.story.js'; // Highlighter
 
 // Components API
+import './CalendarPanel/index.story';
+import './CardGalleryItem/CardGalleryItem.story';
+import './Carousel/index.story.js';
+import './Collapse.story';
 import './components/Dropdown/Dropdown.story.js';
+import './DropdownPopover/index.story';
 import './FormField/FormField.story.js';
 import './GenericModalLayout/GenericModalLayout.story.js';
 import './Heading/index.story';
@@ -114,15 +119,11 @@ import './Input';
 import './InputArea/index.story.js';
 import './Layout/index.story.js';
 import './Layout';
-import './Text/index.story';
-import './Skeleton.story.js';
-import './Collapse.story';
+import './components/MultiSelect/index.story';
 import './Popover/index.story';
-import './DropdownPopover/index.story';
-import './CardGalleryItem/CardGalleryItem.story';
-import './Carousel/index.story.js';
-import './CalendarPanel/index.story';
 import './Proportion/index.story.js';
+import './Skeleton.story.js';
+import './Text/index.story';
 
 // Styling
 import './Typography/TypographyClassesStory';

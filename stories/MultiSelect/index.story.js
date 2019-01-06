@@ -2,6 +2,17 @@ import React from 'react';
 import CodeExample from 'wix-storybook-utils/CodeExample';
 import MultiSelect from '../../src/MultiSelect';
 
+import {
+  tab,
+  importExample,
+  description,
+  playground,
+  testkit,
+} from 'wix-storybook-utils/Sections';
+
+import readmeApi from '../../src/MultiSelect/README.API.md';
+import playgroundStoryConfig from '../components/MultiSelect/MultiSelectPlaygroundConfig';
+
 import ExampleSelectSimple from './ExampleSelectSimple';
 import ExampleSelectSimpleRaw from '!raw-loader!./ExampleSelectSimple';
 import ExampleSelectAutocomplete from './ExampleSelectAutocomplete';
@@ -26,139 +37,99 @@ import { AutoExampleWrapper } from '../AutoExampleWrapper';
 
 import styles from './styles.scss';
 
-const countries = [
-  { name: 'Alabama', code: 'AL' },
-  { name: 'Alaska', code: 'AK' },
-  { name: 'Arizona', code: 'AZ' },
-  { name: 'Arkansas', code: 'AR' },
-  { name: 'California', code: 'CA' },
-  { name: 'North Carolina', code: 'NC' },
-  { name: 'Colorado', code: 'CO' },
-  { name: 'Connecticut', code: 'CT' },
-  { name: 'Delaware', code: 'DL' },
-  { name: 'Florida', code: 'FL' },
-  { name: 'Georgia', code: 'GA' },
-  { name: 'Hawaii', code: 'HI' },
-  { name: 'Idaho', code: 'IL' },
-  { name: 'Illinois', code: 'IN' },
-  { name: 'Indiana', code: 'IA' },
-];
+const examples = (
+  <div>
+    <h1>Examples</h1>
 
-export const options = countries.map(country => ({
-  ...country,
-  value: country.name, // This can be any ReactNode
-  id: country.code,
-}));
+    <CodeExample title="Select (Simple)" code={ExampleSelectSimpleRaw}>
+      <div className={styles.exampleContainer}>
+        <ExampleSelectSimple />
+      </div>
+    </CodeExample>
 
-let nextTagId = 1;
+    <CodeExample
+      title="Select + Autocomplete"
+      code={ExampleSelectAutocompleteRaw}
+    >
+      <div className={styles.exampleContainer}>
+        <ExampleSelectAutocomplete />
+      </div>
+    </CodeExample>
 
-function createTag({ countryName, countryCode }) {
-  return {
-    id: countryCode || String(nextTagId++), // When tag ids correspond to option ids, then MultiSelect will show only unselected options.
-    label: `${countryName} (${countryCode || '?'})`,
-  };
-}
+    <CodeExample
+      title="Select Input (Autocomplete + Allow New Tags)"
+      code={ExampleSelectInputRaw}
+    >
+      <div className={styles.exampleContainer}>
+        <ExampleSelectInput />
+      </div>
+    </CodeExample>
+
+    <CodeExample title="Suggest + Allow New Tags" code={ExampleSuggestionsRaw}>
+      <div className={styles.exampleContainer}>
+        <ExampleSuggestions />
+      </div>
+    </CodeExample>
+
+    <CodeExample title="Tags Input (No options)" code={ExampleTagsInputRaw}>
+      <div className={styles.exampleContainer}>
+        <ExampleTagsInput />
+      </div>
+    </CodeExample>
+
+    <CodeExample title="Reorderable" code={ExampleReorderableRaw}>
+      <div className={styles.exampleContainer}>
+        <ExampleReorderable />
+      </div>
+    </CodeExample>
+    <h2>Presentation</h2>
+    <CodeExample title="With Error message" code={ExampleWithErrorRaw}>
+      <div className={styles.exampleContainer}>
+        <ExampleWithError />
+      </div>
+    </CodeExample>
+  </div>
+);
 
 export default {
   category: storySettings.category,
   storyName: storySettings.storyName,
   component: MultiSelect,
   componentPath: '../../src/MultiSelect',
-  componentWrapper: AutoExampleWrapper,
-  componentProps: (setState, getState) => ({
-    dataHook: storySettings.dataHook,
-    value: '',
-    tags: [],
-    options,
-
-    predicate: option => {
-      return option.name.toLowerCase().includes(getState().value.toLowerCase());
-    },
-
-    onChange: e => setState({ value: e.target.value }),
-
-    onSelect: _options => {
-      setState({
-        tags: [
-          ...getState().tags,
-          ..._options.map(option =>
-            createTag({ countryName: option.name, countryCode: option.code }),
-          ),
-        ],
-      });
-    },
-    onTagsAdded: values => {
-      const tags = values.map(value =>
-        createTag({
-          countryName: value,
+  ...playgroundStoryConfig,
+  sections: [
+    tab({
+      title: 'Description',
+      sections: [
+        description({
+          text:
+            'A component for selecting/creating multiple values, and displaying them as tags.',
         }),
-      );
-      const currentTags = getState().tags;
-      const newTags = currentTags.concat(tags);
-      // FIXME: This doesn't seem to work )-:
-      setState({ tags: newTags });
-    },
-    onRemoveTag: tagId =>
-      setState({
-        tags: getState().tags.filter(currTag => currTag.id !== tagId),
-      }),
-    upgrade: true,
-  }),
 
-  examples: (
-    <div>
-      <h1>Examples</h1>
+        importExample({
+          source: "import MultiSelect from 'wix-style-react/MultiSelect';",
+        }),
 
-      <CodeExample title="Select (Simple)" code={ExampleSelectSimpleRaw}>
-        <div className={styles.exampleContainer}>
-          <ExampleSelectSimple />
-        </div>
-      </CodeExample>
+        description({
+          text: examples,
+        }),
+      ],
+    }),
 
-      <CodeExample
-        title="Select + Autocomplete"
-        code={ExampleSelectAutocompleteRaw}
-      >
-        <div className={styles.exampleContainer}>
-          <ExampleSelectAutocomplete />
-        </div>
-      </CodeExample>
+    tab({
+      title: 'Playground',
+      sections: [playground()],
+    }),
 
-      <CodeExample
-        title="Select Input (Autocomplete + Allow New Tags)"
-        code={ExampleSelectInputRaw}
-      >
-        <div className={styles.exampleContainer}>
-          <ExampleSelectInput />
-        </div>
-      </CodeExample>
+    tab({
+      title: 'API',
+      // Not using built-in api because we can not override props' description of InputWithOptions
+      sections: [description({ text: readmeApi })],
+    }),
 
-      <CodeExample
-        title="Suggest + Allow New Tags"
-        code={ExampleSuggestionsRaw}
-      >
-        <div className={styles.exampleContainer}>
-          <ExampleSuggestions />
-        </div>
-      </CodeExample>
-
-      <CodeExample title="Tags Input (No options)" code={ExampleTagsInputRaw}>
-        <div className={styles.exampleContainer}>
-          <ExampleTagsInput />
-        </div>
-      </CodeExample>
-
-      <CodeExample title="Reorderable" code={ExampleReorderableRaw}>
-        <div className={styles.exampleContainer}>
-          <ExampleReorderable />
-        </div>
-      </CodeExample>
-      <h2>Presentation</h2>
-      <CodeExample title="With Error message" code={ExampleWithErrorRaw}>
-        <div className={styles.exampleContainer}>
-          <ExampleWithError />
-        </div>
-      </CodeExample>
-    </div>
-  ),
+    tab({
+      title: 'Testkit',
+      sections: [testkit()],
+    }),
+  ],
 };
