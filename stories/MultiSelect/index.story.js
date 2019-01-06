@@ -10,7 +10,12 @@ import {
   testkit,
 } from 'wix-storybook-utils/Sections';
 
-import { renderSection, IncludedComponents } from '../UXStoryTemplate';
+import {
+  renderSection,
+  IncludedComponents,
+  Title,
+  SubTitle,
+} from '../UXStoryTemplate';
 
 import readmeApi from '../../src/MultiSelect/README.API.md';
 import playgroundStoryConfig from '../components/MultiSelect/MultiSelectPlaygroundConfig';
@@ -31,8 +36,8 @@ import ExampleTagsInputRaw from '!raw-loader!./ExampleTagsInput';
 import ExampleReorderable from './ExampleReorderable';
 import ExampleReorderableRaw from '!raw-loader!./ExampleReorderable';
 
-import ExampleWithError from './ExampleWithError';
-import ExampleWithErrorRaw from '!raw-loader!./ExampleWithError';
+import ExamplePresentation from './ExamplePresentation';
+import ExamplePresentationRaw from '!raw-loader!./ExamplePresentation';
 
 import { storySettings } from './storySettings';
 import { AutoExampleWrapper } from '../AutoExampleWrapper';
@@ -41,8 +46,8 @@ import styles from './styles.scss';
 
 const examples = (
   <div>
-    <h1>Examples</h1>
-
+    <Title>Examples</Title>
+    <SubTitle>Bihavior</SubTitle>
     <CodeExample title="Select (Simple)" code={ExampleSelectSimpleRaw}>
       <div className={styles.exampleContainer}>
         <ExampleSelectSimple />
@@ -84,10 +89,10 @@ const examples = (
         <ExampleReorderable />
       </div>
     </CodeExample>
-    <h2>Presentation</h2>
-    <CodeExample title="With Error message" code={ExampleWithErrorRaw}>
+
+    <CodeExample title="Presentation" code={ExamplePresentationRaw}>
       <div className={styles.exampleContainer}>
-        <ExampleWithError />
+        <ExamplePresentation />
       </div>
     </CodeExample>
   </div>
