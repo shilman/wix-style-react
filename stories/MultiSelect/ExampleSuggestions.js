@@ -89,6 +89,7 @@ class ExampleSuggestions extends React.Component {
         onSelect={this.handleOnSelect}
         onRemoveTag={this.handleOnRemoveTag}
         predicate={this.predicate}
+        upgrade
       />
     );
   }

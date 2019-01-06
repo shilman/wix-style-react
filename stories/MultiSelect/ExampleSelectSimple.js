@@ -2,8 +2,6 @@
 import React from 'react';
 import MultiSelect from 'wix-style-react/MultiSelect';
 
-const ARBITRARY_FUNCTION_TO_ENABLE_NEW_API = () => {};
-
 const countries = [
   { name: 'Alabama', code: 'AL' },
   { name: 'Alaska', code: 'AK' },
@@ -69,7 +67,7 @@ class ExampleSelectSimple extends React.Component {
         onSelect={this.handleOnSelect}
         onRemoveTag={this.handleOnRemoveTag}
         options={this.state.options}
-        onTagsAdded={ARBITRARY_FUNCTION_TO_ENABLE_NEW_API}
+        upgrade
       />
     );
   }

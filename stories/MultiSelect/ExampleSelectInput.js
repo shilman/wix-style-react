@@ -27,7 +27,7 @@ export const options = countries.map(country => ({
 }));
 
 class ExampleSelectInput extends React.Component {
-  nextId = 0;
+  nextTagId = 0;
 
   constructor(props) {
     super(props);
@@ -40,7 +40,7 @@ class ExampleSelectInput extends React.Component {
 
   createTag({ countryName, countryCode }) {
     return {
-      id: countryCode, // When tag ids correspond to option ids, then MultiSelect will show only unselected options.
+      id: countryCode || String(this.nextTagId++), // When tag ids correspond to option ids, then MultiSelect will show only unselected options.
       label: `${countryName} (${countryCode || '?'})`,
     };
   }
@@ -95,6 +95,7 @@ class ExampleSelectInput extends React.Component {
         onSelect={this.handleOnSelect}
         onRemoveTag={this.handleOnRemoveTag}
         predicate={this.predicate}
+        upgrade
       />
     );
   }

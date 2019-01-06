@@ -50,7 +50,14 @@ export const options = countries.map(country => ({
   id: country.code,
 }));
 
-const valueParser = option => (option.tag ? option.tag.label : option.value);
+let nextTagId = 1;
+
+function createTag({ countryName, countryCode }) {
+  return {
+    id: countryCode || String(nextTagId++), // When tag ids correspond to option ids, then MultiSelect will show only unselected options.
+    label: `${countryName} (${countryCode || '?'})`,
+  };
+}
 
 export default {
   category: storySettings.category,
@@ -65,25 +72,37 @@ export default {
     options,
 
     predicate: option => {
-      return valueParser(option)
-        .toLowerCase()
-        .includes(getState().value.toLowerCase());
+      return option.name.toLowerCase().includes(getState().value.toLowerCase());
     },
-
-    valueParser,
 
     onChange: e => setState({ value: e.target.value }),
 
-    onSelect: tags => {
-      Array.isArray(tags)
-        ? setState({ tags: [...getState().tags, ...tags] })
-        : setState({ tags: [...getState().tags, tags] });
+    onSelect: _options => {
+      setState({
+        tags: [
+          ...getState().tags,
+          ..._options.map(option =>
+            createTag({ countryName: option.name, countryCode: option.code }),
+          ),
+        ],
+      });
     },
-
+    onTagsAdded: values => {
+      const tags = values.map(value =>
+        createTag({
+          countryName: value,
+        }),
+      );
+      const currentTags = getState().tags;
+      const newTags = currentTags.concat(tags);
+      // FIXME: This doesn't seem to work )-:
+      setState({ tags: newTags });
+    },
     onRemoveTag: tagId =>
       setState({
         tags: getState().tags.filter(currTag => currTag.id !== tagId),
       }),
+    upgrade: true,
   }),
 
   examples: (

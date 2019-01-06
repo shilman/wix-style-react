@@ -2,8 +2,6 @@
 import React from 'react';
 import MultiSelect from 'wix-style-react/MultiSelect';
 
-const ARBITRARY_FUNCTION_TO_ENABLE_NEW_API = () => {};
-
 export const options = [
   { id: '1', name: 'One', value: 'One' },
   { id: '2', name: 'Two', value: 'Two' },
@@ -41,6 +39,7 @@ class ExampleReorderable extends React.Component {
     const { tags } = this.state;
     return (
       <MultiSelect
+        mode="select"
         dataHook="multi-select-reorderable"
         tags={this.state.tags}
         onSelect={this.handleOnSelect}
@@ -55,8 +54,7 @@ class ExampleReorderable extends React.Component {
         value={this.state.inputValue}
         onChange={this.handleOnChange}
         options={options}
-        mode="select"
-        onTagsAdded={ARBITRARY_FUNCTION_TO_ENABLE_NEW_API}
+        upgrade
       />
     );
   }

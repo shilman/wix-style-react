@@ -44,6 +44,7 @@ class ExampleTagsInput extends React.Component {
         tags={this.state.tags}
         onTagsAdded={this.handleOnTagsAdded}
         onRemoveTag={this.handleOnRemoveTag}
+        upgrade
       />
     );
   }
