@@ -90,8 +90,8 @@ class Popover extends React.Component {
 
     return (
       <CorePopover
-        data-hook={dataHook}
         timeout={timeout}
+        {...(dataHook ? { 'data-hook': dataHook } : undefined)}
         {...rest}
         {...style(
           'root',
