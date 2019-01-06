@@ -20,7 +20,7 @@ Types of changes:
 #### Added
 
 - `<ColorPicker/>` - trigger confirmation callback when pressing Enter [#2683](https://github.com/wix/wix-style-react/pull/2683)
-
+- `<DropdownLayout/>` - add infinite scroll support [#2712](https://github.com/wix/wix-style-react/pull/2712)
 
 ### Fixed
 
@@ -31,7 +31,6 @@ Types of changes:
 ### Changed
 
 - Drivers Cleanup - Remove `setProps` from ALL drivers [#2687](https://github.com/wix/wix-style-react/pull/2687)
-- Extract `postbuild` - Fix build so that `import-path` and `copy-public-styles` are at `postbuild` [#2690](https://github.com/wix/wix-style-react/pull/2690)
 
 ### Lab
 
