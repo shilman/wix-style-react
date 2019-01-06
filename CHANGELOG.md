@@ -26,6 +26,7 @@ Types of changes:
 
 - `<MultiSelect/>` - Fix scenario when options are not shown when input is non empty [#2696](https://github.com/wix/wix-style-react/pull/2696)
 - `<MultiSelect/>` - Fix onBlur to have a valid `event.target.value` [#2695](https://github.com/wix/wix-style-react/pull/2695)
+- `<DatePicker/>` - Fixed Calendar Not Closing When Wrapped In `<label/>` tag. [#2590](https://github.com/wix/wix-style-react/pull/2590)
 
 ### Changed
 
