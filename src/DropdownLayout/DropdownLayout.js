@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import WixComponent from '../BaseComponents/WixComponent';
 import scrollIntoView from '../utils/scrollIntoView';
+import InfiniteScroll from '../utils/InfiniteScroll';
+import Loader from '../Loader/Loader';
 
 const modulu = (n, m) => {
   const remain = n % m;
@@ -72,7 +74,8 @@ class DropdownLayout extends WixComponent {
       typeof option.id !== 'undefined' &&
       option.id.toString().trim().length > 0 &&
       (React.isValidElement(option.value) ||
-        (typeof option.value === 'string' && option.value.trim().length > 0))
+        ((typeof option.value === 'string' && option.value.trim().length > 0) ||
+          typeof option.value === 'function'))
     );
   }
 
@@ -226,19 +229,39 @@ class DropdownLayout extends WixComponent {
     return node ? <div className={styles.node}>{node}</div> : null;
   }
 
+  _wrapWithInfiniteScroll = scrollableElement => (
+    <InfiniteScroll
+      useWindow
+      scrollElement={this.options}
+      loadMore={this.props.loadMore}
+      hasMore={this.props.hasMore}
+      loader={
+        <div className={styles.loader}>
+          <Loader dataHook={'dropdownLayout-loader'} size={'small'} />
+        </div>
+      }
+    >
+      {scrollableElement}
+    </InfiniteScroll>
+  );
+
   render() {
     const {
       options,
       visible,
       dropDirectionUp,
       tabIndex,
-      fixedHeader,
-      fixedFooter,
-      withArrow,
       onMouseEnter,
       onMouseLeave,
-      inContainer,
+      fixedHeader,
+      withArrow,
+      fixedFooter,
+      inContainer
     } = this.props;
+
+    const renderedOptions = options.map((option, idx) =>
+      this._renderOption({ option, idx }),
+    );
     const contentContainerClassName = classNames({
       [styles.contentContainer]: true,
       [styles.shown]: visible,
@@ -247,7 +270,6 @@ class DropdownLayout extends WixComponent {
       [styles.withArrow]: withArrow,
       [styles.containerStyles]: !inContainer,
     });
-
     return (
       <div
         tabIndex={tabIndex}
@@ -275,7 +297,9 @@ class DropdownLayout extends WixComponent {
             ref={_options => (this.options = _options)}
             data-hook="dropdown-layout-options"
           >
-            {options.map((option, idx) => this._renderOption({ option, idx }))}
+            {this.props.infiniteScroll
+              ? this._wrapWithInfiniteScroll(renderedOptions)
+              : renderedOptions}
           </div>
           {this._renderNode(fixedFooter)}
         </div>
@@ -451,6 +475,9 @@ DropdownLayout.propTypes = {
   itemHeight: PropTypes.oneOf(['small', 'big']),
   selectedHighlight: PropTypes.bool,
   inContainer: PropTypes.bool,
+  infiniteScroll: PropTypes.bool,
+  loadMore: PropTypes.func,
+  hasMore: PropTypes.bool,
 };
 
 DropdownLayout.defaultProps = {
@@ -461,6 +488,9 @@ DropdownLayout.defaultProps = {
   itemHeight: 'small',
   selectedHighlight: true,
   inContainer: false,
+  infiniteScroll: false,
+  loadMore: null,
+  hasMore: false,
 };
 
 DropdownLayout.NONE_SELECTED_ID = NOT_HOVERED_INDEX;

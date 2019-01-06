@@ -82,6 +82,12 @@ $arrowDownShadow: -3px -3px 8px rgba(0, 0, 0, .1);
   }
 }
 
+.loader {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 24px;
+}
+
 .option {
   line-height: 1.5;
   overflow: hidden;

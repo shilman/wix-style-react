@@ -113,6 +113,11 @@ import dropdownDriverFactory from '../src/Dropdown/Dropdown.protractor.driver';
 export const dropdownTestkitFactory = protractorTestkitFactoryCreator(
   dropdownDriverFactory,
 );
+import dropdownLayoutDriverFactory from '../src/DropdownLayout/DropdownLayout.protractor.driver';
+
+export const dropdownLayoutTestkitFactory = protractorTestkitFactoryCreator(
+  dropdownLayoutDriverFactory,
+);
 
 import buttonWithOptionsDriverFactory from '../src/ButtonWithOptions/ButtonWithOptions.protractor.driver';
 

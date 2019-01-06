@@ -10,6 +10,9 @@ import ReadmeTestkit from '../../src/DropdownLayout/README.TESTKIT.md';
 import ExampleStandard from './ExampleStandard';
 import ExampleStandardRaw from '!raw-loader!./ExampleStandard';
 
+import ExampleInfiniteScroll from './ExampleInfiniteScroll';
+import ExampleInfiniteScrollRaw from '!raw-loader!./ExampleInfiniteScroll';
+
 import ExampleBuilder from './ExampleBuilder';
 import ExampleBuilderRaw from '!raw-loader!./ExampleBuilder';
 
@@ -39,6 +42,12 @@ storiesOf('11. Pickers and Selectors', module).add(
 
         <CodeExample title="Standard" code={ExampleStandardRaw}>
           <ExampleStandard />
+        </CodeExample>
+
+        <div style={{ paddingTop: '230px' }} />
+
+        <CodeExample title="Infinite Scroll" code={ExampleInfiniteScrollRaw}>
+          <ExampleInfiniteScroll />
         </CodeExample>
 
         <div style={{ paddingTop: '230px' }} />

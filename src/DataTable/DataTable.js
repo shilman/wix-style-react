@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styles from './DataTable.scss';
 import classNames from 'classnames';
-import InfiniteScroll from './InfiniteScroll';
+import InfiniteScroll from '../utils/InfiniteScroll';
 import SortByArrowUp from '../new-icons/system/SortByArrowUp';
 import SortByArrowDown from '../new-icons/system/SortByArrowDown';
 import { Animator } from 'wix-animations';
