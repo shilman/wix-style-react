@@ -82,6 +82,8 @@ const calendarDriverFactory = ({ element, wrapper }) => {
       ReactTestUtils.Simulate.click(getNthDayOfTheMonth(n)),
     clickOnSelectedDay: () => ReactTestUtils.Simulate.click(getSelectedDay()),
     clickOnYearDropdown: () => ReactTestUtils.Simulate.click(getYearDropdown()),
+    clickOnMonthDropdown: () =>
+      ReactTestUtils.Simulate.click(getMonthDropdownButton()),
     clickOnNthYear: (n = 1) => ReactTestUtils.Simulate.mouseDown(getNthYear(n)),
     clickOnPrevMonthButton: () =>
       ReactTestUtils.Simulate.click(getPrevMonthButton()),

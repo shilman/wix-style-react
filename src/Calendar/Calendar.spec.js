@@ -1,12 +1,12 @@
 import React from 'react';
 import calendarDriverFactory from './Calendar.driver';
-import { createDriverFactory } from 'wix-ui-test-utils/driver-factory';
 import Calendar from './Calendar';
 import { createRendererWithDriver, cleanup } from '../../test/utils/react';
 
-const createDriver = createDriverFactory(calendarDriverFactory);
-
 describe('Calendar', () => {
+  const render = createRendererWithDriver(calendarDriverFactory);
+  const createDriver = jsx => render(jsx).driver;
+
   afterEach(() => cleanup());
 
   const AUGUST = 7,
@@ -115,12 +115,91 @@ describe('Calendar', () => {
     });
   });
 
+  describe('onClose', () => {
+    it('should be call with default not prevented when closing with ESC key', () => {
+      const onCloseMock = jest.fn();
+      const value = new Date(2018, 10, 5);
+      const driver = createDriver(
+        <Calendar
+          value={value}
+          onChange={() => {}}
+          onClose={onCloseMock}
+          shouldCloseOnSelect={false}
+        />,
+      );
+
+      driver.clickDay(new Date(2018, 10, 1));
+
+      driver.triggerKeyDown({
+        key: 'Escape',
+        keyCode: 27,
+      });
+      expect(onCloseMock).toHaveBeenCalledTimes(1);
+      expect(onCloseMock.mock.calls[0][0].type).toEqual('keydown');
+      expect(onCloseMock.mock.calls[0][0].defaultPrevented).toBeFalsy();
+    });
+
+    it('should be call with default not prevented when closing with TAB key', () => {
+      const onCloseMock = jest.fn();
+      const value = new Date(2018, 10, 5);
+      const driver = createDriver(
+        <Calendar
+          value={value}
+          onChange={() => {}}
+          onClose={onCloseMock}
+          shouldCloseOnSelect={false}
+        />,
+      );
+
+      driver.clickDay(new Date(2018, 10, 1));
+
+      driver.triggerKeyDown({
+        key: 'Tab',
+        keyCode: 9,
+      });
+      expect(onCloseMock).toHaveBeenCalledTimes(1);
+      expect(onCloseMock.mock.calls[0][0].type).toEqual('keydown');
+      expect(onCloseMock.mock.calls[0][0].defaultPrevented).toBeFalsy();
+    });
+  });
+
+  describe('Prevent Default', () => {
+    it('should prevent default when clicking in header parts', () => {
+      const eventListenerMock = jest.fn();
+      const dataHook = 'calendar-data-hook';
+      // We use a label wrapper, since a label's default is to delegate the click on to it's target. Just to demostrate that this is a use-case that needs to be prevented.
+      const { driver } = render(
+        <label onClick={eventListenerMock}>
+          <Calendar
+            dataHook={dataHook}
+            onChange={() => {}}
+            showYearDropdown
+            showMonthDropdown
+          />
+        </label>,
+        dataHook,
+      );
+
+      driver.clickOnPrevMonthButton();
+      driver.clickOnNextMonthButton();
+      driver.clickOnYearDropdown();
+      driver.clickOnMonthDropdown();
+
+      expect(eventListenerMock).toHaveBeenCalledTimes(4);
+      expect(eventListenerMock.mock.calls[0][0].defaultPrevented).toEqual(true);
+      expect(eventListenerMock.mock.calls[1][0].defaultPrevented).toEqual(true);
+      expect(eventListenerMock.mock.calls[2][0].defaultPrevented).toEqual(true);
+      expect(eventListenerMock.mock.calls[3][0].defaultPrevented).toEqual(true);
+    });
+  });
+
   describe('clicking on a day', () => {
     let onChange;
 
     beforeEach(() => {
       onChange = jest.fn();
     });
+
     describe("with selectionMode='day'", () => {
       it('should call onChange with the clicked day', () => {
         const date = new Date(2018, 10, 5);
@@ -134,6 +213,49 @@ describe('Calendar', () => {
 
         expect(onChange).toHaveBeenCalledTimes(1);
         expect(onChange.mock.calls[0][0].getDate()).toEqual(1);
+      });
+
+      it('should prevent event default', () => {
+        const dataHook = 'calendar-data-hook';
+        const date = new Date(2018, 10, 5);
+        const eventListenerMock = jest.fn();
+        const { driver } = render(
+          <div onClick={eventListenerMock}>
+            <Calendar
+              value={date}
+              onChange={onChange}
+              selectionMode={'day'}
+              dataHook={dataHook}
+            />
+          </div>,
+          dataHook,
+        );
+
+        driver.clickDay(new Date(2018, 10, 1));
+
+        expect(eventListenerMock).toHaveBeenCalledTimes(1);
+        expect(eventListenerMock.mock.calls[0][0].defaultPrevented).toEqual(
+          true,
+        );
+      });
+
+      it('should call `onClose` callback with event', () => {
+        const date = new Date(2018, 10, 5);
+        const onCloseMock = jest.fn();
+        const driver = createDriver(
+          <Calendar
+            value={date}
+            onChange={onChange}
+            selectionMode={'day'}
+            onClose={onCloseMock}
+            shouldCloseOnSelect
+          />,
+        );
+
+        driver.clickDay(new Date(2018, 10, 1));
+
+        expect(onCloseMock).toHaveBeenCalledTimes(1);
+        expect(onCloseMock.mock.calls[0][0].type).toEqual('click');
       });
     });
 
@@ -233,6 +355,45 @@ describe('Calendar', () => {
         expect(onChange).toHaveBeenCalledTimes(1);
         expect(onChange.mock.calls[0][0].from.getDate()).toEqual(3);
         expect(onChange.mock.calls[0][0].to.getDate()).toEqual(10);
+      });
+
+      it('should prevent event default', () => {
+        const dataHook = 'calendar-data-hook';
+        const eventListenerMock = jest.fn();
+        const { driver } = render(
+          <div onClick={eventListenerMock}>
+            <Calendar
+              value={{ from: new Date(2018, 10, 10) }}
+              onChange={onChange}
+              selectionMode={'range'}
+              dataHook={dataHook}
+            />
+          </div>,
+          dataHook,
+        );
+
+        driver.clickOnNthDay(2);
+        expect(eventListenerMock).toHaveBeenCalledTimes(1);
+        expect(eventListenerMock.mock.calls[0][0].defaultPrevented).toEqual(
+          true,
+        );
+      });
+
+      it('should call `onClose` callback with event', () => {
+        const onCloseMock = jest.fn();
+        const driver = createDriver(
+          <Calendar
+            value={{ from: new Date(2018, 10, 10) }}
+            onChange={onChange}
+            selectionMode={'range'}
+            onClose={onCloseMock}
+            shouldCloseOnSelect
+          />,
+        );
+
+        driver.clickOnNthDay(2);
+        expect(onCloseMock).toHaveBeenCalledTimes(1);
+        expect(onCloseMock.mock.calls[0][0].type).toEqual('click');
       });
     });
   });
