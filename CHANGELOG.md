@@ -15,12 +15,13 @@ Types of changes:
 1. **Lab** components and features that are still in a work in progress
 
 
-## Next
+## 5.22.0 - 2019-01-06
 
 #### Added
 
 - `<ColorPicker/>` - trigger confirmation callback when pressing Enter [#2683](https://github.com/wix/wix-style-react/pull/2683)
 - `<DropdownLayout/>` - add infinite scroll support [#2712](https://github.com/wix/wix-style-react/pull/2712)
+- `<Popover/>` - Added examples for the new `fixed` and `flip` props, added a new `animate` prop. [#2676](https://github.com/wix/wix-style-react/pull/2676)
 
 ### Fixed
 

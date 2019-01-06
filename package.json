@@ -1,7 +1,7 @@
 {
   "name": "wix-style-react",
   "description": "wix-style-react",
-  "version": "5.21.0",
+  "version": "5.22.0",
   "main": "./dist/src/index.js",
   "module": "./dist/es/src/index.js",
   "sideEffects": [
