@@ -79,9 +79,8 @@ class MultiSelect extends InputWithOptions {
 
   _splitValues(value) {
     const delimitersRegexp = new RegExp(this.props.delimiters.join('|'), 'g');
-    const valueWithCommas = value.replace(delimitersRegexp, ',');
-    return valueWithCommas
-      .split(',')
+    return value
+      .split(delimitersRegexp)
       .map(str => str.trim())
       .filter(str => str);
   }

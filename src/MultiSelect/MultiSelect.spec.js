@@ -518,11 +518,19 @@ describe('MultiSelect', () => {
           });
         });
 
-        it('should be called with multiple values with pasting colun-delimited value (custom delimiter)', () => {
+        it('should be called with multiple values with pasting colon-delimited value (custom delimiter)', () => {
           testCase({
             props: { delimiters: [':'] },
             pasteValue: 'value1:value2',
             expectedOnTagsAddedArg: ['value1', 'value2'],
+          });
+        });
+
+        it('should be called with multiple values with pasting mixed delimited value (custom delimiters)', () => {
+          testCase({
+            props: { delimiters: [':', ';'] },
+            pasteValue: 'value1:value2;value3',
+            expectedOnTagsAddedArg: ['value1', 'value2', 'value3'],
           });
         });
 
