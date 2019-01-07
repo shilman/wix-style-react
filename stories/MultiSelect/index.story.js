@@ -22,25 +22,26 @@ import playgroundStoryConfig from '../components/MultiSelect/MultiSelectPlaygrou
 
 import ExampleSelectSimple from './ExampleSelectSimple';
 import ExampleSelectSimpleRaw from '!raw-loader!./ExampleSelectSimple';
+
 import ExampleSelectAutocomplete from './ExampleSelectAutocomplete';
 import ExampleSelectAutocompleteRaw from '!raw-loader!./ExampleSelectAutocomplete';
-import ExampleSelectInput from './ExampleSelectInput';
-import ExampleSelectInputRaw from '!raw-loader!./ExampleSelectInput';
 
 import ExampleSuggestions from './ExampleSuggestions';
 import ExampleSuggestionsRaw from '!raw-loader!./ExampleSuggestions';
 
-import ExampleTagsInput from './ExampleTagsInput';
-import ExampleTagsInputRaw from '!raw-loader!./ExampleTagsInput';
+import ExampleTagInput from './ExampleTagInput';
+import ExampleTagInputRaw from '!raw-loader!./ExampleTagInput';
+
+import ExampleTagInputSelection from './ExampleTagInputSelection';
+import ExampleTagInputSelectionRaw from '!raw-loader!./ExampleTagInputSelection';
 
 import ExampleReorderable from './ExampleReorderable';
 import ExampleReorderableRaw from '!raw-loader!./ExampleReorderable';
 
-import ExamplePresentation from './ExamplePresentation';
-import ExamplePresentationRaw from '!raw-loader!./ExamplePresentation';
+import ExampleThumbVariations from './ExampleThumbVariations';
+import ExampleThumbVariationsRaw from '!raw-loader!./ExampleThumbVariations';
 
 import { storySettings } from './storySettings';
-import { AutoExampleWrapper } from '../AutoExampleWrapper';
 
 import styles from './styles.scss';
 
@@ -48,7 +49,7 @@ const examples = (
   <div>
     <Title>Examples</Title>
     <SubTitle>Bihavior</SubTitle>
-    <CodeExample title="Select (Simple)" code={ExampleSelectSimpleRaw}>
+    <CodeExample title="Select" code={ExampleSelectSimpleRaw}>
       <div className={styles.exampleContainer}>
         <ExampleSelectSimple />
       </div>
@@ -63,24 +64,24 @@ const examples = (
       </div>
     </CodeExample>
 
-    <CodeExample
-      title="Select Input (Autocomplete + Allow New Tags)"
-      code={ExampleSelectInputRaw}
-    >
+    <CodeExample title="Tag Input" code={ExampleTagInputRaw}>
       <div className={styles.exampleContainer}>
-        <ExampleSelectInput />
+        <ExampleTagInput />
       </div>
     </CodeExample>
 
-    <CodeExample title="Suggest + Allow New Tags" code={ExampleSuggestionsRaw}>
+    <CodeExample title="Tag Input + Suggestions" code={ExampleSuggestionsRaw}>
       <div className={styles.exampleContainer}>
         <ExampleSuggestions />
       </div>
     </CodeExample>
 
-    <CodeExample title="Tags Input (No options)" code={ExampleTagsInputRaw}>
+    <CodeExample
+      title="Tag Input + Selection"
+      code={ExampleTagInputSelectionRaw}
+    >
       <div className={styles.exampleContainer}>
-        <ExampleTagsInput />
+        <ExampleTagInputSelection />
       </div>
     </CodeExample>
 
@@ -90,9 +91,9 @@ const examples = (
       </div>
     </CodeExample>
 
-    <CodeExample title="Presentation" code={ExamplePresentationRaw}>
+    <CodeExample title="ThumbVariations" code={ExampleThumbVariationsRaw}>
       <div className={styles.exampleContainer}>
-        <ExamplePresentation />
+        <ExampleThumbVariations />
       </div>
     </CodeExample>
   </div>

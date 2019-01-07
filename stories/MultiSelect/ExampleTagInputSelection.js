@@ -26,7 +26,7 @@ export const options = countries.map(country => ({
   id: country.code,
 }));
 
-class ExampleSelectInput extends React.Component {
+class ExampleTagInputSelection extends React.Component {
   nextTagId = 0;
 
   constructor(props) {
@@ -101,4 +101,4 @@ class ExampleSelectInput extends React.Component {
   }
 }
 
-export default ExampleSelectInput;
+export default ExampleTagInputSelection;

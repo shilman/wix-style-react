@@ -2,7 +2,7 @@
 import React from 'react';
 import MultiSelect from 'wix-style-react/MultiSelect';
 
-class ExampleTagsInput extends React.Component {
+class ExampleTagInput extends React.Component {
   nextId = 0;
 
   constructor(props) {
@@ -50,4 +50,4 @@ class ExampleTagsInput extends React.Component {
   }
 }
 
-export default ExampleTagsInput;
+export default ExampleTagInput;
