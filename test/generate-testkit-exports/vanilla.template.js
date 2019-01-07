@@ -1,7 +1,9 @@
+import ReactDOM from 'react-dom';
+
 import {
-  enzymeTestkitFactoryCreator,
-  enzymeUniTestkitFactoryCreator,
-} from 'wix-ui-test-utils/enzyme';
+  testkitFactoryCreator,
+  uniTestkitFactoryCreator,
+} from 'wix-ui-test-utils/vanilla';
 
 export {
   badgeTestkitFactory,
@@ -11,15 +13,16 @@ export {
   floatingHelperTestkitFactory,
   linearProgressBarTestkitFactory,
   circularProgressBarTestkitFactory,
-} from 'wix-ui-backoffice/dist/src/testkit/enzyme';
+} from 'wix-ui-backoffice/dist/src/testkit';
 
 import buttonDriverFactory from '../src/Backoffice/Button/Button.driver';
 import { buttonDriverFactory as buttonNextDriverFactory } from '../src/Button/Button.driver';
 
 export const buttonTestkitFactory = obj => {
-  const hasUpgrade = obj.wrapper.find('[data-upgrade]').length;
+  const domInstance = ReactDOM.findDOMNode(obj.wrapper);
+  const hasUpgrade = domInstance.querySelector('[data-upgrade]');
 
   return hasUpgrade
-    ? enzymeUniTestkitFactoryCreator(buttonNextDriverFactory)(obj)
-    : enzymeTestkitFactoryCreator(buttonDriverFactory)(obj);
+    ? uniTestkitFactoryCreator(buttonNextDriverFactory)(obj)
+    : testkitFactoryCreator(buttonDriverFactory)(obj);
 };

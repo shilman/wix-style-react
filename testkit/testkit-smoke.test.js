@@ -116,6 +116,17 @@ const EXPORT_ASSERTS = {
         ).toBe('function'));
     });
   },
+
+  vanilla: name => {
+    describe('ReactTestUtils testkit exports', () => {
+      it(`should contain ${name}`, () =>
+        expect(
+          typeof reactTestUtilsTestkitFactories[
+            `${lowerFirst(name)}TestkitFactory`
+          ],
+        ).toBe('function'));
+    });
+  },
 };
 
 Object.keys({
@@ -148,6 +159,7 @@ Object.keys({
   }
 
   if (!definition.noTestkit) {
+    EXPORT_ASSERTS.vanilla(name);
     EXPORT_ASSERTS.enzyme(name);
   }
 });
