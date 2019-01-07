@@ -256,7 +256,7 @@ class DropdownLayout extends WixComponent {
       fixedHeader,
       withArrow,
       fixedFooter,
-      inContainer
+      inContainer,
     } = this.props;
 
     const renderedOptions = options.map((option, idx) =>
@@ -398,12 +398,6 @@ class DropdownLayout extends WixComponent {
       this.setState({ selectedId: nextProps.selectedId });
     }
 
-    if (nextProps.options.some(option => !this._isLegalOption(option))) {
-      throw new Error(
-        `DropdownLayout: Invalid options provided: ${nextProps.options}`,
-      );
-    }
-
     // make sure the same item is hovered if options changed
     if (
       this.state.hovered !== NOT_HOVERED_INDEX &&
@@ -429,6 +423,45 @@ class DropdownLayout extends WixComponent {
   }
 }
 
+const optionPropTypes = PropTypes.shape({
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  value: PropTypes.oneOfType([PropTypes.node, PropTypes.string, PropTypes.func])
+    .isRequired,
+  disabled: PropTypes.bool,
+  overrideStyle: PropTypes.bool,
+});
+
+function optionValidator(props, propName, componentName) {
+  const option = props[propName];
+
+  if (typeof option === 'object' && option.value === DIVIDER_OPTION_VALUE) {
+    return;
+  }
+
+  const optionError = PropTypes.checkPropTypes(
+    { option: optionPropTypes },
+    { option },
+    'option',
+    componentName,
+  );
+
+  if (optionError) {
+    return optionError;
+  }
+
+  if (option.id && option.id.toString().trim().length === 0) {
+    throw new Error(
+      'Warning: Failed option type: The option `option.id` should be non-empty after trimming in `DropdownLayout`.',
+    );
+  }
+
+  if (option.value && option.value.toString().trim().length === 0) {
+    throw new Error(
+      'Warning: Failed option type: The option `option.value` should be non-empty after trimming in `DropdownLayout`.',
+    );
+  }
+}
+
 DropdownLayout.propTypes = {
   dropDirectionUp: PropTypes.bool,
   focusOnSelectedOption: PropTypes.bool,
@@ -437,26 +470,7 @@ DropdownLayout.propTypes = {
   onSelect: PropTypes.func,
   visible: PropTypes.bool,
   /** Array of objects. Objects must have an Id and can can include value and node. If value is '-', a divider will be rendered instead (dividers do not require and id). */
-  options: PropTypes.arrayOf(
-    PropTypes.oneOfType([
-      PropTypes.shape({
-        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-          .isRequired,
-        value: PropTypes.oneOfType([
-          PropTypes.node,
-          PropTypes.string,
-          PropTypes.func,
-        ]).isRequired,
-        disabled: PropTypes.bool,
-        overrideStyle: PropTypes.bool,
-      }),
-
-      // A divider option without an id
-      PropTypes.shape({
-        value: PropTypes.oneOf([DIVIDER_OPTION_VALUE]),
-      }),
-    ]),
-  ),
+  options: PropTypes.arrayOf(optionValidator),
   /** The id of the selected option in the list  */
   selectedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   tabIndex: PropTypes.number,
