@@ -123,6 +123,7 @@ import './CardGalleryItem/CardGalleryItem.story';
 import './Carousel/index.story.js';
 import './CalendarPanel/index.story';
 import './Proportion/index.story.js';
+import './Box/index.story.js';
 
 // Styling
 import './Typography/TypographyClassesStory';
