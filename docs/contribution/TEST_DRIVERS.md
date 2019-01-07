@@ -44,12 +44,7 @@ If your component's `unidriver` is composing other components that don’t use u
 
 1. Each component has a `<componentName>TestkitFactory` method which exposes the test driver of the relevant to component.
 1. A TestKit input is a wrapper object (DOM node for vanilla, enzyme wrapper for enzyme) and `dataHook`, and returns an object which contains all API methods.
-1. The created Testkit have an `exists` method. And all other methods should throw an error with propper message when `testkit.exists() === false`.
-1. Export your `testkitFactory` from the following files:
-    - `wix-style-react/testkit/index.js`
-    - `wix-style-react/testkit/enzyme.js`
-    - `wix-style-react/testkit/protractor.js`
-1. Each component tests should use the sanity check for TestKit with `isTestkitExists` and `isEnzymeTestkitExists`
+1. The created Testkit has an `exists` method. All other methods should throw an error with propper message when `testkit.exists() === false`.
 
 ### Consumer Usage example
 
@@ -78,7 +73,7 @@ const buttonTestkit = buttonTestkitFactory({wrapper: myFormWrapper, dataHook: 'm
 buttonTestkit.click();
 ```
 
-If you are using Enzyme:
+If you use Enzyme:
 
 ```js
 import {mount} from 'enzyme';
@@ -93,8 +88,7 @@ const buttonTestkit = buttonTestkitFactory({wrapper: myFormWrapper, dataHook: 'm
 buttonTestkit.click();
 ```
 
-
-If you are using Protractor:
+If you use Protractor:
 
 ```js
 import {buttonTestkitFactory, waitForVisibilityOf} from 'wix-style-react/testkit/protractor';
