@@ -624,36 +624,48 @@ describe('DropdownLayout', () => {
     });
 
     describe('invalid', () => {
+      let consoleErrorSpy;
+
+      beforeEach(() => {
+        consoleErrorSpy = jest
+          .spyOn(global.console, 'error')
+          .mockImplementation(jest.fn());
+      });
+
+      afterEach(() => {
+        consoleErrorSpy.mockRestore();
+      });
+
       it('no value', () => {
         render(<DropdownLayout options={[{ id: '1' }]} />);
-        expect(consoleErrors.get()).toHaveLength(1);
-        expect(consoleErrors.get()[0].includes('option.value')).toBeTruthy();
-
-        consoleErrors.reset(); // prevent test from failing
+        expect(consoleErrorSpy).toHaveBeenCalledTimes(1);
+        expect(consoleErrorSpy).toBeCalledWith(
+          expect.stringContaining('option.value'),
+        );
       });
 
       it('no id and not divider', () => {
         render(<DropdownLayout options={[{ value: 'aaa' }]} />);
-        expect(consoleErrors.get()).toHaveLength(1);
-        expect(consoleErrors.get()[0].includes('option.id')).toBeTruthy();
-
-        consoleErrors.reset(); // prevent test from failing
+        expect(consoleErrorSpy).toHaveBeenCalledTimes(1);
+        expect(consoleErrorSpy).toBeCalledWith(
+          expect.stringContaining('option.id'),
+        );
       });
 
       it('empty trimmed id', () => {
         render(<DropdownLayout options={[{ id: '   ', value: 'hello' }]} />);
-        expect(consoleErrors.get()).toHaveLength(1);
-        expect(consoleErrors.get()[0].includes('option.id')).toBeTruthy();
-
-        consoleErrors.reset(); // prevent test from failing
+        expect(consoleErrorSpy).toHaveBeenCalledTimes(1);
+        expect(consoleErrorSpy).toBeCalledWith(
+          expect.stringContaining('option.id'),
+        );
       });
 
       it('empty trimmed value', () => {
         render(<DropdownLayout options={[{ id: '1', value: '  ' }]} />);
-        expect(consoleErrors.get()).toHaveLength(1);
-        expect(consoleErrors.get()[0].includes('option.value')).toBeTruthy();
-
-        consoleErrors.reset(); // prevent test from failing
+        expect(consoleErrorSpy).toHaveBeenCalledTimes(1);
+        expect(consoleErrorSpy).toBeCalledWith(
+          expect.stringContaining('option.value'),
+        );
       });
     });
   });
