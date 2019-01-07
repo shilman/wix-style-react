@@ -16,6 +16,8 @@ const dropdownLayoutDriverFactory = ({ element }) => {
     }
     return onSuccess();
   };
+  const getOptionDriver = position =>
+    doIfOptionExists(position, () => createOptionDriver(optionAt(position)));
 
   return {
     exists: () => !!element,
@@ -78,11 +80,18 @@ const dropdownLayoutDriverFactory = ({ element }) => {
       ReactTestUtils.Simulate.keyDown(element, { key: 'Escape' }),
     optionContentAt: position =>
       doIfOptionExists(position, () => optionAt(position).textContent),
-    /** @deprecated Use optionAtDriver*/
+    /** @deprecated Use optionDriver*/
     optionAt,
     /** Get option driver given an option index */
-    optionDriver: position =>
-      doIfOptionExists(position, () => optionDriver(optionAt(position))),
+    optionDriver: createOptionDriver,
+    /** Get an array of all option drivers */
+    optionDrivers: () => {
+      const drivers = [];
+      for (let position = 0; position < optionsLength(); position++) {
+        drivers.push(getOptionDriver(position));
+      }
+      return drivers;
+    },
     optionsContent: () =>
       values(options.childNodes).map(option => option.textContent),
     clickAtOption: position =>
@@ -111,12 +120,12 @@ const dropdownLayoutDriverFactory = ({ element }) => {
       if (!option) {
         throw new Error(`an option with data-hook ${hook} was not found`);
       }
-      return optionDriver(option);
+      return createOptionDriver(option);
     },
   };
 };
 
-const optionDriver = option => ({
+const createOptionDriver = option => ({
   element: () => option,
   mouseEnter: () => ReactTestUtils.Simulate.mouseEnter(option),
   mouseLeave: () => ReactTestUtils.Simulate.mouseLeave(option),
