@@ -1,5 +1,7 @@
 import classNames from 'classnames';
 import isUndefined from 'lodash/isUndefined';
+import { validatorWithSideEffect } from '../utils/propTypes';
+import deprecationLog from '../utils/deprecationLog';
 import InputWithOptions from '../InputWithOptions/InputWithOptions';
 import styles from './Dropdown.scss';
 import PropTypes from 'prop-types';
@@ -81,8 +83,28 @@ class Dropdown extends InputWithOptions {
 
 Dropdown.propTypes = {
   ...InputWithOptions.propTypes,
-  /** When true, changing `selectedId` prop will determine the selected option and its' parsed value */
-  controlled: PropTypes.bool,
+  /** When true, then `selectedId` is used for Controlled mode, and `initiallySelectedId` for Uncontrolled mode */
+  upgrade: PropTypes.bool,
+  selectedId: validatorWithSideEffect(
+    InputWithOptions.propTypes.selectedId,
+    (props, propName) => {
+      if (props[propName] && props['initiallySelectedId']) {
+        deprecationLog(
+          `'selectedId' and 'initiallySelectedId' cannot both be used at the same time.`,
+        );
+      }
+    },
+  ),
+  initiallySelectedId: validatorWithSideEffect(
+    InputWithOptions.propTypes.selectedId,
+    (props, propName) => {
+      if (props[propName] && props['selectedId']) {
+        deprecationLog(
+          `'selectedId' and 'initiallySelectedId' cannot both be used at the same time.`,
+        );
+      }
+    },
+  ),
 };
 
 Dropdown.defaultProps = InputWithOptions.defaultProps;

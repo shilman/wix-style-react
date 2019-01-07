@@ -27,7 +27,7 @@ describe('Dropdown', () => {
 
   it('should select item with selectedId on init state', () => {
     const { inputDriver, dropdownLayoutDriver } = createDriver(
-      <Dropdown options={getOptions()} selectedId={0} />,
+      <Dropdown options={getOptions()} initiallySelectedId={0} />,
     );
 
     expect(dropdownLayoutDriver.isOptionSelected(0)).toBeTruthy();
@@ -57,7 +57,11 @@ describe('Dropdown', () => {
     const dataHook = 'dropdown-comp';
 
     const { driver: dropdownDriver, rerender } = render(
-      <Dropdown dataHook={dataHook} options={options} selectedId={0} />,
+      <Dropdown
+        dataHook={dataHook}
+        options={options}
+        initiallySelectedId={0}
+      />,
     );
     const { driver, inputDriver, dropdownLayoutDriver } = dropdownDriver;
 
@@ -66,7 +70,13 @@ describe('Dropdown', () => {
     expect(inputDriver.getValue()).toBe('Option 1');
 
     options[0].value = 'Updated';
-    rerender(<Dropdown dataHook={dataHook} options={options} selectedId={0} />);
+    rerender(
+      <Dropdown
+        dataHook={dataHook}
+        options={options}
+        initiallySelectedId={0}
+      />,
+    );
 
     expect(inputDriver.getValue()).toBe('Updated');
   });
@@ -89,10 +99,25 @@ describe('Dropdown', () => {
     expect(driver.isReadOnly()).toBeTruthy();
   });
 
+  describe('Rerender', () => {
+    xit('should keep value when status updates', () => {
+      const { driver: _driver, rerender } = render(
+        <Dropdown options={getOptions()} />,
+      );
+      const { inputDriver } = _driver;
+
+      inputDriver.enterText('foo');
+      expect(inputDriver.getValue()).toBe('foo');
+      rerender(<Dropdown options={getOptions()} status="error" />);
+
+      expect(inputDriver.getValue()).toBe('foo');
+    });
+  });
+
   describe('Controlled mode', () => {
     it('should keep current selection and value when option clicked', () => {
       const { driver, dropdownLayoutDriver, inputDriver } = createDriver(
-        <Dropdown options={getOptions()} selectedId={0} controlled />,
+        <Dropdown options={getOptions()} selectedId={0} />,
       );
 
       driver.focus();
@@ -104,7 +129,7 @@ describe('Dropdown', () => {
 
     it('should update selection and value when props change', () => {
       const { driver: _driver, rerender } = render(
-        <Dropdown options={getOptions()} selectedId={0} controlled />,
+        <Dropdown options={getOptions()} selectedId={0} />,
       );
       const { dropdownLayoutDriver, inputDriver } = _driver;
 
