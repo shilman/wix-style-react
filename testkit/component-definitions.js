@@ -290,7 +290,11 @@ export default {
   },
 
   Button: {
-    enzymeTestkitPath: '../src/Backoffice/Button/Button.driver',
+    manualExport, // TODO: should be automated but can't because of the `upgrade` prop. Once it's gone, it can be automated again
+    unidriver,
+    props: {
+      upgrade: true,
+    },
   },
 
   ImageViewer: {
