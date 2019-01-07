@@ -50,10 +50,11 @@ class CustomValuesInDropdown extends React.Component {
     return (
       <Dropdown
         options={options}
-        selectedId={6}
+        initiallySelectedId={6}
         placeholder={'Choose an option'}
         valueParser={valueParser}
         onSelect={onSelect}
+        upgrade
       />
     );
   }

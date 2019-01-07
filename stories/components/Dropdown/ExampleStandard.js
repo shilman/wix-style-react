@@ -39,29 +39,29 @@ export default () => (
     <div>
       <div style={style}>
         <div>Left to right</div>
-        <Dropdown selectedId={1} options={options} />
+        <Dropdown initiallySelectedId={1} options={options} upgrade />
       </div>
       <div className="rtl" style={style}>
         <div>Right to left</div>
-        <Dropdown options={rtlOptions} />
+        <Dropdown options={rtlOptions} upgrade />
       </div>
       <div style={style}>
         <div>Drop direction up</div>
-        <Dropdown options={options} dropDirectionUp />
+        <Dropdown options={options} dropDirectionUp upgrade />
       </div>
     </div>
     <div>
       <div style={style}>
         <div>Small</div>
-        <Dropdown options={options} dropDirectionUp size="small" />
+        <Dropdown options={options} dropDirectionUp size="small" upgrade />
       </div>
       <div style={style}>
         <div>Default</div>
-        <Dropdown options={options} dropDirectionUp />
+        <Dropdown options={options} dropDirectionUp upgrade />
       </div>
       <div style={style}>
         <div>Large</div>
-        <Dropdown options={options} dropDirectionUp size="large" />
+        <Dropdown options={options} dropDirectionUp size="large" upgrade />
       </div>
     </div>
     <div>
@@ -71,6 +71,7 @@ export default () => (
           options={options}
           dropDirectionUp
           prefix={<Input.Unit>$</Input.Unit>}
+          upgrade
         />
       </div>
       <div style={style}>
@@ -79,6 +80,7 @@ export default () => (
           options={options}
           dropDirectionUp
           suffix={<Input.Unit>%</Input.Unit>}
+          upgrade
         />
       </div>
       <div className="rtl" style={style}>
@@ -87,6 +89,7 @@ export default () => (
           options={options}
           dropDirectionUp
           suffix={<Input.Unit>%</Input.Unit>}
+          upgrade
         />
       </div>
     </div>
@@ -94,25 +97,41 @@ export default () => (
       <div style={style}>
         <div>With error</div>
         <Dropdown
-          selectedId={1}
+          initiallySelectedId={1}
           options={options}
           error
           errorMessage="Somthing is wrong"
+          upgrade
         />
       </div>
       <div style={style}>
         <div>Round</div>
-        <Dropdown roundInput selectedId={1} options={options} />
+        <Dropdown
+          roundInput
+          initiallySelectedId={1}
+          options={options}
+          upgrade
+        />
       </div>
     </div>
     <div>
       <div style={style}>
         <div>No left border radius</div>
-        <Dropdown selectedId={1} options={options} noLeftBorderRadius />
+        <Dropdown
+          initiallySelectedId={1}
+          options={options}
+          noLeftBorderRadius
+          upgrade
+        />
       </div>
       <div style={style}>
         <div>No right border radius</div>
-        <Dropdown selectedId={1} options={options} noRightBorderRadius />
+        <Dropdown
+          initiallySelectedId={1}
+          options={options}
+          noRightBorderRadius
+          upgrade
+        />
       </div>
     </div>
   </div>
