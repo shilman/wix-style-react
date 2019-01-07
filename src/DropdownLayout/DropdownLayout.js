@@ -431,9 +431,10 @@ const optionPropTypes = PropTypes.shape({
   overrideStyle: PropTypes.bool,
 });
 
-function optionValidator(props, propName, componentName) {
+export function optionValidator(props, propName, componentName) {
   const option = props[propName];
 
+  // Notice: We don't use Proptypes.oneOf() to check for either option OR divider, because then the failure message would be less informative.
   if (typeof option === 'object' && option.value === DIVIDER_OPTION_VALUE) {
     return;
   }
