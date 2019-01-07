@@ -51,6 +51,7 @@ class MultiSelect extends InputWithOptions {
       options: this.getUnselectedOptions().filter(this.props.predicate),
       closeOnSelect: false,
       selectedHighlight: false,
+      selectedId: -1,
     };
   }
 
@@ -245,8 +246,19 @@ class MultiSelect extends InputWithOptions {
   }
 }
 
+function inputWithOptionsPropTypes() {
+  const {
+    // The following props are overriden in dropdownAdditionalProps()
+    selectedId,
+    closeOnSelect,
+    selectedHighlight,
+    ...rest
+  } = InputWithOptions.defaultProps;
+  return rest;
+}
+
 MultiSelect.propTypes = {
-  ...InputWithOptions.propTypes,
+  ...inputWithOptionsPropTypes,
   predicate: PropTypes.func,
   tags: PropTypes.array,
   maxNumRows: PropTypes.number,
