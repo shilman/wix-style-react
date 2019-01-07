@@ -11,8 +11,12 @@ const shouldCreateExport = name =>
       )
     : true;
 
-const wrapWithRequire = path => `load('${path}')`; // load() is function included during build time. It comes from test/generate-testkit-exports/load.js
 const wrapItemWithFunction = (fn, item) => `${fn}(${item})`;
+
+// load() is function included during build time. It comes from test/generate-testkit-exports/load.template.js
+// It is a helper that `require`s given path and extracts export (default or only one found)
+const wrapWithLoad = path => wrapItemWithFunction('load', `'${path}'`);
+
 const pathResolve = (...a) => path.resolve(__dirname, ...a);
 
 const getExportableTestkits = ({ factoryCreator, uniFactoryCreator }) =>
@@ -30,7 +34,7 @@ const getExportableTestkits = ({ factoryCreator, uniFactoryCreator }) =>
 
       const testkitEntry = wrapItemWithFunction(
         definition.unidriver ? uniFactoryCreator : factoryCreator,
-        wrapWithRequire(
+        wrapWithLoad(
           definition.enzymeTestkitPath ||
             ['..', 'src', name, name + '.driver'].join('/'),
         ),
@@ -58,7 +62,7 @@ export const generateTestkits = ({
   factoryCreator,
   uniFactoryCreator,
 }) => {
-  const loadUtilPath = pathResolve('load.js');
+  const loadUtilPath = pathResolve('load.template.js');
 
   const originalSource = fs.readFileSync(templatePath, 'utf8');
   const loadUtilSource = fs.readFileSync(loadUtilPath, 'utf8');
