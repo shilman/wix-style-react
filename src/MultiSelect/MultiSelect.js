@@ -253,12 +253,12 @@ function inputWithOptionsPropTypes() {
     closeOnSelect,
     selectedHighlight,
     ...rest
-  } = InputWithOptions.defaultProps;
+  } = InputWithOptions.propTypes;
   return rest;
 }
 
 MultiSelect.propTypes = {
-  ...inputWithOptionsPropTypes,
+  ...inputWithOptionsPropTypes(),
   predicate: PropTypes.func,
   tags: PropTypes.array,
   maxNumRows: PropTypes.number,
