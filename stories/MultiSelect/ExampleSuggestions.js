@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import React from 'react';
 import MultiSelect from 'wix-style-react/MultiSelect';
-import Text from 'wix-style-react/Text';
+import { contactItemBuilder } from 'wix-style-react/ContactItemBuilder';
 
 const contacts = [
   { name: 'David Fincher', email: 'davidf@wix.com' },
@@ -14,14 +14,12 @@ const contacts = [
 
 export const options = contacts.map(contact => ({
   ...contact,
-  value: (
-    <Text>
-      {contact.name + '  '}
-      <br />
-      <Text secondary>{contact.email}</Text>
-    </Text>
-  ),
-  id: contact.email,
+  ...contactItemBuilder({
+    id: contact.email,
+    title: contact.name,
+    subtitle: contact.email,
+    imageUrl: 'https://randomuser.me/api/portraits/women/39.jpg',
+  }),
 }));
 
 class ExampleSuggestions extends React.Component {
@@ -90,6 +88,7 @@ class ExampleSuggestions extends React.Component {
         onRemoveTag={this.handleOnRemoveTag}
         predicate={this.predicate}
         upgrade
+        highlight={false} // FIXME: This is a workaround a current bug
       />
     );
   }
