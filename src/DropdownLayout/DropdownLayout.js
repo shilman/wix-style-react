@@ -451,13 +451,13 @@ export function optionValidator(props, propName, componentName) {
   }
 
   if (option.id && option.id.toString().trim().length === 0) {
-    throw new Error(
+    return new Error(
       'Warning: Failed option type: The option `option.id` should be non-empty after trimming in `DropdownLayout`.',
     );
   }
 
   if (option.value && option.value.toString().trim().length === 0) {
-    throw new Error(
+    return new Error(
       'Warning: Failed option type: The option `option.value` should be non-empty after trimming in `DropdownLayout`.',
     );
   }
