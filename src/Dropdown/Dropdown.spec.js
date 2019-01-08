@@ -99,9 +99,7 @@ describe('Dropdown', () => {
       rerender(<NewDropdown options={[{ id: 1, value: 'Option 2' }]} />);
 
       expect(
-        dropdownLayoutDriver
-          .optionDrivers()
-          .some(option => option.isSelected()),
+        dropdownLayoutDriver.options().some(option => option.isSelected()),
       ).toBeFalsy();
       expect(inputDriver.getValue()).toBe('');
     });

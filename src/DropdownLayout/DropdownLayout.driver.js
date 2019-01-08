@@ -91,8 +91,8 @@ const dropdownLayoutDriverFactory = ({ element }) => {
     optionAt: optionElementAt,
     /** Get option driver given an option index */
     optionDriver: createOptionDriver,
-    /** Get an array of all option drivers */
-    optionDrivers: () => {
+    /** Get an array of all options including dividers (drivers) */
+    options: () => {
       const drivers = [];
       for (let position = 0; position < optionsLength(); position++) {
         drivers.push(getOptionDriver(position));
