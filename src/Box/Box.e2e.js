@@ -33,6 +33,26 @@ describe('Box', () => {
     eyes.it('should be rendered', () => {
       expect(true).toBeTruthy();
     });
+
+    eyes.it('should be aligned horizontally to right', () => {
+      expect(true).toBeTruthy();
+    });
+
+    eyes.it('should be aligned vertically to bottom', () => {
+      expect(true).toBeTruthy();
+    });
+
+    eyes.it('should be rendered with margin', () => {
+      expect(true).toBeTruthy();
+    });
+
+    eyes.it('should be rendered with margin', () => {
+      expect(true).toBeTruthy();
+    });
+
+    eyes.it('should be rendered with minHeight and maxWidth', () => {
+      expect(true).toBeTruthy();
+    });
   });
 
   describe('Examples', () => {
