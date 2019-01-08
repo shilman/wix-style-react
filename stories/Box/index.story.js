@@ -1,5 +1,7 @@
-import Box from '../../src/Box';
+import React from 'react';
+
 import { storySettings } from './storySettings';
+import Box from '../../src/Box';
 
 export default {
   category: storySettings.category,
@@ -9,11 +11,17 @@ export default {
 
   componentProps: () => ({
     children: 'Children',
+    inline: true,
     align: 'center',
-    verticalAlign: 'middle',
-    padding: 2,
-    margin: 1,
-    inline: false,
+    verticalAlign: 'center',
+    padding: 1,
+    minWidth: 200,
+    minHeight: 200,
     dataHook: storySettings.dataHook,
   }),
+
+  exampleProps: {
+    align: ['left', 'center', 'right'],
+    verticalAlign: ['top', 'center', 'bottom'],
+  },
 };
