@@ -64,10 +64,14 @@ describe('Popover', () => {
     eyes.it('positioning example', async () => {
       const examplePlacements = placements.filter(p => !p.includes('auto'));
 
+      // Scroll and focus on the example container
+      await createDriver('story-popover-positioning');
+
       for (const placement of examplePlacements) {
-        const driver = await createDriver(
-          `story-popover-positioning-${placement}`,
-        );
+        const driver = popoverTestkitFactory({
+          dataHook: `story-popover-positioning-${placement}`,
+        });
+
         await driver.mouseEnter();
         eyes.checkWindow(`${placements} position`);
       }
