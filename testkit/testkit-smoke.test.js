@@ -11,6 +11,7 @@ import { isTestkitExists, isUniTestkitExists } from 'wix-ui-test-utils/vanilla';
 import AllComponents from './all-components';
 
 import COMPONENT_DEFINITIONS from './component-definitions.js';
+import TESTKIT_DEFINITIONS from '../scripts/generate-testkit-exports/testkit-definitions';
 
 import * as reactTestUtilsTestkitFactories from './index';
 import * as enzymeTestkitFactories from './enzyme';
@@ -132,19 +133,20 @@ const EXPORT_ASSERTS = {
 Object.keys({
   ...AllComponents,
   ...COMPONENT_DEFINITIONS,
+  ...TESTKIT_DEFINITIONS,
 }).forEach(name => {
-  const definition = COMPONENT_DEFINITIONS[name] || {};
+  const definition = TESTKIT_DEFINITIONS[name] || {};
 
   const config = {
     beforeAllHook: noop,
     afterAllHook: noop,
-    props: {},
+    props: COMPONENT_DEFINITIONS[name] ? COMPONENT_DEFINITIONS[name].props : {},
     ...definition,
     name,
     component: AllComponents[name],
   };
 
-  if (!definition.skipTestkitSanity) {
+  if (!definition.skipSanityTest) {
     const sanityAsserts = definition.unidriver
       ? UNIDRIVER_ASSERTS
       : DRIVER_ASSERTS;

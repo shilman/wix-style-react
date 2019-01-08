@@ -1,13 +1,13 @@
-import path from 'path';
-import fs from 'fs';
+const path = require('path');
+const fs = require('fs');
 
-import AllComponents from '../../testkit/all-components';
-import COMPONENT_DEFINITIONS from '../../testkit/component-definitions';
+const listAllComponents = require('./list-all-components');
+const TESTKIT_DEFINITIONS = require('./testkit-definitions');
 
 const shouldCreateExport = name =>
-  COMPONENT_DEFINITIONS[name]
+  TESTKIT_DEFINITIONS[name]
     ? ['noTestkit', 'manualExport'].every(
-        property => !COMPONENT_DEFINITIONS[name][property],
+        property => !TESTKIT_DEFINITIONS[name][property],
       )
     : true;
 
@@ -20,22 +20,21 @@ const wrapWithLoad = path => wrapItemWithFunction('load', `'${path}'`);
 const pathResolve = (...a) => path.resolve(__dirname, ...a);
 
 const getExportableTestkits = ({ factoryCreator, uniFactoryCreator }) =>
-  Object.keys({
-    ...AllComponents, // TODO: AllComponents does not yet include all components, because there are nested folders that are treated as top level components
-    ...COMPONENT_DEFINITIONS,
-  })
-
+  [
+    ...listAllComponents({ cwd: path.resolve(__dirname, '..', '..', 'src') }), // TODO: AllComponents does not yet include all components, because there are nested folders that are treated as top level components
+    ...Object.keys(TESTKIT_DEFINITIONS),
+  ]
     .filter(shouldCreateExport)
 
     .reduce((testkits, name) => {
-      const definition = COMPONENT_DEFINITIONS[name] || {};
+      const definition = TESTKIT_DEFINITIONS[name] || {};
       const entryName =
         name[0].toLowerCase() + name.slice(1) + 'TestkitFactory';
 
       const testkitEntry = wrapItemWithFunction(
         definition.unidriver ? uniFactoryCreator : factoryCreator,
         wrapWithLoad(
-          definition.enzymeTestkitPath ||
+          definition.testkitPath ||
             ['..', 'src', name, name + '.driver'].join('/'),
         ),
       );
@@ -56,7 +55,7 @@ const warningBanner = templatePath =>
     ' */',
   ].join('\n');
 
-export const generateTestkits = ({
+const generateTestkits = ({
   templatePath,
   outputPath,
   factoryCreator,
