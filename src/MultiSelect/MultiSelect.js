@@ -134,6 +134,11 @@ class MultiSelect extends InputWithOptions {
   _onManuallyInput(inputValue) {
     if (this._isNewCallbackApi()) {
       const { value } = this.props;
+
+      // FIXME: InputWithOptions is not updating it's inputValue state when the `value` prop changes.
+      // So using `value` here, covers for that bug. (This is tested)
+      // BTW: Previously, `value` was used to trigger onSelect, and `inputValue` was used to trigger onManuallyInput. Which is crazy.
+      // So now both of them trigger a submit (onTagsAdded).
       const _value =
         (value && value.trim()) || (inputValue && inputValue.trim());
 
