@@ -50,13 +50,11 @@ export default {
 
     onChange: e => setState({ value: e.target.value }),
 
-    onSelect: _options => {
+    onSelect: option => {
       setState({
         tags: [
           ...getState().tags,
-          ..._options.map(option =>
-            createTag({ countryName: option.name, countryCode: option.code }),
-          ),
+          createTag({ countryName: option.name, countryCode: option.code }),
         ],
       });
     },

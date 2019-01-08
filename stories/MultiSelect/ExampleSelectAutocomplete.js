@@ -45,15 +45,13 @@ class ExampleSelectAutocomplete extends React.Component {
     };
   }
 
-  handleOnSelect = selectedOptions => {
-    console.log('onSelect(selectedOptions): selectedOptions=', selectedOptions);
-    const tags = selectedOptions.map(option =>
-      this.createTag({
-        countryName: option.name,
-        countryCode: option.code,
-      }),
-    );
-    this.setState({ tags: [...this.state.tags, ...tags] });
+  handleOnSelect = option => {
+    console.log('onSelect(option): option=', option);
+    const newTag = this.createTag({
+      countryName: option.name,
+      countryCode: option.code,
+    });
+    this.setState({ tags: [...this.state.tags, newTag] });
   };
 
   handleOnRemoveTag = tagId => {

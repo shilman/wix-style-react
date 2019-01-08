@@ -19,13 +19,12 @@ class ExampleReorderable extends React.Component {
     };
   }
 
-  handleOnSelect = selectedOptions => {
-    console.log('onSelect(selectedOptions): selectedOptions=', selectedOptions);
-    const tags = selectedOptions.map(option => ({
+  handleOnSelect = option => {
+    const newTag = {
       id: option.id,
       label: <span>{option.name}</span>,
-    }));
-    this.setState({ tags: [...this.state.tags, ...tags] });
+    };
+    this.setState({ tags: [...this.state.tags, newTag] });
   };
 
   handleOnRemoveTag = tagId =>

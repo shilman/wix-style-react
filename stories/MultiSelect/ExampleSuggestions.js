@@ -41,15 +41,14 @@ class ExampleSuggestions extends React.Component {
     };
   }
 
-  handleOnSelect = selectedOptions => {
-    console.log('onSelect(selectedOptions): selectedOptions=', selectedOptions);
-    const tags = selectedOptions.map(option =>
-      this.createTag({
-        name: option.name,
-        email: option.email,
-      }),
-    );
-    this.setState({ tags: [...this.state.tags, ...tags] });
+  handleOnSelect = option => {
+    console.log('onSelect(option): option=', option);
+    const newTag = this.createTag({
+      name: option.name,
+      email: option.email,
+    });
+
+    this.setState({ tags: [...this.state.tags, newTag] });
   };
 
   handleOnRemoveTag = tagId => {
