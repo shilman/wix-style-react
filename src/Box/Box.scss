@@ -1,0 +1,7 @@
+.root {
+  display: flex;
+
+  &.inline {
+    display: inline-flex;
+  }
+}
