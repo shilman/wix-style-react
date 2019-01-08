@@ -265,30 +265,40 @@ MultiSelect.propTypes = {
   /** A callback which is called when the user performs a Submit-Action.
    * Submit-Action triggers are: "Enter", "Tab", [typing any defined delimiters], Paste action.
    * `onTagsAdded(values: Array<string>): void - The array of strings is the result of splitting the input value by the given delimiters */
-  onTagsAdded: validatorWithSideEffect(PropTypes.func, (props, propName) => {
-    if (props[propName] && !props['upgrade']) {
-      deprecationLog(
-        `'onTagsAdded' is called only in new API. You should pass the 'upgrade' prop.`,
-      );
-    }
-  }),
+  onTagsAdded: PropTypes.func,
   /** A callback which is called when the user selects an option from the list.
    * `onSelect(option: Option): void` - Option is the original option from the provided `options` prop.
    */
   onSelect: PropTypes.func,
-  onManuallyInput: validatorWithSideEffect(
-    PropTypes.func,
-    (props, propName) => {
-      if (props[propName] && props['upgrade']) {
-        deprecationLog(
-          `When 'upgrade' is passed then 'onManuallyInput' will not be called. Please remove the 'onManuallyInput' prop.`,
-        );
-      }
-    },
-  ),
+  /** @deprecated Use `upgrade=true` and `onTagsAdded` instead. */
+  onManuallyInput: PropTypes.func,
   /** When `true`, then the latest Callback API will be used. Otherwise, see the Old API under the Deprecated stories. */
   upgrade: PropTypes.bool,
 };
+
+MultiSelect.propTypes.onTagsAdded = validatorWithSideEffect(
+  PropTypes.func,
+  (props, propName) => {
+    if (props[propName] && !props['upgrade']) {
+      // TODO: change to allValidators instead of deprecationLog
+      deprecationLog(
+        `'onTagsAdded' is called only in new API. You should pass the 'upgrade' prop.`,
+      );
+    }
+  },
+);
+
+MultiSelect.propTypes.onManuallyInput = validatorWithSideEffect(
+  PropTypes.func,
+  (props, propName) => {
+    if (props[propName] && props['upgrade']) {
+      // TODO: change to allValidators instead of deprecationLog
+      deprecationLog(
+        `When 'upgrade' is passed then 'onManuallyInput' will not be called. Please remove the 'onManuallyInput' prop.`,
+      );
+    }
+  },
+);
 
 MultiSelect.defaultProps = {
   ...InputWithOptions.defaultProps,
