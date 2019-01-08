@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import dropdownDriverFactory from './Dropdown.driver';
-import Dropdown from './Dropdown';
+import Dropdown, { UPGRADE_PROP_NAME } from './Dropdown';
 import { dropdownTestkitFactory } from '../../testkit';
 import { dropdownTestkitFactory as enzymeDropdownTestkitFactory } from '../../testkit/enzyme';
 import { mount } from 'enzyme';
@@ -174,6 +174,45 @@ describe('Dropdown', () => {
             .some(option => option.isSelected()),
         ).toBeFalsy();
         expect(inputDriver.getValue()).toBe('');
+      });
+
+      describe('PropTypes Validation', () => {
+        let consoleErrorSpy;
+
+        beforeEach(() => {
+          consoleErrorSpy = jest
+            .spyOn(global.console, 'error')
+            .mockImplementation(jest.fn());
+        });
+        afterEach(() => {
+          consoleErrorSpy.mockRestore();
+        });
+
+        it('should log error when selectedId and initiallySelectedId are used together', () => {
+          render(
+            <NewDropdown
+              options={getOptions()}
+              selectedId={0}
+              initiallySelectedId={0}
+            />,
+          );
+          expect(consoleErrorSpy).toHaveBeenCalledTimes(1);
+          expect(consoleErrorSpy).toBeCalledWith(
+            expect.stringContaining(
+              `'selectedId' and 'initiallySelectedId' cannot both be used at the same time.`,
+            ),
+          );
+        });
+
+        it('should log error when initiallySelectedId is used without upgrade', () => {
+          render(<Dropdown options={getOptions()} initiallySelectedId={0} />);
+          expect(consoleErrorSpy).toHaveBeenCalledTimes(1);
+          expect(consoleErrorSpy).toBeCalledWith(
+            expect.stringContaining(
+              `'initiallySelectedId' can be used only if you pass '${UPGRADE_PROP_NAME}=true' as well.`,
+            ),
+          );
+        });
       });
     });
 

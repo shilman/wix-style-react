@@ -2,14 +2,13 @@ import classNames from 'classnames';
 import isUndefined from 'lodash/isUndefined';
 import defaultTo from 'lodash/defaultTo';
 import differenceBy from 'lodash/differenceBy';
-import { validatorWithSideEffect } from '../utils/propTypes';
-import deprecationLog from '../utils/deprecationLog';
+import { allValidators } from '../utils/propTypes';
 import InputWithOptions from '../InputWithOptions/InputWithOptions';
 import styles from './Dropdown.scss';
 import PropTypes from 'prop-types';
 
 const NO_SELECTED_ID = null;
-const UPGRADE_PROP_NAME = 'upgrade';
+export const UPGRADE_PROP_NAME = 'upgrade';
 
 class Dropdown extends InputWithOptions {
   constructor(props) {
@@ -165,35 +164,25 @@ Dropdown.propTypes = {
   ...InputWithOptions.propTypes,
   /** When true, then `selectedId` is used for Controlled mode, and `initiallySelectedId` for Uncontrolled mode */
   [UPGRADE_PROP_NAME]: PropTypes.bool,
-  selectedId: validatorWithSideEffect(
+  selectedId: allValidators(
     InputWithOptions.propTypes.selectedId,
     (props, propName) => {
-      if (props[propName] && !props[UPGRADE_PROP_NAME]) {
-        deprecationLog(
-          `API change! 'selectedId' should be used only for Controlled mode.
-           Please pass '${UPGRADE_PROP_NAME}=true' prop to get latest API.
-           If you intended for 'selectedId' to be the initial selectedId,
-           then use 'initiallySelectedId' instead.`,
-        );
-      }
-      if (props[propName] && props['initiallySelectedId']) {
-        deprecationLog(
+      if (
+        props[propName] !== undefined &&
+        props['initiallySelectedId'] !== undefined
+      ) {
+        return new Error(
           `'selectedId' and 'initiallySelectedId' cannot both be used at the same time.`,
         );
       }
     },
   ),
-  initiallySelectedId: validatorWithSideEffect(
+  initiallySelectedId: allValidators(
     InputWithOptions.propTypes.selectedId,
     (props, propName) => {
-      if (props[propName] && !props[UPGRADE_PROP_NAME]) {
-        deprecationLog(
+      if (props[propName] !== undefined && !props[UPGRADE_PROP_NAME]) {
+        return new Error(
           `'initiallySelectedId' can be used only if you pass '${UPGRADE_PROP_NAME}=true' as well.`,
-        );
-      }
-      if (props[propName] && props['selectedId']) {
-        deprecationLog(
-          `'selectedId' and 'initiallySelectedId' cannot both be used at the same time.`,
         );
       }
     },

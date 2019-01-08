@@ -16,3 +16,19 @@ export function validatorWithSideEffect(validator, sideEffect) {
     );
   };
 }
+
+/**
+ * Runs all validators.
+ */
+export function allValidators(...validators) {
+  return (props, propName, componentName) => {
+    validators.forEach(validator => {
+      PropTypes.checkPropTypes(
+        { [propName]: validator },
+        props,
+        propName,
+        componentName,
+      );
+    });
+  };
+}
