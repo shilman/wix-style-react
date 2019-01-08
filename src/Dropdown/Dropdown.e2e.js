@@ -1,42 +1,26 @@
-import eyes from 'eyes.it';
 import autoExampleDriver from 'wix-storybook-utils/AutoExampleDriver';
-import { dropdownTestkitFactory } from '../../testkit/protractor';
+import { eyesItInstance } from '../../test/utils/eyes-it';
 import { waitForVisibilityOf } from 'wix-ui-test-utils/protractor';
 import { createStoryUrl } from '../../test/utils/storybook-helpers';
+
+import { dropdownTestkitFactory } from '../../testkit/protractor';
 import { storySettings } from '../../stories/components/Dropdown/storySettings';
 
 describe('Dropdown', () => {
+  const eyes = eyesItInstance();
+
   const autoExampleUrl = createStoryUrl({
     kind: storySettings.kind,
     story: storySettings.storyName,
     withExamples: false,
   });
 
-  eyes.it('should choose different dropdown items', async () => {
-    const storyUrl = createStoryUrl({
-      kind: storySettings.kind,
-      story: storySettings.storyName,
-    });
-    const dataHook = 'story-dropdown-controlled';
+  eyes.it('should display default (no options and not focused)', async () => {
+    const dataHook = 'story-dropdown';
+    await browser.get(autoExampleUrl);
     const driver = dropdownTestkitFactory({ dataHook });
-
-    await browser.get(storyUrl);
-
     await waitForVisibilityOf(driver.element(), 'Cannot find Dropdown');
-    expect(await driver.getInput().getAttribute('value')).toBe('');
-
-    await driver.click();
-    await driver.getDropdownItem(1).click();
-    expect(await driver.getInput().getAttribute('value')).toBe('Option 2');
-
-    await driver.click();
-    await driver.getDropdownItem(2).click();
-    expect(await driver.getInput().getAttribute('value')).toBe('Option 3');
-
-    //choose a disabled option
-    await driver.click();
-    await driver.getDropdownItem(3).click();
-    expect(await driver.getInput().getAttribute('value')).toBe('Option 3');
+    expect(await driver.isOptionsShown()).toBeFalsy();
   });
 
   eyes.it('should display focused and with options shown', async () => {
