@@ -552,24 +552,43 @@ describe('MultiSelect', () => {
         expect(onSelect).toHaveBeenCalledTimes(1);
       });
 
-      it('should be called with proper argument', () => {
+      it('should be called with selected option given highlight enabled', () => {
+        // This is a regression test for old bug , when highlight enabled the value would be a <Highlight> element
         const onSelect = jest.fn();
+        const option1 = {
+          id: '1',
+          value: 'alabama',
+          arbitraryPropName: { code: 'ALB' },
+        };
+        const { driver, dropdownLayoutDriver } = createDriver(
+          <NewMultiSelect options={[option1]} onSelect={onSelect} />,
+        );
+        driver.pressKey('ArrowDown');
+        dropdownLayoutDriver.clickAtOption(0);
 
+        expect(onSelect).toHaveBeenCalledTimes(1);
+        expect(onSelect).toBeCalledWith(option1);
+      });
+
+      it('should be called with selected option given highlight disabled', () => {
+        const onSelect = jest.fn();
+        const option1 = {
+          id: '1',
+          value: 'alabama',
+          arbitraryPropName: { code: 'ALB' },
+        };
         const { driver, dropdownLayoutDriver } = createDriver(
           <NewMultiSelect
-            options={[
-              { id: '1', value: 'alabama', arbitraryPropName: { code: 'ALB' } },
-            ]}
+            options={[option1]}
             onSelect={onSelect}
+            highlight={false}
           />,
         );
         driver.pressKey('ArrowDown');
         dropdownLayoutDriver.clickAtOption(0);
 
         expect(onSelect).toHaveBeenCalledTimes(1);
-        expect(onSelect).toBeCalledWith([
-          { id: '1', arbitraryPropName: { code: 'ALB' } },
-        ]);
+        expect(onSelect).toBeCalledWith(option1);
       });
 
       it('should be called when option is selected by keyboard', () => {
