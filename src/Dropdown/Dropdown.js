@@ -162,8 +162,9 @@ class Dropdown extends InputWithOptions {
 
 Dropdown.propTypes = {
   ...InputWithOptions.propTypes,
-  /** When true, then `selectedId` is used for Controlled mode, and `initialSelectedId` for Uncontrolled mode */
-  [UPGRADE_PROP_NAME]: PropTypes.bool,
+  /** When true, then `selectedId` is used for Controlled mode, and `initialSelectedId` for Uncontrolled mode. */
+  upgrade: PropTypes.bool,
+  /** Sets the selected option id. (Implies Controlled mode) */
   selectedId: allValidators(
     InputWithOptions.propTypes.selectedId,
     (props, propName) => {
@@ -177,6 +178,7 @@ Dropdown.propTypes = {
       }
     },
   ),
+  /** An initial selected option id. (Implies Uncontrolled mode) */
   initialSelectedId: allValidators(
     InputWithOptions.propTypes.selectedId,
     (props, propName) => {
