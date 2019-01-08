@@ -92,6 +92,7 @@ export default {
     enzymeTestkitFactory: require('../src/Backoffice/Tooltip/Tooltip.driver')
       .default,
   },
+  Box: { skipSanityTest, noTestkit },
   ColorPicker: {
     skipSanityTest,
     enzymeTestkitFactory: require('../src/ColorPicker/ColorPicker.driver')
