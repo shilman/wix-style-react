@@ -22,6 +22,7 @@
 }
 
 /* Add padding when an arrow is used */
-.root:withArrow::popoverContent {
+.root:withArrow::popover[data-placement*="top"]::popoverContent,
+.root:withArrow::popover[data-placement*="bottom"]::popoverContent {
   padding: 10px 0;
 }

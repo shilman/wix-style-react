@@ -5,19 +5,18 @@
     data-hook="story-dropdown-popover-uncontrolled-icon"
     showArrow
     options={[
-      { id: 0, value: 'First option' },
-      { id: 1, value: 'Second option' },
-      { id: 2, value: 'Third option' },
-      { id: 3, value: 'Fourth option' },
-      { id: 4, value: 'Fifth option' },
-      { id: 5, value: 'Sixth option' },
+      { id: 0, value: 'Today' },
+      { id: 1, value: 'Yesterday' },
+      { id: 2, value: 'Last 7 days' },
+      { id: 3, value: 'Next 7 days' },
+      { id: 4, value: 'A month ago' },
     ]}
   >
     {({ open, close }) => {
       return (
-        <TextButton skin="dark" onMouseEnter={open} onMouseLeave={close}>
-          <Image />
-        </TextButton>
+        <IconButton skin="inverted" onMouseEnter={open} onMouseLeave={close}>
+          <Date />
+        </IconButton>
       );
     }}
   </DropdownPopover>
