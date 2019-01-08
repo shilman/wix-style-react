@@ -81,8 +81,6 @@ export default {
 
   examples: (
     <div>
-      <h1>Examples</h1>
-
       <CodeExample title="Standard" code={ExampleStandardRaw}>
         <div style={{ maxWidth: 720 }}>
           <ExampleStandard />
