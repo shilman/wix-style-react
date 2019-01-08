@@ -5,13 +5,38 @@ import classNames from 'classnames';
 import styles from './Box.scss';
 
 const Box = props => {
-  const { children, inline } = props;
+  const {
+    children,
+    inline,
+    align,
+    verticalAlign,
+    padding,
+    margin,
+    minWidth,
+    maxWidth,
+    width,
+    minHeight,
+    maxHeight,
+    height,
+  } = props;
   const rootClassNames = classNames(styles.root, {
     [styles.inline]: inline,
   });
+  const rootStyles = {
+    alignItems: align,
+    justifyContent: verticalAlign,
+    padding,
+    margin,
+    minWidth,
+    maxWidth,
+    width,
+    minHeight,
+    maxHeight,
+    height,
+  };
 
   return (
-    <div className={rootClassNames}>
+    <div className={rootClassNames} style={rootStyles}>
       {children}
     </div>
   );
