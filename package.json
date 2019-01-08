@@ -34,6 +34,7 @@
     "test:e2e": "concurrently 'npm run test:e2e-only' 'node scripts/e2e-server.js' --names 'protractor,e2e-server' --success first --kill-others",
     "test:e2e-only": "NODE_ENV=production yoshi test --protractor",
     "copy-public-styles": "cp src/*.scss .",
+    "prebuild": "npm run generate-testkit-exports",
     "build": "npm run lint && npm run proxy-wix-ui-icons && npm run generate-test-component && yoshi build && npm run storybook:build",
     "postbuild": "npm run copy-public-styles && npm run export-components",
     "pr-postbuild": "npm install teamcity-surge-autorelease@^1.0.0 --no-save && teamcity-surge-autorelease",
@@ -45,7 +46,8 @@
     "lint": "yoshi lint",
     "proxy-wix-ui-icons": "node scripts/proxy-wix-ui-icons",
     "generate": "./scripts/component-generator/bin/component-generator.js",
-    "generate-test-component": "./scripts/component-generator/bin/generate-test-component.js"
+    "generate-test-component": "./scripts/component-generator/bin/generate-test-component.js",
+    "generate-testkit-exports": "node scripts/generate-testkit-exports"
   },
   "yoshi": {
     "entry": {
