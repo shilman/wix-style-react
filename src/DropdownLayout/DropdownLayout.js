@@ -256,7 +256,7 @@ class DropdownLayout extends WixComponent {
       fixedHeader,
       withArrow,
       fixedFooter,
-      inContainer
+      inContainer,
     } = this.props;
 
     const renderedOptions = options.map((option, idx) =>

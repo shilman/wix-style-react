@@ -543,3 +543,9 @@ import { generatedTestComponentDriverFactory } from '../src/GeneratedTestCompone
 export const generatedTestComponentTestkitFactory = uniTestkitFactoryCreator(
   generatedTestComponentDriverFactory,
 );
+
+import { selectableListDriverFactory } from '../src/SelectableList/SelectableList.driver';
+
+export const selectableListTestkitFactory = uniTestkitFactoryCreator(
+  selectableListDriverFactory,
+);

@@ -157,3 +157,6 @@ import './GeneratedTestComponent/index.story';
 import './Deprecated/Button/standard.story.js';
 import './ButtonLayout.story.js'; // 5.0 ButtonLayout
 import './TextLink/index.story.js'; // 5.8 Text Link
+
+// This import was added by the component generator
+import './SelectableList/index.story';

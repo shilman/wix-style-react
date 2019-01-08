@@ -94,3 +94,9 @@ import { dropdownPopoverDriverFactory } from '../src/DropdownPopover/DropdownPop
 export const dropdownPopoverTestkitFactory = puppeteerUniTestkitFactoryCreator(
   dropdownPopoverDriverFactory,
 );
+
+import { selectableListDriverFactory } from '../src/SelectableList/SelectableList.driver';
+
+export const selectableListTestkitFactory = puppeteerUniTestkitFactoryCreator(
+  selectableListDriverFactory,
+);

@@ -23,7 +23,8 @@ const inputAreaDriverFactory = ({ element }) => {
     getTabIndex: () => textArea.tabIndex,
     getReadOnly: () => textArea.readOnly,
     getResizable: () => textAreaElement.classList.contains(styles.resizable),
-    getDisabled: () => textAreaElement.classList.contains(styles.disabled) && textArea.disabled,
+    getDisabled: () =>
+      textAreaElement.classList.contains(styles.disabled) && textArea.disabled,
     getHasCounter: () => !!element.querySelectorAll(counterSelector).length,
     getCounterValue: () => element.querySelector(counterSelector).textContent,
     hasExclamation: () =>

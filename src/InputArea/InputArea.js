@@ -139,7 +139,7 @@ class InputArea extends WixComponent {
           )}
         </div>
         <div className={styles.error}>
-          {(error && !disabled) && (
+          {error && !disabled && (
             <Exclamation
               errorMessage={errorMessage}
               tooltipPlacement={tooltipPlacement}

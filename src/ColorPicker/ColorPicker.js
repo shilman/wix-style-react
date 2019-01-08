@@ -66,12 +66,7 @@ export default class ColorPicker extends WixComponent {
   }
 
   render() {
-    const {
-      showHistory,
-      showInput,
-      showConverter,
-      children,
-    } = this.props;
+    const { showHistory, showInput, showConverter, children } = this.props;
     const { current, previous } = this.state;
 
     return (

@@ -435,3 +435,9 @@ import { dropdownPopoverDriverFactory } from '../src/DropdownPopover/DropdownPop
 export const dropdownPopoverTestkitFactory = protractorUniTestkitFactoryCreator(
   dropdownPopoverDriverFactory,
 );
+
+import { selectableListDriverFactory } from '../src/SelectableList/SelectableList.driver';
+
+export const selectableListTestkitFactory = protractorUniTestkitFactoryCreator(
+  selectableListDriverFactory,
+);

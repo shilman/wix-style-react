@@ -110,3 +110,4 @@ export { default as Carousel } from './Carousel';
 export { default as CalendarPanel } from './CalendarPanel';
 export { default as Proportion } from './Proportion';
 export { default as DropdownPopover } from './DropdownPopover';
+export { default as SelectableList } from './SelectableList';
