@@ -87,28 +87,13 @@ class MultiSelect extends InputWithOptions {
 
   _onChange(event) {
     if (this.state.pasteDetected) {
+      const value = event.target.value;
       if (this._isNewCallbackApi()) {
-        const value = event.target.value;
         this.setState({ pasteDetected: false }, () => {
           this.submitValue(value);
         });
       } else {
-        const tags = this._splitValues(event.target.value);
-        const suggestedOptions = tags.map(tag => {
-          const tagObj = this.getUnselectedOptions().find(
-            element =>
-              this.props.valueParser(element).toLowerCase() ===
-              tag.toLowerCase(),
-          );
-          return tagObj
-            ? tagObj
-            : { id: uniqueId('customOption_'), value: tag, theme: 'error' };
-        });
-
-        this.setState({ pasteDetected: false }, () => {
-          this.deprecatedOnSelect(suggestedOptions);
-          this.clearInput();
-        });
+        this.deprecatedOnChangePaste(value);
       }
     } else {
       this.setState({ inputValue: event.target.value });
@@ -118,6 +103,24 @@ class MultiSelect extends InputWithOptions {
     if (event.target.value.trim()) {
       this.showOptions();
     }
+  }
+
+  deprecatedOnChangePaste(value) {
+    const tags = this._splitValues(value);
+    const suggestedOptions = tags.map(tag => {
+      const tagObj = this.getUnselectedOptions().find(
+        element =>
+          this.props.valueParser(element).toLowerCase() === tag.toLowerCase(),
+      );
+      return tagObj
+        ? tagObj
+        : { id: uniqueId('customOption_'), value: tag, theme: 'error' };
+    });
+
+    this.setState({ pasteDetected: false }, () => {
+      this.deprecatedOnSelect(suggestedOptions);
+      this.clearInput();
+    });
   }
 
   _onSelect(option) {
@@ -130,10 +133,21 @@ class MultiSelect extends InputWithOptions {
 
   _onManuallyInput(inputValue) {
     if (this._isNewCallbackApi()) {
-      this._onManuallyInputNewApi(inputValue);
-      return;
-    }
+      const { value } = this.props;
+      const _value =
+        (value && value.trim()) || (inputValue && inputValue.trim());
 
+      this.submitValue(_value);
+
+      if (this.closeOnSelect()) {
+        this.hideOptions();
+      }
+    } else {
+      this._deprecatedOnManuallyInput(inputValue);
+    }
+  }
+
+  _deprecatedOnManuallyInput(inputValue) {
     const { value, options } = this.props;
     if (value && value.trim()) {
       if (options.length) {
@@ -158,17 +172,6 @@ class MultiSelect extends InputWithOptions {
       this.submitValue(inputValue);
     }
     this.clearInput();
-  }
-
-  _onManuallyInputNewApi(inputValue) {
-    const { value } = this.props;
-    const _value = (value && value.trim()) || (inputValue && inputValue.trim());
-
-    this.submitValue(_value);
-
-    if (this.closeOnSelect()) {
-      this.hideOptions();
-    }
   }
 
   getManualSubmitKeys() {
@@ -234,11 +237,16 @@ class MultiSelect extends InputWithOptions {
     if (this._isNewCallbackApi()) {
       const values = this._splitValues(inputValue);
       onTagsAdded && values.length && onTagsAdded(values);
-    } else if (onManuallyInput) {
-      onManuallyInput(
-        inputValue,
-        this.optionToTag({ id: uniqueId('customOption_'), value: inputValue }),
-      );
+    } else {
+      if (onManuallyInput) {
+        onManuallyInput(
+          inputValue,
+          this.optionToTag({
+            id: uniqueId('customOption_'),
+            value: inputValue,
+          }),
+        );
+      }
     }
 
     this.clearInput();
