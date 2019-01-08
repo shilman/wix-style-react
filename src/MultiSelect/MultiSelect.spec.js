@@ -38,7 +38,11 @@ describe('MultiSelect', () => {
   const NewMultiSelect = props => <MultiSelect {...props} upgrade />;
 
   class ControlledMultiSelect extends React.Component {
-    state = { inputValue: '' };
+    state = { inputValue: this.props.value || '' };
+
+    componentWillReceiveProps(nextProps) {
+      this.setState({ inputValue: nextProps.value });
+    }
 
     render() {
       return (
@@ -269,7 +273,7 @@ describe('MultiSelect', () => {
     expect(driver.getTagLabelAt(1)).toBe('Alaska');
   });
 
-  describe('onTagsAdded', () => {
+  describe('Tag Input', () => {
     it('should have deprecationLog when onManuallyInput is also passed', () => {
       const depLogSpy = jest.spyOn(depLogger, 'log');
       render(<NewMultiSelect options={options} onManuallyInput={() => {}} />);
@@ -279,9 +283,9 @@ describe('MultiSelect', () => {
       depLogSpy.mockRestore();
     });
 
-    describe('type&submit', () => {
+    describe('Type & Submit', () => {
       describe('input is empty', () => {
-        it('should not be called when Enter is pressed', () => {
+        it('should NOT call onTagsAdded when Enter is pressed', () => {
           const onManuallyInput = jest.fn();
           const onTagsAdded = jest.fn();
           const { driver } = createDriver(
@@ -306,7 +310,7 @@ describe('MultiSelect', () => {
           keyPressed,
           enteredText = 'custom value',
           Component = NewMultiSelect,
-          expectOnTagsAddedToBeCalled = true,
+          expectOnTagsAddedToBeCalled,
         }) {
           const onManuallyInput = jest.fn();
           const onSelect = jest.fn();
@@ -333,41 +337,105 @@ describe('MultiSelect', () => {
             expect(onTagsAdded).toBeCalledWith([enteredText]);
         }
 
-        it('should be called when Enter is pressed', () => {
-          testCase({ props: { options }, keyPressed: 'Enter' });
-        });
+        describe('Controlled', () => {
+          it('should call onTagsAdded when Enter is pressed', () => {
+            testCase({
+              props: { options },
+              keyPressed: 'Enter',
+              Component: ControlledMultiSelect,
+              expectOnTagsAddedToBeCalled: true,
+            });
+          });
 
-        it('should be called when Enter is pressed given ControlledMultiSelect', () => {
-          testCase({
-            props: { options },
-            keyPressed: 'Enter',
-            Component: ControlledMultiSelect,
+          it('should call onTagsAdded when Enter pressed given initial value', () => {
+            const onManuallyInput = jest.fn();
+            const onSelect = jest.fn();
+            const onTagsAdded = jest.fn();
+            const { driver } = createDriver(
+              <ControlledMultiSelect
+                onManuallyInput={onManuallyInput}
+                onTagsAdded={onTagsAdded}
+                onSelect={onSelect}
+                value="foo"
+              />,
+            );
+
+            driver.focus();
+            driver.pressKey('Enter');
+
+            expect(onSelect).toHaveBeenCalledTimes(0);
+            expect(onTagsAdded).toHaveBeenCalledTimes(1);
+            expect(onTagsAdded).toBeCalledWith(['foo']);
+          });
+
+          it('should call onTagsAdded when Enter pressed given value updated', () => {
+            const onSelect = jest.fn();
+            const onTagsAdded = jest.fn();
+            const { driver: _driver, rerender } = render(
+              <ControlledMultiSelect
+                onTagsAdded={onTagsAdded}
+                onSelect={onSelect}
+                value="foo"
+              />,
+            );
+            const { driver } = _driver;
+            rerender(
+              <ControlledMultiSelect
+                onTagsAdded={onTagsAdded}
+                onSelect={onSelect}
+                value="foo2"
+              />,
+            );
+            driver.focus();
+            driver.pressKey('Enter');
+
+            expect(onSelect).toHaveBeenCalledTimes(0);
+            expect(onTagsAdded).toHaveBeenCalledTimes(1);
+            expect(onTagsAdded).toBeCalledWith(['foo2']);
           });
         });
 
-        it('should be called when delimiter is pressed', () => {
-          testCase({ props: { options }, keyPressed: ',' });
-        });
-
-        it('should be called when delimiter is pressed given no options', () => {
-          testCase({ props: {}, keyPressed: ',' });
-        });
-
-        it('should NOT be called when Enter pressed given enteredText is spaces only', () => {
-          testCase({
-            props: { options },
-            enteredText: '   ',
-            keyPressed: 'Enter',
-            expectOnTagsAddedToBeCalled: false,
+        describe('Uncontrolled', () => {
+          it('should call onTagsAdded when Enter is pressed', () => {
+            testCase({
+              props: { options },
+              keyPressed: 'Enter',
+              expectOnTagsAddedToBeCalled: true,
+            });
           });
-        });
 
-        it('should NOT be called when Enter pressed given enteredText is delimited spaces only', () => {
-          testCase({
-            props: { options },
-            enteredText: ' ,  ',
-            keyPressed: 'Enter',
-            expectOnTagsAddedToBeCalled: false,
+          it('should call onTagsAdded when delimiter is pressed', () => {
+            testCase({
+              props: { options },
+              keyPressed: ',',
+              expectOnTagsAddedToBeCalled: true,
+            });
+          });
+
+          it('should call onTagsAdded when delimiter is pressed given no options', () => {
+            testCase({
+              props: {},
+              keyPressed: ',',
+              expectOnTagsAddedToBeCalled: true,
+            });
+          });
+
+          it('should NOT call onTagsAdded when Enter pressed given enteredText is spaces only', () => {
+            testCase({
+              props: { options },
+              enteredText: '   ',
+              keyPressed: 'Enter',
+              expectOnTagsAddedToBeCalled: false,
+            });
+          });
+
+          it('should NOT call onTagsAdded when Enter pressed given enteredText is delimited spaces only', () => {
+            testCase({
+              props: { options },
+              enteredText: ' ,  ',
+              keyPressed: 'Enter',
+              expectOnTagsAddedToBeCalled: false,
+            });
           });
         });
       });
