@@ -106,7 +106,7 @@ class MultiSelect extends InputWithOptions {
         });
 
         this.setState({ pasteDetected: false }, () => {
-          this.onSelect(suggestedOptions);
+          this.deprecatedOnSelect(suggestedOptions);
           this.clearInput();
         });
       }
@@ -121,7 +121,11 @@ class MultiSelect extends InputWithOptions {
   }
 
   _onSelect(option) {
-    this.onSelect([option]);
+    if (this._isNewCallbackApi()) {
+      this.onSelect(option);
+    } else {
+      this.deprecatedOnSelect([option]);
+    }
   }
 
   _onManuallyInput(inputValue) {
@@ -138,7 +142,7 @@ class MultiSelect extends InputWithOptions {
         const maybeNearestOption = visibleOptions[0];
 
         if (maybeNearestOption) {
-          this.onSelect([maybeNearestOption]);
+          this.deprecatedOnSelect([maybeNearestOption]);
         }
       } else {
         this.props.onSelect([{ id: value.trim(), label: value.trim() }]);
@@ -196,23 +200,26 @@ class MultiSelect extends InputWithOptions {
     return tag ? { id, ...tag } : { id, label: value, theme };
   }
 
-  onSelect(_options) {
+  onSelect(option) {
     this.clearInput();
 
     const { onSelect } = this.props;
 
     if (onSelect) {
-      if (this._isNewCallbackApi()) {
-        onSelect(
-          _options.map(op => {
-            const { value: _ignore, ...rest } = op;
-            return rest;
-          }),
-        );
-      } else {
-        const tags = _options.map(this.optionToTag);
-        onSelect(tags);
-      }
+      onSelect(this.props.options.find(o => o.id === option.id));
+    }
+
+    this.input.focus();
+  }
+
+  deprecatedOnSelect(_options) {
+    this.clearInput();
+
+    const { onSelect } = this.props;
+
+    if (onSelect) {
+      const tags = _options.map(this.optionToTag);
+      onSelect(tags);
     }
 
     this.input.focus();
@@ -255,9 +262,9 @@ MultiSelect.propTypes = {
   error: PropTypes.bool,
   errorMessage: PropTypes.string,
   onReorder: PropTypes.func,
-  /** A callback which is called when the user performs a Submit action.
-   * Submit action triggers are: "Enter", "Tab", [typing any defined delimiters], Paste action.
-   * The callback receives one argument which is an array of strings, which are the result of splitting the input value by the given delimiters */
+  /** A callback which is called when the user performs a Submit-Action.
+   * Submit-Action triggers are: "Enter", "Tab", [typing any defined delimiters], Paste action.
+   * `onTagsAdded(values: Array<string>): void - The array of strings is the result of splitting the input value by the given delimiters */
   onTagsAdded: validatorWithSideEffect(PropTypes.func, (props, propName) => {
     if (props[propName] && !props['upgrade']) {
       deprecationLog(
@@ -266,9 +273,8 @@ MultiSelect.propTypes = {
     }
   }),
   /** A callback which is called when the user selects an option from the list.
-   * The callback receives one argument which is an array of the newly selected option objects (Usually one).
-   * Each object is the original options object excluding the 'value' property.
-   * */
+   * `onSelect(option: Option): void` - Option is the original option from the provided `options` prop.
+   */
   onSelect: PropTypes.func,
   onManuallyInput: validatorWithSideEffect(
     PropTypes.func,
@@ -280,7 +286,7 @@ MultiSelect.propTypes = {
       }
     },
   ),
-  /** When true, then a new Callback API will be used. See latest documentation */
+  /** When `true`, then the latest Callback API will be used. Otherwise, see the Old API under the Deprecated stories. */
   upgrade: PropTypes.bool,
 };
 
