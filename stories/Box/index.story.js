@@ -9,6 +9,11 @@ export default {
 
   componentProps: () => ({
     children: 'Children',
+    align: 'center',
+    verticalAlign: 'middle',
+    padding: 2,
+    margin: 1,
+    inline: false,
     dataHook: storySettings.dataHook,
   }),
 };
