@@ -8,6 +8,7 @@ export default {
   componentPath: '../../src/Box',
 
   componentProps: () => ({
+    children: 'Children',
     dataHook: storySettings.dataHook,
   }),
 };
