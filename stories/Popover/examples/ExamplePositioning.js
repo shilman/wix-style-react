@@ -55,6 +55,7 @@ const PopoversRow = ({ placements }) => (
 
 export default () => (
   <div
+    data-hook="story-popover-positioning"
     style={{
       maxWidth: 1254,
       padding: 50,
