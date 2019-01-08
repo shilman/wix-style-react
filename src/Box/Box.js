@@ -5,6 +5,17 @@ import classNames from 'classnames';
 import styles from './Box.scss';
 
 const spacingUnit = 6;
+const horizontalAlignmentValues = {
+  left: 'flex-start',
+  center: 'center',
+  right: 'flex-end',
+};
+const verticalAlignmentValues = {
+  top: 'flex-start',
+  center: 'center',
+  bottom: 'flex-end',
+};
+
 const formatValue = value => isFinite(value) ? value * spacingUnit : `${value}`;
 
 const Box = props => {
@@ -35,8 +46,8 @@ const Box = props => {
   });
   const rootStyles = {
     // Alignment
-    justifyContent: align,
-    alignItems: verticalAlign,
+    justifyContent: horizontalAlignmentValues[align],
+    alignItems: verticalAlignmentValues[verticalAlign],
 
     // Spacing
     padding: formatValue(padding),
@@ -70,7 +81,7 @@ Box.displayName = 'Box';
 
 Box.propTypes = {
   children: PropTypes.node.isRequired,
-  inline: PropTypes,
+  inline: PropTypes.bool,
   align: PropTypes.string,
   verticalAlign: PropTypes.string,
   padding: PropTypes.oneOfType[PropTypes.string, PropTypes.number],
