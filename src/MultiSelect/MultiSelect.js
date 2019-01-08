@@ -77,7 +77,7 @@ class MultiSelect extends InputWithOptions {
     this.setState({ pasteDetected: true });
   }
 
-  _splitValues(value) {
+  _splitByDelimitersAndTrim(value) {
     const delimitersRegexp = new RegExp(this.props.delimiters.join('|'), 'g');
     return value
       .split(delimitersRegexp)
@@ -106,7 +106,7 @@ class MultiSelect extends InputWithOptions {
   }
 
   deprecatedOnChangePaste(value) {
-    const tags = this._splitValues(value);
+    const tags = this._splitByDelimitersAndTrim(value);
     const suggestedOptions = tags.map(tag => {
       const tagObj = this.getUnselectedOptions().find(
         element =>
@@ -240,7 +240,7 @@ class MultiSelect extends InputWithOptions {
 
     const { onManuallyInput, onTagsAdded } = this.props;
     if (this._isNewCallbackApi()) {
-      const values = this._splitValues(inputValue);
+      const values = this._splitByDelimitersAndTrim(inputValue);
       onTagsAdded && values.length && onTagsAdded(values);
     } else {
       if (onManuallyInput) {
