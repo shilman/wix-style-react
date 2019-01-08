@@ -8,7 +8,6 @@ import styles from './Dropdown.scss';
 import PropTypes from 'prop-types';
 
 const NO_SELECTED_ID = null;
-export const UPGRADE_PROP_NAME = 'upgrade';
 
 class Dropdown extends InputWithOptions {
   constructor(props) {
@@ -182,9 +181,9 @@ Dropdown.propTypes = {
   initialSelectedId: allValidators(
     InputWithOptions.propTypes.selectedId,
     (props, propName) => {
-      if (props[propName] !== undefined && !props[UPGRADE_PROP_NAME]) {
+      if (props[propName] !== undefined && !props['upgrade']) {
         return new Error(
-          `'initialSelectedId' can be used only if you pass '${UPGRADE_PROP_NAME}=true' as well.`,
+          `'initialSelectedId' can be used only if you pass 'upgrade=true' as well.`,
         );
       }
     },

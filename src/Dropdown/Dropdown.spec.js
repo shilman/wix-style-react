@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import dropdownDriverFactory from './Dropdown.driver';
-import Dropdown, { UPGRADE_PROP_NAME } from './Dropdown';
+import Dropdown from './Dropdown';
 import { dropdownTestkitFactory } from '../../testkit';
 import { dropdownTestkitFactory as enzymeDropdownTestkitFactory } from '../../testkit/enzyme';
 import { mount } from 'enzyme';
@@ -139,7 +139,7 @@ describe('Dropdown', () => {
         expect(consoleErrorSpy).toHaveBeenCalledTimes(1);
         expect(consoleErrorSpy).toBeCalledWith(
           expect.stringContaining(
-            `'initialSelectedId' can be used only if you pass '${UPGRADE_PROP_NAME}=true' as well.`,
+            `'initialSelectedId' can be used only if you pass 'upgrade=true' as well.`,
           ),
         );
       });
