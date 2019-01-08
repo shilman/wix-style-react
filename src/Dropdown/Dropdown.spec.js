@@ -95,7 +95,7 @@ describe('Dropdown', () => {
     describe('Uncontrolled SelectedId', () => {
       it('should select item with selectedId on init state', () => {
         const { inputDriver, dropdownLayoutDriver } = createDriver(
-          <NewDropdown options={getOptions()} initiallySelectedId={0} />,
+          <NewDropdown options={getOptions()} initialSelectedId={0} />,
         );
 
         expect(dropdownLayoutDriver.isOptionSelected(0)).toBeTruthy();
@@ -139,14 +139,14 @@ describe('Dropdown', () => {
       });
 
       describe('initiallySelected', () => {
-        it('should keep selectedId and value when initiallySelectedId changed', () => {
+        it('should keep selectedId and value when initialSelectedId changed', () => {
           const { driver: _driver, rerender } = render(
-            <NewDropdown options={getOptions()} initiallySelectedId={0} />,
+            <NewDropdown options={getOptions()} initialSelectedId={0} />,
           );
           const { dropdownLayoutDriver } = _driver;
           expect(dropdownLayoutDriver.isOptionSelected(0)).toBeTruthy();
           rerender(
-            <NewDropdown options={getOptions()} initiallySelectedId={1} />,
+            <NewDropdown options={getOptions()} initialSelectedId={1} />,
           );
           expect(dropdownLayoutDriver.isOptionSelected(0)).toBeTruthy();
         });
@@ -159,7 +159,7 @@ describe('Dropdown', () => {
               { id: 0, value: 'Option 1' },
               { id: 1, value: 'Option 2' },
             ]}
-            initiallySelectedId={0}
+            initialSelectedId={0}
           />,
         );
         const { inputDriver, dropdownLayoutDriver } = _driver;
@@ -188,28 +188,28 @@ describe('Dropdown', () => {
           consoleErrorSpy.mockRestore();
         });
 
-        it('should log error when selectedId and initiallySelectedId are used together', () => {
+        it('should log error when selectedId and initialSelectedId are used together', () => {
           render(
             <NewDropdown
               options={getOptions()}
               selectedId={0}
-              initiallySelectedId={0}
+              initialSelectedId={0}
             />,
           );
           expect(consoleErrorSpy).toHaveBeenCalledTimes(1);
           expect(consoleErrorSpy).toBeCalledWith(
             expect.stringContaining(
-              `'selectedId' and 'initiallySelectedId' cannot both be used at the same time.`,
+              `'selectedId' and 'initialSelectedId' cannot both be used at the same time.`,
             ),
           );
         });
 
-        it('should log error when initiallySelectedId is used without upgrade', () => {
-          render(<Dropdown options={getOptions()} initiallySelectedId={0} />);
+        it('should log error when initialSelectedId is used without upgrade', () => {
+          render(<Dropdown options={getOptions()} initialSelectedId={0} />);
           expect(consoleErrorSpy).toHaveBeenCalledTimes(1);
           expect(consoleErrorSpy).toBeCalledWith(
             expect.stringContaining(
-              `'initiallySelectedId' can be used only if you pass '${UPGRADE_PROP_NAME}=true' as well.`,
+              `'initialSelectedId' can be used only if you pass '${UPGRADE_PROP_NAME}=true' as well.`,
             ),
           );
         });

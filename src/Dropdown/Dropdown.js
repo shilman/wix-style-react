@@ -19,7 +19,7 @@ class Dropdown extends InputWithOptions {
         selectedId: NO_SELECTED_ID,
         ...Dropdown.getNextState(
           props,
-          defaultTo(props.selectedId, props.initiallySelectedId),
+          defaultTo(props.selectedId, props.initialSelectedId),
         ),
       };
     } else {
@@ -162,27 +162,27 @@ class Dropdown extends InputWithOptions {
 
 Dropdown.propTypes = {
   ...InputWithOptions.propTypes,
-  /** When true, then `selectedId` is used for Controlled mode, and `initiallySelectedId` for Uncontrolled mode */
+  /** When true, then `selectedId` is used for Controlled mode, and `initialSelectedId` for Uncontrolled mode */
   [UPGRADE_PROP_NAME]: PropTypes.bool,
   selectedId: allValidators(
     InputWithOptions.propTypes.selectedId,
     (props, propName) => {
       if (
         props[propName] !== undefined &&
-        props['initiallySelectedId'] !== undefined
+        props['initialSelectedId'] !== undefined
       ) {
         return new Error(
-          `'selectedId' and 'initiallySelectedId' cannot both be used at the same time.`,
+          `'selectedId' and 'initialSelectedId' cannot both be used at the same time.`,
         );
       }
     },
   ),
-  initiallySelectedId: allValidators(
+  initialSelectedId: allValidators(
     InputWithOptions.propTypes.selectedId,
     (props, propName) => {
       if (props[propName] !== undefined && !props[UPGRADE_PROP_NAME]) {
         return new Error(
-          `'initiallySelectedId' can be used only if you pass '${UPGRADE_PROP_NAME}=true' as well.`,
+          `'initialSelectedId' can be used only if you pass '${UPGRADE_PROP_NAME}=true' as well.`,
         );
       }
     },
