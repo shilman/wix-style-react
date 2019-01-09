@@ -2,12 +2,15 @@
 @import '../common/Focusable/Focusable';
 
 .root {
-  display: inline-block;
+  display: inline-flex;
   outline: none;
+
+  // Sets minimal height for the container in case there's no label
+  min-height: 24px;
 
   label {
     display: flex;
-    cursor: pointer;
+    cursor: default;
     justify-content: center;
     align-items: center;
   }
@@ -49,6 +52,7 @@
   min-height: 16px;
   border-radius: 4px;
   box-sizing: border-box;
+  cursor: pointer;
 }
 
 .inner {

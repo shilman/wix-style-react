@@ -59,7 +59,7 @@ eyes.it('should test something with screenshot diff', async () => {
 
 eyes.it('should test something with a screenshot on demand', async () => {
   // do some manipulation, for example scroll
-  await eyes.checkWindow('after scolling');
+  await eyes.checkWindow('after scrolling');
   // do other manipulations
 });
 ```

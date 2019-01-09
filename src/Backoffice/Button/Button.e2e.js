@@ -1,12 +1,10 @@
 import React from 'react';
 import { eyesItInstance } from '../../../test/utils/eyes-it';
-import queryString from 'query-string';
 import { buttonTestkitFactory } from '../../../testkit/protractor';
 import { waitForVisibilityOf } from 'wix-ui-test-utils/protractor';
 
 import autoExampleDriver from 'wix-storybook-utils/AutoExampleDriver';
 import { runFocusTests } from '../../common/Focusable/FocusableTestsE2E';
-import { TESTS_PREFIX } from '../../../stories/storiesHierarchy';
 
 import { createStoryUrl } from '../../../test/utils/storybook-helpers';
 import { storySettings } from '../../../stories/Deprecated/Button/storySettings';

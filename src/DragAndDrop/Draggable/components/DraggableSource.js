@@ -35,6 +35,7 @@ const source = {
       index,
       containerId,
       groupName,
+      originalIndex: index, // as index is mutable during d&d, we need another storage for original index
       originalItem: item,
       onMoveOut,
       realTime: {
@@ -60,8 +61,8 @@ const source = {
     if (monitor.getDropResult()) {
       onDrop({
         payload: monitor.getItem().originalItem, // original item
-        removedIndex: index, // original item index
-        addedIndex: monitor.getDropResult().index, // new item index
+        removedIndex: monitor.getItem().originalIndex, // original item index
+        addedIndex: monitor.getItem().index, // new item index
         addedToContainerId: monitor.getDropResult().containerId, // new container for item
         removedFromContainerId: containerId, // original item container
       });

@@ -109,7 +109,7 @@ export default class SortableList extends WixComponent {
             {this.state.items.map((item, index) => (
               <Draggable
                 {...common}
-                key={`${item.id}-${index}-${this.props.containerId}`}
+                key={`${item.id}-${this.props.containerId}`}
                 id={item.id}
                 index={index}
                 item={item}

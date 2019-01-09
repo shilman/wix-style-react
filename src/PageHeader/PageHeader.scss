@@ -14,13 +14,6 @@
 .breadcrumbs-container {
   margin-left: -10px;
 
-  @include withRTL() {
-    & {
-      margin-left: 0;
-      margin-right: -10px;
-    }
-  }
-
   &.absolute {
     position: absolute;
   }
@@ -33,12 +26,6 @@
   z-index: 1;
   width: 36px;
   height: 36px;
-
-  @include withRTL() {
-    & {
-      left: 12px;
-    }
-  }
 
   button {
     border: none;
@@ -71,12 +58,6 @@
   display: block;
   width: 36px;
   height: 36px;
-
-  @include withRTL() {
-    & {
-      transform: scaleX(-1);
-    }
-  }
 }
 
 .title-container {
@@ -106,5 +87,20 @@
 
   &.minimized {
     margin-top: -3px;
+  }
+}
+
+@include withRTL() {
+  .breadcrumbs-container {
+    margin-left: 0;
+    margin-right: -10px;
+  }
+
+  .back-button {
+    left: 12px;
+  }
+
+  .back-button-icon {
+    transform: scaleX(-1);
   }
 }

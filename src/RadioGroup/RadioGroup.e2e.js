@@ -1,18 +1,20 @@
 import eyes from 'eyes.it';
 import { radioGroupTestkitFactory } from '../../testkit/protractor';
 import { waitForVisibilityOf } from 'wix-ui-test-utils/protractor';
-import { getStoryUrl } from '../../test/utils/storybook-helpers';
+import { createStoryUrl } from '../../test/utils/storybook-helpers';
 import autoExampleDriver from 'wix-storybook-utils/AutoExampleDriver';
 import { flattenInternalDriver } from '../../test/utils/private-drivers';
 
 const NUM_OF_BUTTONS_IN_EXAMPLE = 4;
 
+const kind = '4. Selection';
+const story = '4.3 Radio Button Group';
+
 describe('RadioGroup', () => {
-  const storyUrl = getStoryUrl('4. Selection', '4.3 Radio Button Group');
   const dataHook = 'storybook-radiogroup';
   const radioGroupDriver = radioGroupTestkitFactory({ dataHook });
 
-  beforeAll(() => browser.get(storyUrl));
+  beforeAll(() => browser.get(createStoryUrl({ kind, story })));
 
   afterEach(async () => {
     await autoExampleDriver.reset();
@@ -102,7 +104,7 @@ describe('RadioGroup', () => {
 
     beforeEach(async () => {
       // Needed in order to reset the focus state
-      await browser.get(storyUrl);
+      await browser.get(createStoryUrl({ kind, story }));
     });
 
     it('should to be selected but NOT to show focus styles when clicked by mouse', async () => {
@@ -133,6 +135,19 @@ describe('RadioGroup', () => {
       await expectNotFocused(`button 0 - before`, driver);
       await pressTab();
       await expectFocusedByKeyboard(`button 0 - after`, driver);
+    });
+  });
+
+  describe('RTL', () => {
+    beforeAll(() => browser.get(createStoryUrl({ kind, story, rtl: true })));
+
+    eyes.it('should select the second option in a group', async () => {
+      await waitForVisibilityOf(
+        radioGroupDriver.element(),
+        'Cannot find RadioGroup',
+      );
+      radioGroupDriver.selectByIndex(1).click();
+      expect(radioGroupDriver.isRadioChecked(1)).toBe(true);
     });
   });
 });

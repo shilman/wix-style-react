@@ -6,10 +6,13 @@ import { storySettings } from './storySettings';
 import PageHeader from 'wix-style-react/PageHeader';
 import { getTestStoryKind } from '../storiesHierarchy';
 import Button from 'wix-style-react/Button';
+import { RTLWrapper } from '../utils';
 
 const PageHeaderContainer = props => {
   return (
-    <div style={{ width: '700px', border: '1px solid' }}>{props.children}</div>
+    <div style={{ width: '700px', border: '1px solid' }}>
+      <RTLWrapper>{props.children}</RTLWrapper>
+    </div>
   );
 };
 PageHeaderContainer.propTypes = {

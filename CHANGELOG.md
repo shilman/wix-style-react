@@ -14,10 +14,24 @@ Types of changes:
 1. **Docs** for documentation changes
 1. **Lab** components and features that are still in a work in progress
 
+## 5.23.0 - 2019-01-08
+
+### Added
+- `<FormField/>` - allow setting direction for one-unit components [#2698](https://github.com/wix/wix-style-react/pull/2698)
+
+### Changed
+- `<Button />`, `<TextButton/>`, `<IconButton/>`, `<CloseButton/>` - add `onClick` callback [#2718](https://github.com/wix/wix-style-react/pull/2718)
+- `<SortableList />` - fix key-index dependency and improve performance [#2720](https://github.com/wix/wix-style-react/pull/2720)
+
+### Fixed
+- `<Tooltip/>` fix reposition loop and avoid hangs [#2596](https://github.com/wix/wix-style-react/pull/2596)
+
+### Docs
+- `<Popover/>` - make autodocs work with the drivers [#2584](https://github.com/wix/wix-style-react/pull/2584)
 
 ## 5.22.0 - 2019-01-06
 
-#### Added
+### Added
 
 - `<ColorPicker/>` - trigger confirmation callback when pressing Enter [#2683](https://github.com/wix/wix-style-react/pull/2683)
 - `<DropdownLayout/>` - add infinite scroll support [#2712](https://github.com/wix/wix-style-react/pull/2712)

@@ -87,6 +87,16 @@ describe('Checkbox', () => {
         expect(await checkboxDriver.isFocused()).toBe(false);
       });
     });
+
+    describe('within FormField', () => {
+      eyes.it('should be rendered', async () => {
+        const checkboxFormFieldDriver = checkboxTestkitFactory({
+          dataHook: 'storybook-checkbox-formfield',
+        });
+
+        expect(checkboxFormFieldDriver.element().isDisplayed()).toBeTruthy();
+      });
+    });
   });
 
   describe('Generic', () => {

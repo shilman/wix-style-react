@@ -51,9 +51,9 @@ import './InputWithOptions'; // 4.1 + InputWithOptions
 import './IconWithOptions'; // 4.1 + IconWithOptions
 import './ButtonWithOptions'; // 4.1 + ButtonWithOptions
 import './MultiSelectCheckbox/index.story.js'; // 4.1 + MultiSelectCheckbox
-import './Checkbox.story.js'; // 4.2 Checkbox
+import './CheckBox/index.story.js'; // 4.2 Checkbox
 import './RadioGroup.story.js'; // 4.3 RadioGroup
-import './ToggleSwitch.story'; // 4.4 ToggleSwitch
+import './ToggleSwitch/index.story'; // 4.4 ToggleSwitch
 import './Slider'; // 4.7 Slider
 import './GoogleAddressInputWithLabel'; // 4.8 Google address input
 
@@ -148,6 +148,7 @@ import './PageHeader/PageHeaderTestStories.js'; // Tests/2. Layout/2.5 + PageHea
 import './Calendar/CalendarTestStory'; // Tests/3. Inputs/3.13 Calendar
 import './PopoverMenu/PopoverMenuRegressionTest.js'; // Tests/7.3. Popover Menu/
 import './Popover/testStory';
+import './TableToolbar/ToolbarTestStory'; // Tests/10. Table
 import './Avatar/AvatarTestStory'; // Tests/12. Other
 
 // The generated test component

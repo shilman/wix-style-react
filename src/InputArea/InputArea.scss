@@ -104,13 +104,6 @@ $gap: 6px;
 
   top: $exclamation-top;
   right: $exclamation-horizontal;
-
-  @include withRTL() {
-    & {
-      left: $exclamation-horizontal;
-      right: initial;
-    }
-  }
 }
 
 
@@ -174,6 +167,11 @@ $gap: 6px;
 
 // RTL layout based on global style set on document body or parent element.
 @include withRTL() {
+  .exclamation {
+    left: $exclamation-horizontal;
+    right: initial;
+  }
+
   .error {
     position: absolute;
     left: 6px;

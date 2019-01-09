@@ -8,9 +8,13 @@ import InputArea from 'wix-style-react/InputArea';
 import RichTextArea from 'wix-style-react/RichTextArea';
 import DatePicker from 'wix-style-react/DatePicker';
 import Dropdown from 'wix-style-react/Dropdown';
+import Checkbox from 'wix-style-react/Checkbox';
+import ToggleSwitch from 'wix-style-react/ToggleSwitch';
 
 import ExampleWithLengthCount from './ExampleWithLengthCount';
 import ExampleWithLengthCountRaw from '!raw-loader!./ExampleWithLengthCount';
+import ExampleWithinGrid from './ExampleWithinGrid';
+import ExampleWithinGridRaw from '!raw-loader!./ExampleWithinGrid';
 
 const ID = 'formFieldId';
 
@@ -64,6 +68,10 @@ const childrenExamples = [
       />
     ),
   },
+
+  { label: 'Checkbox', value: <Checkbox /> },
+
+  { label: 'ToggleSwitch', value: <ToggleSwitch /> },
 ];
 
 export default {
@@ -76,8 +84,10 @@ export default {
     dataHook: 'storybook-formfield',
     children: childrenExamples[0].value,
     label: 'This is an input:',
+    labelPlacement: 'top',
     required: true,
     infoContent: 'I help you to fill info',
+    stretchContent: true,
     id: 'formFieldId',
   },
 
@@ -88,10 +98,18 @@ export default {
     ],
   },
   examples: (
-    <CodeExample title="With Length Count" code={ExampleWithLengthCountRaw}>
-      <div style={{ width: '500px' }}>
-        <ExampleWithLengthCount />
-      </div>
-    </CodeExample>
+    <div>
+      <CodeExample title="With Length Count" code={ExampleWithLengthCountRaw}>
+        <div style={{ width: '500px' }}>
+          <ExampleWithLengthCount />
+        </div>
+      </CodeExample>
+
+      <CodeExample title="Within Grid" code={ExampleWithinGridRaw}>
+        <div>
+          <ExampleWithinGrid />
+        </div>
+      </CodeExample>
+    </div>
   ),
 };
