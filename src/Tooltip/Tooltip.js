@@ -434,6 +434,8 @@ class Tooltip extends WixComponent {
       let sw = 0;
       // we need to set tooltip position after render of tooltip into container, on next event loop
       setTimeout(() => {
+        let iterations = 0;
+        let pixelChange = 0;
         do {
           const _tooltipNode = ReactDOM.findDOMNode(this.tooltipContent);
           if (_tooltipNode) {
@@ -441,7 +443,13 @@ class Tooltip extends WixComponent {
             this._updatePosition(this.tooltipContent);
             sw = this._getRect(_tooltipNode).width;
           }
-        } while (!props.appendToParent && fw !== sw);
+          ++iterations;
+          pixelChange = Math.abs(fw - sw);
+        } while (
+          !props.appendToParent &&
+          pixelChange > 0.1 &&
+          iterations < 10
+        );
       });
     });
   }

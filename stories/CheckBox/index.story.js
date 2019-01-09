@@ -1,7 +1,10 @@
 import React from 'react';
-
 import Checkbox from 'wix-style-react/Checkbox';
 import Languages from 'wix-style-react/new-icons/Languages';
+import CodeExample from 'wix-storybook-utils/CodeExample';
+
+import ExampleFormField from './ExampleFormField';
+import ExampleFormFieldRaw from '!raw-loader!./ExampleFormField';
 
 const labelExamples = [
   { label: 'Simple string', value: 'Hello World!' },
@@ -27,7 +30,7 @@ export default {
   category: '4. Selection',
   storyName: '4.2 Checkbox',
   component: Checkbox,
-  componentPath: '../src/Checkbox',
+  componentPath: '../../src/Checkbox',
 
   componentProps: setState => ({
     children: labelExamples[0].value,
@@ -39,4 +42,10 @@ export default {
     children: labelExamples,
     onChange: ({ target: { checked } }) => (checked ? 'Checked' : 'Unchecked'),
   },
+
+  examples: (
+    <CodeExample title="Composition with FormField" code={ExampleFormFieldRaw}>
+      <ExampleFormField />
+    </CodeExample>
+  ),
 };

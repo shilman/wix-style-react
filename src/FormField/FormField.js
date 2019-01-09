@@ -8,6 +8,12 @@ import Text, { SKINS } from '../Text';
 import InfoIcon from '../common/InfoIcon';
 import styles from './FormField.scss';
 
+const labelPlacements = {
+  top: 'top',
+  right: 'right',
+  left: 'left',
+};
+
 const asterisk = (
   <div
     data-hook="formfield-asterisk"
@@ -45,8 +51,17 @@ class FormField extends React.Component {
      */
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
 
+    /** Defines if the content (children container) grows when there's space available (otherwise, it uses the needed space only) */
+    stretchContent: PropTypes.bool,
+
     /** optional text labeling this form field */
     label: PropTypes.node,
+
+    labelPlacement: PropTypes.oneOf([
+      labelPlacements.top,
+      labelPlacements.right,
+      labelPlacements.left,
+    ]),
 
     /** whether to display an asterisk (*) or not */
     required: PropTypes.bool,
@@ -73,6 +88,8 @@ class FormField extends React.Component {
 
   static defaultProps = {
     required: false,
+    stretchContent: true,
+    labelPlacement: labelPlacements.top,
   };
 
   state = {
@@ -109,15 +126,65 @@ class FormField extends React.Component {
     );
   };
 
-  render() {
-    const { label, required, infoContent, dataHook, id } = this.props;
-    const { lengthLeft } = this.state;
+  _renderInlineSuffixes = () => {
+    const { label, required, id } = this.props;
 
     return (
-      <div data-hook={dataHook} className={styles.root}>
-        {label && (
-          <div className={styles.label} data-hook="formfield-label">
-            <Label appearance="T1" children={label} for={id} />
+      <div
+        data-hook="formfield-inline-suffixes"
+        className={styles.suffixesInline}
+      >
+        <Label
+          appearance="T1"
+          children={label}
+          for={id}
+          data-hook="formfield-label"
+        />
+        {required && asterisk}
+        {this._renderInfoIcon()}
+      </div>
+    );
+  };
+
+  render() {
+    const {
+      label,
+      labelPlacement,
+      required,
+      infoContent,
+      dataHook,
+      id,
+      children,
+      stretchContent,
+    } = this.props;
+    const { lengthLeft } = this.state;
+
+    const hasInlineLabel = (label, labelPlacement) =>
+      label &&
+      (labelPlacement === labelPlacements.left ||
+        labelPlacement === labelPlacements.right);
+
+    return (
+      <div
+        data-hook={dataHook}
+        className={classnames(styles.root, {
+          [styles.labelFromTop]:
+            label && labelPlacement === labelPlacements.top,
+          [styles.labelFromLeft]:
+            label && labelPlacement === labelPlacements.left,
+          [styles.labelFromRight]:
+            label && labelPlacement === labelPlacements.right,
+          [styles.stretchContent]: stretchContent,
+        })}
+      >
+        {label && labelPlacement === labelPlacements.top && (
+          <div className={styles.label}>
+            <Label
+              appearance="T1"
+              children={label}
+              for={id}
+              data-hook="formfield-label"
+            />
 
             {required && asterisk}
             {this._renderInfoIcon()}
@@ -125,24 +192,21 @@ class FormField extends React.Component {
           </div>
         )}
 
-        <div
-          data-hook="formfield-children"
-          className={classnames(styles.children, {
-            [styles.childrenWithoutLabel]: !label,
-          })}
-        >
-          {this.renderChildren()}
-        </div>
-
-        {!label && (required || infoContent) && (
+        {children && (
           <div
-            data-hook="formfield-inline-suffixes"
-            className={styles.suffixesInline}
+            data-hook="formfield-children"
+            className={classnames(styles.children, {
+              [styles.childrenWithInlineSuffixes]:
+                !label || hasInlineLabel(label, labelPlacement),
+            })}
           >
-            {required && asterisk}
-            {this._renderInfoIcon()}
+            {this.renderChildren()}
           </div>
         )}
+
+        {!label && (required || infoContent) && this._renderInlineSuffixes()}
+
+        {hasInlineLabel(label, labelPlacement) && this._renderInlineSuffixes()}
       </div>
     );
   }

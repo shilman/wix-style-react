@@ -10,6 +10,7 @@ import ExampleDisabled from './ExampleDisabled';
 import ExampleDisabledRaw from '!raw-loader!./ExampleDisabled';
 import ExampleDisabledLarge from './ExampleDisabledLarge';
 import ExampleDisabledLargeRaw from '!raw-loader!./ExampleDisabledLarge';
+import { createAutoExampleWrapper } from '../AutoExampleWrapper';
 
 const exampleContainerStyle = {
   display: 'flex',
@@ -55,7 +56,7 @@ const exampleChildren = [
 export default {
   category: storySettings.kind,
   storyName: storySettings.storyName,
-  component: PopoverMenu,
+  component: createAutoExampleWrapper(PopoverMenu),
   componentPath: '../../src/PopoverMenu/PopoverMenu.js',
 
   componentProps: {

@@ -8,6 +8,7 @@ import {
   scrollToElement,
 } from 'wix-ui-test-utils/protractor';
 import { createStoryUrl } from '../../test/utils/storybook-helpers';
+import { storySettings } from '../../stories/MessageBox/storySettings';
 
 const byDataHook = dataHook => $(`[data-hook="${dataHook}"]`);
 
@@ -29,13 +30,8 @@ describe('MessageBox', () => {
     const actions = 'alert-actions';
     const imageWithActions = 'alert-image-actions';
 
-    const baseUrl = createStoryUrl({
-      kind: '9. Modals',
-      story: '9.1 Alert',
-    });
-
     eyes.it('should not break design', async () => {
-      await browser.get(baseUrl);
+      await browser.get(createStoryUrl({ ...storySettings.alert }));
 
       await verifyItem(standard);
       await verifyItem(secondary);
@@ -48,7 +44,7 @@ describe('MessageBox', () => {
     });
 
     eyes.it('should not break design RTL', async () => {
-      await browser.get(`${baseUrl}&rtl`);
+      await browser.get(createStoryUrl({ ...storySettings.alert, rtl: true }));
 
       await verifyItem(actions);
     });
@@ -56,11 +52,7 @@ describe('MessageBox', () => {
     eyes.it(
       'should show footer border for scrollable modal and hide the border when scroll is on the bottom',
       async () => {
-        const storyUrl = createStoryUrl({
-          kind: '9. Modals',
-          story: '9.1 Alert',
-        });
-        await browser.get(storyUrl);
+        await browser.get(createStoryUrl({ ...storySettings.alert }));
         await verifyItem(scrollable);
 
         const driver = messageBoxFunctionalLayoutTestkitFactory({
@@ -85,11 +77,7 @@ describe('MessageBox', () => {
     const secondary = 'destructive-alert-secondary';
 
     eyes.it('should not break design', async () => {
-      const storyUrl = createStoryUrl({
-        kind: '9. Modals',
-        story: '9.2 Destructive Alert',
-      });
-      await browser.get(storyUrl);
+      await browser.get(createStoryUrl({ ...storySettings.destructive }));
       await verifyItem(standard);
       await verifyItem(secondary);
     });
@@ -97,11 +85,7 @@ describe('MessageBox', () => {
 
   describe('Custom Modal', () => {
     eyes.it('should open full screen modal', async () => {
-      const storyUrl = createStoryUrl({
-        kind: '9. Modals',
-        story: '9.3 Custom Modal',
-      });
-      await browser.get(storyUrl);
+      await browser.get(createStoryUrl({ ...storySettings.custom }));
       const button = buttonTestkitFactory({
         dataHook: 'open-full-screen-modal-button',
       });
@@ -122,7 +106,7 @@ describe('MessageBox', () => {
     const disabledAction = 'announctement-disabled-action';
 
     eyes.it('should not break design', async () => {
-      await browser.get(baseUrl);
+      await browser.get(createStoryUrl({ ...storySettings.announcement }));
       await verifyItem(standard);
       await verifyItem(primaryTheme);
       await verifyItem(footnote);
@@ -130,7 +114,9 @@ describe('MessageBox', () => {
     });
 
     eyes.it('should not break design RTL', async () => {
-      await browser.get(`${baseUrl}&rtl`);
+      await browser.get(
+        createStoryUrl({ ...storySettings.announcement, rtl: true }),
+      );
       await verifyItem(standard);
     });
   });

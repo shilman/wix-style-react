@@ -34,7 +34,39 @@ describe('FormField', () => {
           driver.element(),
           'Cannot find FormField component',
         );
-        expect(await driver.getLabel().getText()).toMatch('hello');
+        expect(await driver.hasTopLabel()).toBeTruthy();
+      },
+      { version: 'no maxlength' },
+    );
+
+    eyes.it(
+      'should render with label on the right',
+      async () => {
+        await autoExampleDriver.setProps({
+          label: 'hello',
+          labelPlacement: 'right',
+        });
+        await waitForVisibilityOf(
+          driver.element(),
+          'Cannot find FormField component',
+        );
+        expect(await driver.hasRightLabel()).toBeTruthy();
+      },
+      { version: 'no maxlength' },
+    );
+
+    eyes.it(
+      'should render with label on the left',
+      async () => {
+        await autoExampleDriver.setProps({
+          label: 'hello',
+          labelPlacement: 'left',
+        });
+        await waitForVisibilityOf(
+          driver.element(),
+          'Cannot find FormField component',
+        );
+        expect(await driver.hasLeftLabel()).toBeTruthy();
       },
       { version: 'no maxlength' },
     );
@@ -68,6 +100,15 @@ describe('FormField', () => {
       );
       expect(await driver.isInfoIconVisible()).toBe(true);
     });
+
+    eyes.it('should not stretch the children when stretchContent prop is false', async () => {
+      await autoExampleDriver.setProps({ stretchContent: false });
+      await waitForVisibilityOf(
+        driver.element(),
+        'Cannot find FormField component',
+      );
+      expect(await driver.isContentStretched()).toBeFalsy();
+    });
   });
 
   eyes.it('should render length count', async () => {
@@ -84,5 +125,14 @@ describe('FormField', () => {
     await eyes.checkWindow('count is zero');
     await inputDriver.enterText('11111-11111');
     await inputDriver.enterText('11111-11111-11111-11111');
+  });
+
+  eyes.it('should be rendered within Grid', async () => {
+    await browser.get(storyUrlWithExamples);
+    const formFieldDriver = formFieldTestkitFactory({
+      dataHook: 'storybook-formfield-grid',
+    });
+
+    expect(formFieldDriver.element().isDisplayed()).toBeTruthy();
   });
 });

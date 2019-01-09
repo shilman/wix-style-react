@@ -1,5 +1,7 @@
 // We can add here constants for the Storybook category names
 
+export const RTL_QUERY_PARAM_NAME = 'rtl';
+
 // Root Level
 export const TESTS_PREFIX = 'Tests';
 

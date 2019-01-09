@@ -1,6 +1,8 @@
 import React from 'react';
 import queryString from 'query-string';
 
+import { RTL_QUERY_PARAM_NAME } from '../../storiesHierarchy';
+
 export const RTLWrapper = ({ rtl, children }) => {
   return rtl ? (
     <div dir="rtl" className="rtl">
@@ -11,5 +13,7 @@ export const RTLWrapper = ({ rtl, children }) => {
   );
 };
 RTLWrapper.defaultProps = {
-  rtl: queryString.parse(window.location.search).rtl !== undefined,
+  rtl:
+    queryString.parse(window.location.search)[RTL_QUERY_PARAM_NAME] !==
+    undefined,
 };

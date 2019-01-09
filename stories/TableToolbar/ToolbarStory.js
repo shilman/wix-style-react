@@ -5,7 +5,6 @@ import CodeExample from 'wix-storybook-utils/CodeExample';
 
 import Card from 'wix-style-react/Card';
 
-import { storySettings } from '../Table/storySettings';
 import { storiesOf } from '@storybook/react';
 
 import MainExample from './MainExample';
@@ -16,19 +15,18 @@ import MainExampleRTLRaw from '!raw-loader!./MainExampleRTL';
 
 import { BulkActionsExample } from './BulkActionsExample';
 import BulkActionsExampleRaw from '!raw-loader!./BulkActionsExample';
+import { storySettings } from './storySettings';
 
 import Readme from './README.md';
 
 import s from './Toolbar.story.scss';
 
-storiesOf(storySettings.kind, module).add(
-  storySettings.storyName + ' -> TableToolbar',
-  () => (
+storiesOf(storySettings.category, module).add(storySettings.storyName, () => (
+  <div>
+    <Markdown source={Readme} />
     <div>
-      <Markdown source={Readme} />
-      <div>
-        <Markdown
-          source={`
+      <Markdown
+        source={`
 ### Main Toolbar
 The Main Toolbar typically includes components that let you search or filter the table data.
 
@@ -39,27 +37,27 @@ It may include (by convention) the following UI components:
   - DateRange
   - Checkbox
         `}
-        />
-        <div className={s.example}>
-          <CodeExample title="Typical Main Toolbar" code={MainExampleRaw}>
-            <Card>
-              <MainExample />
-            </Card>
-          </CodeExample>
+      />
+      <div className={s.example}>
+        <CodeExample title="Typical Main Toolbar" code={MainExampleRaw}>
+          <Card>
+            <MainExample />
+          </Card>
+        </CodeExample>
 
-          <CodeExample
-            title="Typical Main Toolbar (RTL)"
-            code={MainExampleRTLRaw}
-          >
-            <Card>
-              <MainExampleRTL />
-            </Card>
-          </CodeExample>
-        </div>
+        <CodeExample
+          title="Typical Main Toolbar (RTL)"
+          code={MainExampleRTLRaw}
+        >
+          <Card>
+            <MainExampleRTL />
+          </Card>
+        </CodeExample>
       </div>
-      <div>
-        <Markdown
-          source={`
+    </div>
+    <div>
+      <Markdown
+        source={`
 ### Typical BulkActions Toolbar
 The BulkActions Toolbar typically includes actions which act on the current selected rows.
 
@@ -71,18 +69,17 @@ It may include (by convention) the following UI component:
    - Button with Prefix
  - A collapsed Search input box (\`<Search expandable/>\`)
         `}
-        />
-        <div className={s.example}>
-          <CodeExample
-            title="Typical BulkActions Toolbar"
-            code={BulkActionsExampleRaw}
-          >
-            <Card>
-              <BulkActionsExample />
-            </Card>
-          </CodeExample>
-        </div>
+      />
+      <div className={s.example}>
+        <CodeExample
+          title="Typical BulkActions Toolbar"
+          code={BulkActionsExampleRaw}
+        >
+          <Card>
+            <BulkActionsExample />
+          </Card>
+        </CodeExample>
       </div>
     </div>
-  ),
-);
+  </div>
+));

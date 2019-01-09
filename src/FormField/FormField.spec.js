@@ -33,6 +33,29 @@ describe('FormField', () => {
     });
   });
 
+  describe('`labelPlacement` prop', () => {
+    it('should render the label on top', () => {
+      const driver = createDriver(
+        renderFormField({ label, labelPlacement: 'top' }),
+      );
+      expect(driver.getLabel().innerHTML).toMatch(label);
+    });
+
+    it('should render the label on the right', () => {
+      const driver = createDriver(
+        renderFormField({ label, labelPlacement: 'right' }),
+      );
+      expect(driver.getLabel().innerHTML).toMatch(label);
+    });
+
+    it('should render the label on the left', () => {
+      const driver = createDriver(
+        renderFormField({ label, labelPlacement: 'left' }),
+      );
+      expect(driver.getLabel().innerHTML).toMatch(label);
+    });
+  });
+
   describe('required', () => {
     const required = true;
 
